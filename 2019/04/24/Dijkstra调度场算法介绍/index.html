@@ -104,14 +104,14 @@
 <meta property="og:site_name" content="naturerun的IT技术博客">
 <meta property="og:description" content="Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明 网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img2018.cnblogs.com/blog/1309450/201903/1309450-20190324000714461-1949841235.png">
-<meta property="og:image" content="https://img2018.cnblogs.com/blog/1309450/201903/1309450-20190323233932278-355817639.png">
-<meta property="og:image" content="http://img.blog.csdn.net/20171009214603949">
-<meta property="og:updated_time" content="2019-04-26T16:47:27.026Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/调度场后缀.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/调度场前缀.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/计算工作表格.png">
+<meta property="og:updated_time" content="2019-04-27T20:25:23.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dijkstra调度场算法介绍">
 <meta name="twitter:description" content="Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明 网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中">
-<meta name="twitter:image" content="https://img2018.cnblogs.com/blog/1309450/201903/1309450-20190324000714461-1949841235.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/调度场后缀.png">
 
 
 
@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-27 00:47:27" itemprop="dateModified" datetime="2019-04-27T00:47:27+08:00">2019-04-27</time>
+                <time title="修改时间：2019-04-28 04:25:23" itemprop="dateModified" datetime="2019-04-28T04:25:23+08:00">2019-04-28</time>
               
             
           </span>
@@ -527,13 +527,13 @@
       
         <p><span style="font-size: 18px;">Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明</span></p>
 <p><span style="font-size: 18px;">网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中缀转后缀完全类似，只不过转后缀需要从左至右扫描表达式，转前缀正好相反，此外后缀算法中左右括号为前缀算法的右左括号，优先级判断条件前缀算法为大于等于，后缀算法为大于，前缀后缀算法再最后输出中间结果栈中的转换结果时输出顺序正好相反，后缀为从栈底到栈顶，前缀为从栈顶到栈底。（流程图中把操作符和操作数统称为词）本文中圆括号不是运算符，仅用于改变运算顺序</span></p>
-<p><img src="https://img2018.cnblogs.com/blog/1309450/201903/1309450-20190324000714461-1949841235.png" alt></p>
+<p><img src="/2019/04/24/Dijkstra调度场算法介绍/调度场后缀.png" alt></p>
 <p><span style="font-size: 18px;">&nbsp;</span></p>
-<p><img src="https://img2018.cnblogs.com/blog/1309450/201903/1309450-20190323233932278-355817639.png" alt></p>
+<p><img src="/2019/04/24/Dijkstra调度场算法介绍/调度场前缀.png" alt></p>
 <p><span style="font-size: 18px;">&nbsp;</span></p>
 <p><span style="font-size: 18px;">为了方便读者学习，制作了一张中缀转后缀算法执行过程的示意表格。中缀转前缀执行过程完全类似，读者可拿来练手</span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 18px;"><img src="http://img.blog.csdn.net/20171009214603949" alt></span></p>
+<p><span style="font-size: 18px;"><img src="/2019/04/24/Dijkstra调度场算法介绍/计算工作表格.png" alt></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 18px;">以上算法仅考虑二元运算符，若优先级相同则具有左结合性，如果同时考虑相同优先级具有右结合性的二元运算符，则求后缀表达式的流程图中右下角的方框内应该改为:如果当前操作符优先级小于栈顶操作符优先级，则将栈顶操作符弹出操作符栈压入中间结果栈，否则</span></p>
 <p><span style="font-size: 18px;">如果当前操作符优先级等于栈顶操作符优先级，若当前操作符和栈顶操作符具有左结合性，则将栈顶操作符弹出操作符栈压入中间结果栈，若具有右结合性，则将当前操作符压入操作符栈，然后操作结束。如果操作始终未结束，则不断重复以上操作，直到操作符栈空，遇到左括号或</span></p>
@@ -575,7 +575,7 @@
   <p><span>本文标题:</span>Dijkstra调度场算法介绍</p>
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:47:28</p>
-  <p><span>最后更新:</span>2019年04月27日 - 00:47:27</p>
+  <p><span>最后更新:</span>2019年04月28日 - 04:25:23</p>
   <p><span>原始链接:</span><a href="/2019/04/24/Dijkstra调度场算法介绍/" title="Dijkstra调度场算法介绍">http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2019/04/24/Dijkstra调度场算法介绍/" aria-label="复制成功！"></i></span>
   </p>
