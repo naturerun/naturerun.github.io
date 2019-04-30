@@ -104,13 +104,12 @@
 <meta property="og:site_name" content="naturerun的IT技术博客">
 <meta property="og:description" content="所谓破环法(破圈法)是指对 于一个每一条环上权值均不相同的无向连通图，若图中有环，则删掉环上权重最大的边。如果由此得到的新图仍然有环，再删掉环上权值最大的边，如此不断进行下去，直到图中无环为止，此时的图即为原图的最小生成树 PS:该破圈法来自于2020年王道数据结构考研单科书p223,书上证明太简略，实在看不懂，于是自己思考了一下证明方法，给出如下证明 定理一：每一条环上权值均不相同的无向连通图G">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ccup">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cne">
-<meta property="og:updated_time" content="2019-04-27T19:51:17.968Z">
+<meta property="og:updated_time" content="2019-04-30T01:20:49.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="破环法(破圈法)求最小生成树算法正确性证明">
 <meta name="twitter:description" content="所谓破环法(破圈法)是指对 于一个每一条环上权值均不相同的无向连通图，若图中有环，则删掉环上权重最大的边。如果由此得到的新图仍然有环，再删掉环上权值最大的边，如此不断进行下去，直到图中无环为止，此时的图即为原图的最小生成树 PS:该破圈法来自于2020年王道数据结构考研单科书p223,书上证明太简略，实在看不懂，于是自己思考了一下证明方法，给出如下证明 定理一：每一条环上权值均不相同的无向连通图G">
-<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=%5Ccup">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=%5Cne">
 
 
 
@@ -439,7 +438,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-28 03:51:17" itemprop="dateModified" datetime="2019-04-28T03:51:17+08:00">2019-04-28</time>
+                <time title="修改时间：2019-04-30 09:20:49" itemprop="dateModified" datetime="2019-04-30T09:20:49+08:00">2019-04-30</time>
               
             
           </span>
@@ -528,7 +527,7 @@
 <p><span style="font-size: 18px;"><strong>PS:该破圈法来自于2020年王道数据结构考研单科书p223,书上证明太简略，实在看不懂，于是自己思考了一下证明方法，给出如下证明</strong></span></p>
 <p><span style="font-size: 18px;"><strong>定理一：每一条环上权值均不相同的无向连通图G的任意环上权值最大的边一定不在它的最小生成树中</strong></span></p>
 <p><span style="font-size: 18px;"><em>证明：</em>假如某一环R上权值最大的边E在G的最小生成树T中,在T中去掉E得到两个连通分支T1,T2,E的两端分别位于T1,T2中，我们断言，环R上从E的一个端点出发不经过E抵达E的另一个端点的路径L上一定存在这样一条边E’,E’的两个端点分别位于T1,T2中，假如不是这样，L上与E的一端关联的边(u1,u2)(u1与E的一端关联)的两个端点u1,u2均位于T1，T2中相同的连通分支中,L与u2关联的边(u2,u3)的两个端点v2,u3均位于T1，T2中相同的连通分支中,(u3,u4)也是如此，以此类推知L上与E与u1相对的另一端点um关联的边(um-1,um)的两个端点um-1,um均位于T1,T2中相同的连通分支中，故u1,um均位于T1,T2中相同的连通分支中,这和E的两个端点分别位于T1,T2中矛盾。</span></p>
-<p><span style="font-size: 18px;">注意E’在R上,E为R上权值最大的边且R上边权值两两不等故E’权值小于E的权值，在T中掉E后加入E’，E’将T1，T2两个连通分支连接起来得到生成树T1 2<img src="https://www.zhihu.com/equation?tex=%5Ccup" alt="\cup"> T2 = T-E+E’ = T’,T’的权值小于T的权值，这和T为最小生成树矛盾，证毕</span></p>
+<p><span style="font-size: 18px;">注意E’在R上,E为R上权值最大的边且R上边权值两两不等故E’权值小于E的权值，在T中掉E后加入E’，E’将T1，T2两个连通分支连接起来得到生成树T’= T-E+E’,T’的权值小于T的权值，这和T为最小生成树矛盾，证毕</span></p>
 <p><span style="font-size: 18px;"><strong>定理二：在破圈法中，如果删除无向连通图G中某一环R上某一边E前G是连通的，那么删除E后得到的新图G’仍然是连通的</strong></span></p>
 <p><span style="font-size: 18px;"><em>证明：</em>超级简单 对G中任意两个不同的顶点h,k(h <img src="https://www.zhihu.com/equation?tex=%5Cne" alt="\ne"> k)，如果h到k的某一路径上不包含R上的边E，那么在R中删除E后h,k仍有路径相连，故是连通的。否则设R=v1v2—vn,E=(vi,vi+1)1&lt;=I&lt;=n-1或(vn,v1),删除前G中顶点h有到vi(1&lt;=i&lt;=n-1)或vn的路径p1，同时有vi+1(1&lt;=i&lt;=n-1)或v1到顶点k的路径p2,删除后有h到k的路径p1-&gt;(vi,vi-1,vi-2,—,v1,vn,vn-1,—,vi+2,vi+1)Or(vn,vn-1,vn-2,—,v2,v1)-&gt;p2 故h,k之间仍然连通</span></p>
 <p><span style="font-size: 18px;">证毕</span></p>
@@ -572,7 +571,7 @@
   <p><span>本文标题:</span>破环法(破圈法)求最小生成树算法正确性证明</p>
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 05:00:21</p>
-  <p><span>最后更新:</span>2019年04月28日 - 03:51:17</p>
+  <p><span>最后更新:</span>2019年04月30日 - 09:20:49</p>
   <p><span>原始链接:</span><a href="/2019/04/24/破环法-破圈法-求最小生成树算法正确性证明/" title="破环法(破圈法)求最小生成树算法正确性证明">http://yoursite.com/2019/04/24/破环法-破圈法-求最小生成树算法正确性证明/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2019/04/24/破环法-破圈法-求最小生成树算法正确性证明/" aria-label="复制成功！"></i></span>
   </p>
