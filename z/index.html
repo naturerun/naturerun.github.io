@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="殷人昆数据结构(第二版)C++语言描述p428介绍了静态链表排序结果的重排算法，书中用具体的重排实例完整地演绎了重排算法，但是书中没有给出算法的正确性证明，本文完整地描述了重排算法并给出正确性证明。 所谓静态链表排序结果的重排，就是重新安排已完成排序的静态链表中各元素的物理存放顺序，使静态链表中各元素的物理位置关系和逻辑顺序(从小到大)保持一致，整个重排过程不能借助辅助存储空间，即直接在排好序的静">
+<meta name="keywords" content="静态链表，排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链表排序结果的重排算法正确性证明">
+<meta property="og:url" content="http://yoursite.com/z/index.html">
+<meta property="og:site_name" content="naturerun的IT技术博客">
+<meta property="og:description" content="殷人昆数据结构(第二版)C++语言描述p428介绍了静态链表排序结果的重排算法，书中用具体的重排实例完整地演绎了重排算法，但是书中没有给出算法的正确性证明，本文完整地描述了重排算法并给出正确性证明。 所谓静态链表排序结果的重排，就是重新安排已完成排序的静态链表中各元素的物理存放顺序，使静态链表中各元素的物理位置关系和逻辑顺序(从小到大)保持一致，整个重排过程不能借助辅助存储空间，即直接在排好序的静">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-01T14:37:35.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="链表排序结果的重排算法正确性证明">
+<meta name="twitter:description" content="殷人昆数据结构(第二版)C++语言描述p428介绍了静态链表排序结果的重排算法，书中用具体的重排实例完整地演绎了重排算法，但是书中没有给出算法的正确性证明，本文完整地描述了重排算法并给出正确性证明。 所谓静态链表排序结果的重排，就是重新安排已完成排序的静态链表中各元素的物理存放顺序，使静态链表中各元素的物理位置关系和逻辑顺序(从小到大)保持一致，整个重排过程不能借助辅助存储空间，即直接在排好序的静">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/z/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>链表排序结果的重排算法正确性证明 | naturerun的IT技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">naturerun的IT技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">作者的github主页https://github.com/naturerun?tab=repositories</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/z/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WSK">
+      <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
+      <meta itemprop="image" content="/images/naturerun.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naturerun的IT技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">链表排序结果的重排算法正确性证明
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-24 04:55:28" itemprop="dateCreated datePublished" datetime="2019-04-24T04:55:28+08:00">2019-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-01 22:37:35" itemprop="dateModified" datetime="2019-05-01T22:37:35+08:00">2019-05-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/z/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/z/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/z/" class="leancloud_visitors" data-flag-title="链表排序结果的重排算法正确性证明">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+		  
+		  
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><span style="font-size: 18pt;">殷人昆数据结构(第二版)C++语言描述p428介绍了静态链表排序结果的重排算法，书中用具体的重排实例完整地演绎了重排算法，但是书中没有给出算法的正确性证明，本文完整地描述了重排算法并给出正确性证明。</span></strong></p>
+<p><span style="font-size: 18px;">所谓静态链表排序结果的重排，就是重新安排已完成排序的静态链表中各元素的物理存放顺序，使静态链表中各元素的物理位置关系和逻辑顺序(从小到大)保持一致，整个重排过程不能借助辅助存储空间，即直接在排好序的静态链表上进行操作，实现元素的重排</span></p>
+<p><span style="font-size: 18px;">要证明重排算法的正确性，需要寻找循环不变式并证明每轮循环结束时循环不变式保持不变</span></p>
+<p><span style="font-size: 18px;">算法的完整描述(<span style="color: #ff0000;"><strong>该伪代码的正确性我没有验证过，如有错误请指出</strong></span>)</span></p>
+<p><span style="font-size: 18px;">输入数据：已完成排序的静态链表L,L[0]为附加头节点，它的link域存放指向链表中已排好序的元素序列中最小元素所在数据单元的指针</span></p>
+<p><span style="font-size: 18px;">初始化：head = L[0].link</span></p>
+<p><span style="font-size: 18px;">for (i from 1 to n-1) //n为被重排的元素序列长度，为静态链表数组长度减一</span></p>
+<p><span style="font-size: 18px;">&nbsp; if (head&lt;=i-1)&nbsp; then</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; &nbsp;j=head</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; &nbsp;while(j&lt;=i-1)</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; &nbsp; &nbsp; j=L[j].link</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; &nbsp;end while</span></p>
+<p><span style="font-size: 18px;">&nbsp; else</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; j=head</span></p>
+<p><span style="font-size: 18px;">&nbsp; end if</span></p>
+<p><span style="font-size: 18px;">&nbsp; if (j==i) then</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; head=L[i].link</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; L[i].link=i</span></p>
+<p><span style="font-size: 18px;">&nbsp; else</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; swap(L[i].data, L[j].data)</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; head=L[j].link</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; L[j].link=L[i].link</span></p>
+<p><span style="font-size: 18px;">&nbsp; &nbsp; L[i].link=j</span></p>
+<p><span style="font-size: 18px;">&nbsp; end if</span></p>
+<p><span style="font-size: 18px;">end for&nbsp; &nbsp;</span></p>
+<p><strong><span style="font-size: 18px; color: #ff0000;">循环不变式是，重排过程中第i轮循环开始时,原排好序的静态链表中最小，第2小，—–第i-1小的元素已顺序存放于当前静态链表数组L[1], L[2],—,L[i-1]存储单元中,head为原排好序的静态链表中第i小的元素在原排好序的静态链表中的下标，L[i], L[i+1],—,L[n]的link域分别为L[i].data, L[i+1].data,—,L[n].data在原排好序的静态链表中的有序元素序列中的后继元素在原排好序的静态链表中的下标</span></strong></p>
+<p><span style="font-size: 18px;">此外，还需要注意算法的执行特点：在第i轮循环中，算法只执行一次交换，这次交换要么是数据单元L[i]和其自身的交换要么是L[i]和其后继数据单元L<a href="i&lt;j&lt;=n">j</a>的交换，这次交换是在L[i]上进行的最后一次交换，一旦交换完成L[i]此后就不会发生任何交换,L[i].data值直到算法结束都保持不变,该保持不变的值所在位置下标i就是算法结束后生成的重排结果中该值所在位置下标，即i就是该值重排后在静态链表数组中的位置。了解这一点后就可以着手证明算法的正确性了，证明如下：</span></p>
+<p><span style="font-size: 18px;">&nbsp;显然根据初始化条件,第一轮循环开始时上述循环不变式成立，现设第i轮循环开始时循环不变式成立，此时若(head==j)&lt;=i-1,那么根据算法的执行特点,L[j]的最后一次交换已经结束，可以断言在L[j]的最后一次交换前L[j]没有发生任何交换，若不然取L[j]最后一次交换前发生的诸交换中最先发生的交换，根据算法的执行特点该交换只能是L[j]和L<a href="1=&lt;before&lt;j">before</a>的交换，且很显然交换前L[j].data就是原排好序的静态链表中第i小的值,这是因为交换前L[j].data等于原排好序的静态链表中L[j]的data域，而根据循环不变式,j为第i小的元素在原排好序的静态链表中的下标，所以交换前L[j].data就是原排好序的静态链表中第i小的值。而L[j]和L[before]的交换就是L[before]发生的最后一次交换,因此根据算法的执行特点，L[j]和L[before]的交换发生后，第i小的元素值会被放置在L[before].data中，此后L[before].data始终为第i小的元素值，保持不变。这样进入第i轮循环时L[before].data&nbsp;仍为第i小元素值,但根据循环不变式此时L[before].data应为第before(1&lt;=before&lt;i)小元素值,矛盾，因此在L[j]的最后一次交换前L[j]没有发生任何交换,L[j]的最后一次交换就是L[j]发生的唯一一次交换。另外L[j]的最后一次交换不可能是和其自身的交换，否则L[j].data在最后一次交换交换前的值(根据前文分析它就是第i小的元素值)交换后仍保持不变，根据算法执行特点，该将一直保持不变，直到第i轮循环开始时L[j].data仍为L[j]和自身交换前的原值，于是原值即第i小的元素值在第i轮循环开始时位于静态链表数组的j(1&lt;=j&lt;=i-1)位置,根据循环不变式此时j位置存放的是第j小的元素值，矛盾。因此L[j]的最后一次交换是和它后继项L<a href="j&lt;m1">m1</a>的交换，若m1&lt;=i-1,那么在L[m1]的最后一次交换前L[j]的最后一次交换后L[m1]没有发生任何交换,否则取L[m1]的最后一次交换前L[j]的最后一次交换后L[m1]最先发生的交换,根据算法的执行特点这一交换是L[m1]和L<a href="j&lt;temp&lt;m1">temp</a>的交换，同时也是L[temp]的最后一次交换(该交换发生后L[temp].data为第i小元素值)，按照和以上相关分析类似的方法进行分析可知第i轮循环开始时第i小元素值存放于temp位置和循环不变式矛盾，因此在L[m1]的最后一次交换前L[j]的最后一次交换后L[m1]没有发生任何交换，这样L[m1]最后一次交换发生时L[m1].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[m1].link为原排好序的静态链表中L[j].link的值,类似分析知L[m1]的最后一次交换不可能是和其自身的交换，必为和其后继项L<a href="m1&lt;m2">m2</a>的交换，这样L[m1]的最后一次交换完成后L[m2].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[m2].link为原排好序的静态链表中L[j].link的值,若m2&lt;=i-1,那么同理知L[m1]的最后一次交换后L[m2]的最后一次交换前L[m2]没有发生任何交换，这样L[m2]最后一次交换发生时L[m2].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[m2].link为原排好序的静态链表中L[j].link的值，类似分析知L[m2]的最后一次交换不可能是和其自身的交换，必为和其后继项L<a href="m2&lt;m3">m3</a>的交换，这样L[m2]的最后一次交换完成后L[m3].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[m3].link为原排好序的静态链表中L[j].link的值,若m3&lt;=i-1———-</span></p>
+<p><span style="font-size: 18px;">按照这一步骤反复进行下去，我们得到第i轮循环开始前,原排好序的静态链表中L[j]的data,link域通过交换从L[j]移至L[m1],然后从L[m1]移至L[m2],接着从L[m2]移至L[m3]——-</span></p>
+<p><span style="font-size: 18px;">j&lt;m1&lt;m2&lt;m3&lt;——&nbsp;且j&lt;=i-1 m1&lt;=i-1 m2&lt;=i-1 m3&lt;=i-1 ———</span></p>
+<p><span style="font-size: 18px;">由于i-1为有限值所以这一过程不可能无限进行下去,所以必存在k使得L<a href="mk&lt;=i-1">mk</a>最后一次交换发生时L[mk].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[mk].link为原排好序的静态链表中L[j].link的值，类似分析知L[mk]的最后一次交换不可能是和其自身的交换，必为和其后继项L<a href="mk&lt;mk+1">mk+1</a>的交换，这样L[mk]的最后一次交换完成后L[mk+1].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[mk+1].link为原排好序的静态链表中L[j].link的值,而mk+1&gt;i-1(这里要做一点说明,L[q]和L[s]交换时(q&lt;=s)，前者data,link送至后者对应域,后者data送至前者data,后者下标送至前者link,这是上述算法中交换操作的定义，根据以上分析，按照该定义L[j]和L[m1]交换后L[j].link==m1,L[ms]和L<a href="1&lt;=s&lt;=k">ms+1</a>交换后L[ms].link==ms+1,按照算法的执行特点，交换后L[j].link和L[ms].link会一直保持不变，因此第i轮循环开始时L[j].link和L[ms].link仍为交换后的值。这样，第i轮循环开始时，我们可以从L[j]开始，循link域向后搜索最终找到L[mk+1]),另外在L[mk]和L[mk+1]交换后，第i轮循环开始之前,L[mk+1]必定没有发生过任何交换(否则取最先发生的交换，它只能是L[mk+1]和L<a href="1&lt;=q&lt;=i-1">q</a>的交换,这样L[mk+1].data也就是第i小元素值会被送入L[q].data,通过和上述类似的分析可以导出矛盾)，这样第i轮循环开始时L[mk+1].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[mk+1].link为原排好序的静态链表中L[j].link的值，于是此时若mk+1==i,&nbsp;令head =L[i].link,这样head为第i+1小元素值在原排好序的静态链表中的存放下标,然后L[i].data不变,将i送入L[i].link，这样做的目的是保证L[i]的操作符合算法中交换操作的定义，这样在i+1轮循环和以后的循环中基于该定义的本文证明才能保持有效，另外不难验证此时i+1轮循环的循环不变式得到满足(循环不变式中也可添加L[1]—L[i-1]的移动操作符合定义，但没有必要，因为在算法中已经体现，是隐含的)。若此时,mk+1&gt;i,则令head=L[mk+1].link,这样head为第i+1小元素值在原排好序的静态链表中的存放下标，然后交换L[i]和L[mk+1]的data,L[i].link送入L[mk+1].link,mk+1送入L[i].link,这样做的理由同上，此时不难验证循环不变式同样得到满足</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;">若(head==j)&gt;i-1,可以证明第i轮循环开始之前L[j]没有发生任何交换,若不然取最先发生的交换，该交换必然为L[j]和L<a href="1&lt;=q&lt;i">q</a>的交换，这样L[j].data即第i大元素值被送入L[q].data，通过和上述类似的分析可以导出矛盾。这样第i轮循环开始时L[j==head].data为第i小元素值(原排好序的静态链表中L[j].data的值),L[mk+1].link为原排好序的静态链表中L[j].link的值，接来进行的是L[j]和L[mk+1]的交换操作细节和理由和上文所述相同，操作结束后循环不变式成立</span></p>
+<p><span style="font-size: 18px;">综上若第i轮循环开始时循环不变式成立，则算法在第i轮循环中执行完毕后，循环不变式仍成立。于是由归纳法,第n-1轮循环结束后循环不变式成立。此时经过一系列交换操作后,最小，第二小，—-，第n-1小的元素值被有序存放在数组单元L[1],L[2],L[n-1]中,数组L[n]中存放的当然为最大元素值，静态链表重排完毕，算法执行结果正确，证毕</span></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+
+  <p><span>本文标题:</span>链表排序结果的重排算法正确性证明</p>
+  <p><span>文章作者:</span>WSK</p>
+  <p><span>发布时间:</span>2019年04月24日 - 04:55:28</p>
+  <p><span>最后更新:</span>2019年05月01日 - 22:37:35</p>
+  <p><span>原始链接:</span><a href="/z/" title="链表排序结果的重排算法正确性证明">http://yoursite.com/z/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/z/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+    
+    </div>
+	 
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/静态链表，排序/" rel="tag"># 静态链表，排序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/p/" rel="next" title="数据结构备忘录：B树的插入和删除">
+                <i class="fa fa-chevron-left"></i> 数据结构备忘录：B树的插入和删除
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/s/" rel="prev" title="三路划分的快速排序算法">
+                三路划分的快速排序算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+            
+              <p class="site-author-name" itemprop="name">WSK</p>
+              <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/naturerun?tab=repositories" title="GitHub &rarr; https://github.com/naturerun?tab=repositories" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/wang-shao-kang-90-62/activities" title="知乎 &rarr; https://www.zhihu.com/people/wang-shao-kang-90-62/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WSK</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+    appKey: 'vdGqsS99fuxFDFYjoWntnvG7',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+                'X-LC-Key': 'vdGqsS99fuxFDFYjoWntnvG7',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+</body>
+</html>
