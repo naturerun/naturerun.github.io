@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)：用到两类数组：dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点可以回溯到的栈中DFS值最小的节点的dfs值一个数据结构：栈，用于确定强连通分量执行过程：对有向图进行深度优先搜索，每抵达">
+<meta name="keywords" content="有向图，强连通分量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对求有向图强连通分量的tarjan算法原理的一点理解">
+<meta property="og:url" content="http://yoursite.com/aj.html">
+<meta property="og:site_name" content="naturerun的IT技术博客">
+<meta property="og:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)：用到两类数组：dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点可以回溯到的栈中DFS值最小的节点的dfs值一个数据结构：栈，用于确定强连通分量执行过程：对有向图进行深度优先搜索，每抵达">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-01T14:39:26.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对求有向图强连通分量的tarjan算法原理的一点理解">
+<meta name="twitter:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)：用到两类数组：dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点可以回溯到的栈中DFS值最小的节点的dfs值一个数据结构：栈，用于确定强连通分量执行过程：对有向图进行深度优先搜索，每抵达">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/aj">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对求有向图强连通分量的tarjan算法原理的一点理解 | naturerun的IT技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">naturerun的IT技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">作者的github主页https://github.com/naturerun?tab=repositories</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/aj.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WSK">
+      <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
+      <meta itemprop="image" content="/images/naturerun.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naturerun的IT技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对求有向图强连通分量的tarjan算法原理的一点理解
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-24 04:57:21" itemprop="dateCreated datePublished" datetime="2019-04-24T04:57:21+08:00">2019-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-01 22:39:26" itemprop="dateModified" datetime="2019-05-01T22:39:26+08:00">2019-05-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/aj.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/aj.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/aj.html" class="leancloud_visitors" data-flag-title="对求有向图强连通分量的tarjan算法原理的一点理解">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+		  
+		  
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><span style="font-size: 14pt;" data-mce-><strong>先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)：</strong></span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>用到两类数组：</strong></span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序</strong></span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点可以回溯到的栈中DFS值最小的节点的dfs值</strong></span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>一个数据结构：栈，用于确定强连通分量</strong></span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->执行过程：对有向图进行深度优先搜索，每抵达一个新节点A就把该节点A入栈，并初始化dfs[A],然后将low[A]初始化为dfs[A],随后考察该节点A通过边可达的所有节点。若其中一个节点未访问，则对其递归DFS，遍历结束从该节点退出回溯至A时，用该节点low值(已确定不会再改变)更新A的low值，若其中一个节点已访问但不在栈中，则跳过，若已访问且在栈中，则用该节点dfs值跟新A节点low值。当通过边与A相连的所有节点都考察完毕了，A的low值就最终确定了,不会再变，此时在从A回溯至DFS中A的前驱节点前检查low[A]是否等于DFS[A]，若是不断弹栈直到把A弹出为止，弹出的节点组成一个强连通分量，若不是什么都不做，回溯至前驱节点。</span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->要注意的是，算法执行过程中按DFS遍历次序入栈，退栈不影响栈中各节点的DFS访问顺序和它们在栈中位置关系的逻辑关系，所以任何时刻,若栈中B在栈中A之上则dfs[B]&gt;dfs[A]，反之也真。</span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->还有就是从tarjan算法伪代码不难看出，当从节点A回溯时必有dfs[A]&gt;=low[A].</span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->并且算法中给定节点仅入栈一次出栈一次访问一次，回溯过给定节点就不会再次回溯，回溯至给定节点时节点的low值就已确定，直至算法结束都不会改变</span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->结合这几件简单事实可以证明下面三个命题，学习tarjan算法的关键就是理解回溯到给定节点A时对条件dfs[A]==low[A]的测试的含义以及测试成功后所执行的一系列弹栈操作，以下三个命题有助于理解</span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>命题1：在tarjan算法中回溯到一给定节点A时，若A节点为通过DFS所到达的深度优先树中A节点所在的强连通分量中的第一个被访问的节点(根节点)，则栈中A节点之上的所有节点(包括A节点)必为A节点所在强连通分量的所有节点</strong></span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->证明：事实上，取栈中A之上的某节点B,若节点B不属于A所在强连通分量，则B必然属于另外一个不同的强连通分量L，该强连通分量有根节点B’，B’不可能是从未被访问的节点，否则由B’为不同的强连通分量的根节点知B尚未被访问故而不会被压入栈中，矛盾。B’也不可能是已被访问压入栈中但随后又被弹出的节点，若不然当压入B’后必然会回溯至B’，此时检测到dfs[B’]==low[B’]，于是从栈中弹出B’和B’以上全部节点，由B’为不同强连通分量根节点知B在B’后压栈，故前述弹栈操作结束后无论如何B不会在栈中，根据假设针对B’的弹栈操作在回溯至A节点之前发生,故回溯至A节点时B节点已不存在于栈中矛盾。这样B’必然在栈中，显然B’不为A，B’也不可能在栈中A的位置之下，若不然由B’为L根节点和B属于L知，有从B到达B’的路径，但栈中B位于A之上，这样B位于A的子树中(若不然注意栈中B位于A之下即A比B先访问,故dfs[B]&gt;dfs[A],这样当访问B时A已从栈弹出(这是因为B位于DFS树中A节点右侧的A的祖先节点的子女中))，又如前所述有从B到达B&lsquo;的路径且dfs[B’]&lt;dfs<a href="因为栈中B&#39;在A之下">A</a>(同时要注意A在B’子树中，理由同下，若不然访问A时B’已经因回溯至B’时dfs[B’]==low[B’]而被弹出栈，这样回溯至A时B&lsquo;不在栈中，矛盾&rsquo;)，故low[A]&lt;dfs[A]矛盾。于是我们证明了B’必然位于栈中A之上，这样当回溯至B’时由于dfs[B’]=low<a href="B&#39;为L的根节点">B’</a>,B’及B’之上的所有节点都会被弹出，而B必然在B’后压栈，这样前述弹栈操作结束后B已不在栈中，此后我们才回溯至A，此时B已不在栈中，矛盾。这样就证明了回溯到A时栈中A之上的任一节点必属于A所在强连通分量。此外，当回溯到A时，之前入栈并已被弹出的任一节点C不可能属于A所在强连通分量，若不然，考虑C入栈后回溯到C的时刻，此时由于C属于A所在强连通分量，所以存在A到C的路径，又由于A为A所在强连通分量的根节点，且A和C并非同一节点(注意算法中tarjan算法中一个给定节点仅入栈一次，出栈一次，而回溯到A时C已弹出，此时如A==C，则C在弹出后又入栈回到栈中，矛盾)，所以C必在A被访问后访问(即dfs[C]&gt;dfs[A])，即必在A被压栈之后压栈，这样当回溯到C时A必在栈中且位于C之下，由于C属于A所在强连通分量，所以存在C到A的路径。当回溯到C时，可以断言必有dfs[C]!=low[C],若不然C成为强连通分量M的根节点，由于A为A所在强连通分量根节点而A不等于C，故M和A所在强连通分量为不同的强连通分量，注意到C属于A所在强连通分量，这样A所在强连通分量可以和M合并组合成一个更大的强连通分支，这和M以及A所在强连通分量为极大强连通子图矛盾，所以就证明必有dfs[C]!=low[C]。于是当回溯至C时，不会对C执行弹出C及栈中其上节点的弹栈操作。然后可以断言，在回溯至C后和回溯至A前不可能有针对栈中C和A之间（不包括A和C）的节点的弹栈操作，若不然取这些弹栈操作中最早发生的一次，此时将会回溯至栈中C和A之间的节点D，此时应有dfs[D]=low[D]，应对D执行该弹栈操作。注意到D在栈中位于A之上，dfs[D]&gt;dfs[A],D比A后访问，这样D必位于DFS树中节点A的子树中，否则由于D后访问，D就位于A右边的A的祖先节点的子女中，这样访问D时A就已经因之前回溯到A时判断出dfs[A]=low[A]而弹出了，故不在栈中，这样回溯至D时A仍不在栈中(给定节点只会进栈一次)，矛盾（回溯至D在回溯至A之前发生，此时A仍在栈中）于是D位于DFS树中节点A的子树中，此外C位于DFS树中节点D的子树中，理由同上（根据假设回溯至D时dfs[D]==low[D],而D在栈中位于C之下，C后访问，若C不在D的子树中，访问C时D已弹出，回溯至C时栈中无D，矛盾（回溯至C在回溯至D之前发生，此时D仍在栈中））。这样D的子树中的节点C有一条指向D的祖先节点A的路径，在栈中A在D之下，所以回溯至D时low[D]&lt;dfs[D]这和dfs[D]=low[D]矛盾，这样就证明了在回溯至C后和回溯至A前不可能有针对栈中C和A之间（不包括A和C）的节点的弹栈操作。这样回溯至C之后，回溯至A之前，C不可能被弹出，故回溯至A时C仍在栈中，这和回溯至A时C已被弹出的假设矛盾，这就证明了回溯到A时，之前入栈并已被弹出的任一节点C不可能属于A所在强连通分量。另外，回溯到A时从未被访问的节点也不可能属于A所在强连通分量，若不然就存在一条A到未被访问节点的路径，根据DFS搜索顺序，回溯到A时未被访问的节点实际上已经访问过了，矛盾。这样就证明了A所在的强连通分量中所有节点都位于栈内，下面可以断言栈中位于A之下的所有节点不可能属于A所在的强连通分量，证明很简单，若不然存在A之下的某节点E属于A所在的强连通分量，注意dfs[E]&lt;dfs[A]，这样E比A先访问，而E属于A所在的强连通分量，故A不可能是DFS中A所在的强连通分量被访问的第一个节点，矛盾。这样就证明了栈中A及A之上的所有节点构成了A所在的强连通分量的全部节点，证明完毕。</span></p><br><p>&nbsp;</p><br><p><span style="font-size: 14pt;" data-mce-><strong>命题:2 在tarjan算法中回溯到一给定节点A时，若dfs<a href="A在DFS中被访问的次序">A</a>==low<a href="A的子树中的节点所能回溯到的栈中DFS值最小的节点的DFS值">A</a>则该节点必为通过DFS所到达的深度优先树中该节点所在的强连通分量中的第一个被访问的节点(根节点)</strong></span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->证明：使用反证法，若该节点不为深度优先树中该节点所在的强连通分量中被访问的第一个节点，则记深度优先树中该节点强连通分量中被访问的第一个节点为F，F不等于A。由命题3证明知F所在的强连通的分量(即A所在强连通分量)除F以外的所有节点一定都位于F的子树中，而A在A所在强连通分量中,A不等于F，所以A在F的子树中。在DFS过程中回溯到A时，由于F比A先访问，所以在栈中F位于A之下，dfs[F]&lt;dfs[A]，由于dfs[A]==low[A]，所以回溯到A时会对A执行弹栈操作，此后A再也不会出现在栈中。当回溯到F时，由于F为深度优先树中节点F所在强连通分量((即A所在强连通分量))中被访问的第一个节点,所以由命题1，此时栈中F节点之上的所有节点(包括F节点)必为A节点所在强连通分量(即F所在强连通分量)的所有节点，但是位于A节点所在强连通分量中的节点A不在栈中，矛盾，这就证明了命题2</span></p><br><p><span data-mce->&nbsp;</span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>命题3：在tarjan算法中回溯到一给定节点A时，若A是它所在的强连通分量在深度优先树中被第一个访问的节点，则必有dfs[A]==low[A]</strong></span></p><br><p><span style="font-family: Microsoft YaHei; font-size: 16px;" data-mce->证明：首先，回溯至节点A时，由于A为它所在强连通分量的根节点，而A所在的强连通的分量除A以外的所有节点一定都位于A的子树中(假若有节点B(A不等于B)位于A所在的强连通分量,而节点B不在A的子树中，由于存在从A到B的路径，所以当访问A所在的强连通分量在DFS树中被访问的第一个节点A后，根据DFS的搜索规则，在回溯至A之前一定会访问B，而访问A后回溯至A前一直在访问A的子树，在DFS中访问A的子树时不可能跨越子树去访问不在子树中的节点B)，所以A的子树中有一个属于A所在强连通分量的节点，存在该节点到A的一条路径，由于回溯至A时A在栈中，所以low[A]&lt;=dfs[A].我们来证明回溯至A时必有dfs[A]==low[A]，如若不然，回溯至A时有low[A]&lt;dfs[A]，此时栈中A之上的所有节点C均满足low[C]&lt;dfs<a href="否则low[C]==dfs[C],这样回溯至A前回溯至C时，C被出栈，回溯至A时节点C不在栈中，矛盾。还要注意的是回溯至一给定节点时该节点的low值已确定，以后不会再改变">C</a>，且根据DFS访问顺序栈中A之上的所有节点C都已经被回溯过了(而且已经回溯过的节点不会再次被访问和回溯)，回溯至A时low[A]&lt;dfs[A]，这样不会针对A执行弹栈操作，于是对A的回溯结束后，栈中A及A之上的所有节点都会保留。另外，栈中A之下必然存在节点D，使得当回溯至D时有low[D]==dfs[D],如若不然当回溯至栈底节点F(栈中DFS值最小节点)时,仍有low[F]&lt;dfs[F],从而存在从F的子树中某节点到栈中dfs值比dfs[F]还小的节点的路径，而栈中dfs值比dfs[F]还小的节点根本不存在，矛盾。于是我们知道，对A的回溯结束后，必然会回溯到栈中A之下的某节点，该节点low值==dfs值，我们取最早回溯到的这样的节点E，当回溯到E时,回溯到A时栈中A及A之上的节点仍然位于栈中(这是因为对A的回溯结束后，栈中A及A之上节点仍在栈中，此后由于这些节点不会被再次回溯到，所以只有第一次对栈中A之下的节点执行弹栈操作时这些节点才会被弹出，在此之前，结束对A的回溯之后，这些节点都会被保留)，而回溯到E时有low[E]==dfs[E]，根据之前证明的命题:2,E为通过DFS所到达的深度优先树中E所在的强连通分量中的第一个被访问的节点(根节点)，然后由命题1我们得出栈中E节点之上的所有节点(包括E节点)必为E节点所在强连通分量的所有节点，回溯到E时栈中A及A之上的节点仍然位于栈中，在栈中E位于A之下，这样栈中E节点之上所有节点包括了栈中A及A节点之上所有节点，于是A在E所在的强连通分量中，同时A又是A所在的强连通分量在DFS树中的根节点，于是我们把E所在强连通分量和A所在强连通分量合并得到强连通分支G，E所在强连通分量和A所在强连通分量都被包含于G中，这和它们是极大强连通子图即强连通分量矛盾，这样命题3证毕</span></p><br><p><span style="font-size: 14pt;" data-mce-><strong>PS:</strong><span data-mce-><strong>博主水平有限，如果以上证明存在疏漏或错误恳请指正，谢谢.Tarjan算法简单易实现，但是原理还是比较复杂的，不容易理解，在这里向图灵奖获得者Tarjan致敬</strong></span></span></p>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+
+  <p><span>本文标题:</span>对求有向图强连通分量的tarjan算法原理的一点理解</p>
+  <p><span>文章作者:</span>WSK</p>
+  <p><span>发布时间:</span>2019年04月24日 - 04:57:21</p>
+  <p><span>最后更新:</span>2019年05月01日 - 22:39:26</p>
+  <p><span>原始链接:</span><a href="/aj.html" title="对求有向图强连通分量的tarjan算法原理的一点理解">http://yoursite.com/aj.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/aj.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+    
+    </div>
+	 
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/有向图，强连通分量/" rel="tag"># 有向图，强连通分量</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ao.html" rel="next" title="编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现">
+                <i class="fa fa-chevron-left"></i> 编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/m.html" rel="prev" title="数据结构备忘录：邻接多重表操作实现">
+                数据结构备忘录：邻接多重表操作实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+            
+              <p class="site-author-name" itemprop="name">WSK</p>
+              <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/naturerun?tab=repositories" title="GitHub &rarr; https://github.com/naturerun?tab=repositories" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/wang-shao-kang-90-62/activities" title="知乎 &rarr; https://www.zhihu.com/people/wang-shao-kang-90-62/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WSK</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+    appKey: 'vdGqsS99fuxFDFYjoWntnvG7',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+                'X-LC-Key': 'vdGqsS99fuxFDFYjoWntnvG7',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+</body>
+</html>
