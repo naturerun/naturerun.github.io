@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="提示：阅读本文需掌握编译原理的相关基础知识 本文中使用C++语言系统地实现了龙书中LALR(1)语法分析表的构造算法,首先计算增广文法的LR(0)项集族，每一个项集只包含内核项，计算过程中自动生成了LR(0)自动机,该自动机使用基于十字链表存储结构的有向图表示。然后通过确定自发生成和传播的向前看符号算法计算各LR(0)内核项集自发生成的向前看符号(增广文法新增产生式的向前看符号不包括在内)并确定L">
+<meta name="keywords" content="自底向上的语法分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现">
+<meta property="og:url" content="http://yoursite.com/post/61224.html">
+<meta property="og:site_name" content="naturerun的IT技术博客">
+<meta property="og:description" content="提示：阅读本文需掌握编译原理的相关基础知识 本文中使用C++语言系统地实现了龙书中LALR(1)语法分析表的构造算法,首先计算增广文法的LR(0)项集族，每一个项集只包含内核项，计算过程中自动生成了LR(0)自动机,该自动机使用基于十字链表存储结构的有向图表示。然后通过确定自发生成和传播的向前看符号算法计算各LR(0)内核项集自发生成的向前看符号(增广文法新增产生式的向前看符号不包括在内)并确定L">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-01T17:28:44.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现">
+<meta name="twitter:description" content="提示：阅读本文需掌握编译原理的相关基础知识 本文中使用C++语言系统地实现了龙书中LALR(1)语法分析表的构造算法,首先计算增广文法的LR(0)项集族，每一个项集只包含内核项，计算过程中自动生成了LR(0)自动机,该自动机使用基于十字链表存储结构的有向图表示。然后通过确定自发生成和传播的向前看符号算法计算各LR(0)内核项集自发生成的向前看符号(增广文法新增产生式的向前看符号不包括在内)并确定L">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/post/61224">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现 | naturerun的IT技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">naturerun的IT技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">作者的github主页https://github.com/naturerun?tab=repositories</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/61224.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WSK">
+      <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
+      <meta itemprop="image" content="/images/naturerun.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naturerun的IT技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-24 04:56:53" itemprop="dateCreated datePublished" datetime="2019-04-24T04:56:53+08:00">2019-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-02 01:28:44" itemprop="dateModified" datetime="2019-05-02T01:28:44+08:00">2019-05-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CompilingPrinciple/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/post/61224.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/61224.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/post/61224.html" class="leancloud_visitors" data-flag-title="编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+		  
+		  
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><span style="color: #ff0000; font-size: 18pt;"><strong>提示：阅读本文需掌握编译原理的相关基础知识</strong></span></p>
+<p><span style="color: #000000; font-size: 18px;"><strong>本文中使用C++语言系统地实现了龙书中LALR(1)语法分析表的构造算法,首先计算增广文法的LR(0)项集族，每一个项集只包含内核项，计算过程中自动生成了LR(0)自动机,该自动机使用基于十字链表存储结构的有向图表示。然后通过确定自发生成和传播的向前看符号算法计算各LR(0)内核项集自发生成的向前看符号(增广文法新增产生式的向前看符号不包括在内)并确定LR(0)内核项集之间向前看符号的传播关系。最后一遍扫描前将为增广文法新增产生式添加向前看符号即输入结束符$，然后传播向前看符号直到不能传播为止，扫描结束后就生成了LALR(1)内核项集族。随后调用函数计算各LALR(1)项集的非内核项集确定LALR(1)项集族，并得到LALR(1)自动机。最后根据LALR(1)自动机填写LALR(1)语法分析表完成语法分析表的生成工作。</strong></span></p>
+<p><span style="color: #000000; font-size: 18px;"><strong>程序测试用例为博主自行编写的正则表达式文法(文法部分地方写得较别扭，而且并非反映正则表达式全部特性的文法，对正反向预查的支持存在一些问题，请读者见谅)，由于文法保存在文本中，需要由计算机读入分析，为了便于计算机理解需要将书写格式标准化,博主自行设计了书写格式，具体如下：</strong></span></p>
+<div style="color: #ff0000; font-size: 15px;"><br>#1b 非终结符 非终结符 —- #1e （非终结符号集合）<br><br>#2b 终结符 终结符 —- #2e&nbsp;&nbsp; （终结符号集合）<br><br>#3b 增广文法开始符号 原文法开始符号 #3e<br><br>#4b<br><br>#b 非终结符(产生式头) $1($2) 非终结符或终结符 $1($2) 非终结符或终结符 —- #e&nbsp; (产生式体)&nbsp;&nbsp; （$1标志非终结符，$2标志终结符，第一个产生式必须为增广产生式，第二个产生式必须为原文法以原文法开始符号为头的产生式）<br><br>—-<br><br>#4e<br><br></div>
+
+<p><span style="color: #000000; font-family: 黑体; font-size: 18px;"><strong>其中省略号表示相同格式子项的重复出现，按照以上格式书写的文法(该文法修改了无数遍，说多了都是泪)为：</strong></span></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 18px;"></span></p>
+<p>#1b S’ S preSurvey E T M F G outSquare B V C B’ inSquare inSquareRange #1e</p>
+<p>#2b \ SPECTRANMETA POSITIVE-SURE-PRE POSITIVE-NEGA-PRE NEGATIVE-SURE-PRE NEGATIVE-NEGA-PRE ) | CLOSURE ? GIVEN LBOUND ULBOUND CLOSURE-NONGREEDY LBOUND-NONGREEDY ULBOUND-NONGREEDY CAP NONPRECAP SPECTRAN TRANMETA UPPERALPHA LOWERALPHA DIGIT SPECMETA REVERSEREF ^ [ ] - OTHERMETA $ #2e</p>
+<p>#3b S’ S #3e</p>
+<p>#4b</p>
+<p>#b S’ $1 S #e</p>
+<p>#b S $1 E #e</p>
+<p>#b S $1 preSurvey #e</p>
+<p>#b preSurvey $1 E $2 POSITIVE-SURE-PRE $1 E $2 ) #e</p>
+<p>#b preSurvey $1 E $2 POSITIVE-NEGA-PRE $1 E $2 ) #e</p>
+<p>#b preSurvey $2 NEGATIVE-SURE-PRE $1 E $2 ) $1 E #e</p>
+<p>#b preSurvey $2 NEGATIVE-NEGA-PRE $1 E $2 ) $1 E #e</p>
+<p>#b E $1 E $2 | $1 T #e</p>
+<p>#b E $1 T #e</p>
+<p>#b T $1 T $1 M #e</p>
+<p>#b T $1 M #e</p>
+<p>#b M $1 M $2 CLOSURE #e</p>
+<p>#b M $1 M $2 ? #e</p>
+<p>#b M $1 M $2 GIVEN #e</p>
+<p>#b M $1 M $2 LBOUND #e</p>
+<p>#b M $1 M $2 ULBOUND #e</p>
+<p>#b M $1 M $2 CLOSURE-NONGREEDY #e</p>
+<p>#b M $1 M $2 LBOUND-NONGREEDY #e</p>
+<p>#b M $1 M $2 ULBOUND-NONGREEDY #e</p>
+<p>#b M $1 F #e</p>
+<p>#b F $2 CAP $1 E $2 ) #e</p>
+<p>#b F $1 G #e</p>
+<p>#b F $2 NONPRECAP $1 E $2 ) #e</p>
+<p>#b F $1 outSquare #e</p>
+<p>#b outSquare $2 SPECTRAN #e</p>
+<p>#b outSquare $2 TRANMETA #e</p>
+<p>#b outSquare $2 \ #e</p>
+<p>#b outSquare $2 SPECTRANMETA #e</p>
+<p>#b outSquare $2 UPPERALPHA #e</p>
+<p>#b outSquare $2 LOWERALPHA #e</p>
+<p>#b outSquare $2 DIGIT #e</p>
+<p>#b outSquare $2 SPECMETA #e</p>
+<p>#b outSquare $2 REVERSEREF #e</p>
+<p>#b outSquare $2 ^ #e</p>
+<p>#b G $2 [ $1 B $1 V $1 C $2 ] #e</p>
+<p>#b V $2 ^ #e</p>
+<p>#b V #e</p>
+<p>#b B $1 B $1 B’ #e</p>
+<p>#b B $1 B’ #e</p>
+<p>#b B’ $1 V $1 inSquareRange $2 - $1 inSquareRange #e</p>
+<p>#b inSquareRange $2 SPECTRAN #e</p>
+<p>#b inSquareRange $2 SPECMETA #e</p>
+<p>#b inSquareRange $2 OTHERMETA #e</p>
+<p>#b inSquareRange $2 UPPERALPHA #e</p>
+<p>#b inSquareRange $2 LOWERALPHA #e</p>
+<p>#b inSquareRange $2 DIGIT #e</p>
+<p>#b inSquareRange $2 CLOSURE #e</p>
+<p>#b inSquareRange $2 \ #e</p>
+<p>#b inSquareRange $2 SPECTRANMETA #e</p>
+<p>#b inSquareRange $2 ? #e</p>
+<p>#b inSquareRange $2 CAP #e</p>
+<p>#b inSquareRange $2 | #e</p>
+<p>#b inSquareRange $2 ) #e</p>
+<p>#b C $1 C $1 inSquare #e</p>
+<p>#b C $1 inSquare #e</p>
+<p>#b inSquare $1 inSquareRange #e</p>
+<p>#b inSquare $2 NONPRECAP #e</p>
+<p>#b inSquare $2 POSITIVE-SURE-PRE #e</p>
+<p>#b inSquare $2 POSITIVE-NEGA-PRE #e</p>
+<p>#b inSquare $2 NEGATIVE-SURE-PRE #e</p>
+<p>#b inSquare $2 NEGATIVE-NEGA-PRE #e</p>
+<p>#b inSquare $2 ULBOUND #e</p>
+<p>#b inSquare $2 LBOUND #e</p>
+<p>#b inSquare $2 ULBOUND-NONGREEDY #e</p>
+<p>#b inSquare $2 LBOUND-NONGREEDY #e</p>
+<p>#b inSquare $2 CLOSURE-NONGREEDY #e</p>
+<p>#b inSquare $2 GIVEN #e</p>
+<p>#b G $2 [ $1 B $2 ] #e</p>
+<p>#b G $2 [ $1 V $1 C $2 ] #e</p>
+<p>#4e<br></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 14pt;"><strong>#1b和#1e之间的部分为文法非终结符,#2b和#2e之间的部分为文法终结符,S’为增广文法开始符,S为原文法开始符</strong></span></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 14pt;"><strong>#4b和#4e之间的部分为产生式,紧跟于#b之后的是产生式头,随后为产生式体, $2表示紧跟其后的文法符号为终结符,$1表示紧跟其后的文法符号为非终结符，所有这些构成了对上下文无关文法的完整描述。这里非终结符、终结符以及产生式的含义博主会在将来发布的有关构建正则表达式引擎的文章中详解，现在只需着眼于文法本身，不必关心它们的具体含义。</strong></span></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 14pt;"><strong>需要另外说明的是，文法设计不当会导致一些异常现象的发生，例如如果把以上文法第三道产生式的产生式头的非终结符S改为F(这样就允许了预查表达式任意的自嵌套)，程序会在计算follow集时陷入死循环，原因是修改过的文法第6，7道产生式直接导致程序在计算出非终结符E的follow集前必须先计算出E的follow集，导致循环计算，这样计算follow集时会陷入死循环。可以验证，如果去掉产生式6、7程序就可以正常运行并输出结果(但是存在语法分析动作冲突)。</strong></span></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 14pt;"><strong>下面贴出代码</strong></span></p>
+<p><span style="color: #000000; font-family: 黑体; font-size: 14pt;"><strong>代码清单(C++):</strong></span></p>
+<p><span style="font-family: 黑体;"><span style="font-size: 18.6667px;"><strong>见github&nbsp;地址&nbsp;<a href="https://github.com/naturerun/LALRAnalysisGenerator" target="_blank" rel="noopener">https://github.com/naturerun/LALRAnalysisGenerator</a></strong></span></span></p>
+<p><span style="font-size: 18px;"><strong>注意，这里有两个头文件Priority_Queue.h和assistfunction.h。Priority_Queue.h存放的是博主自己实现的优先级队列类，之所以没有使用标准库提供的容器适配器是因为适配器实现的优先级队列缺少一些操作队列成员的必要方法，如以下代码中的begin(),end()且容器适配器提供的接口的调用约定和返回值不符号程序编写要求，此外优先级队列是用堆实现的，但计算LALR闭包的算法要求优先队列必须用数组实现，其成员按优先级从小到大排序，故楼主自行实现了优先级队列。Priority_Queue.h代码如下：</strong></span></p>
+<div><div class="fold_hider"><div class="close hider_title">点击显/隐内容</div></div><div class="fold">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Priority_Queue</span>    //设备等待队列类(优先级队列),队列数据元素为<span class="title">t</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> <span class="built_in">list</span>&lt;T&gt;::iterator iterator;</span><br><span class="line">    Priority_Queue() = <span class="keyword">default</span>;</span><br><span class="line">    Priority_Queue(<span class="keyword">const</span> function&lt;<span class="keyword">bool</span>(<span class="keyword">const</span> T&amp;,<span class="keyword">const</span> T&amp;)&gt; &amp;com) :comparator(com) &#123;&#125;</span><br><span class="line">    ~Priority_Queue() = <span class="keyword">default</span>;</span><br><span class="line">    pair&lt;<span class="keyword">bool</span>, <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::iterator&gt; Insert(<span class="keyword">const</span> T &amp;x);  <span class="comment">//插入操作,返回的pair的first指示插入是否成功,second为指向插入元素的迭代器</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">RemoveTop</span><span class="params">(T &amp;x)</span></span>;     <span class="comment">//删除最高优先级元素并用x将其返回</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">GetTop</span><span class="params">(T &amp;x)</span> <span class="keyword">const</span></span>;  <span class="comment">//获取最高优先级元素并用x将其返回 </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">MakeEmpty</span><span class="params">()</span> </span>&#123; Queue.clear(); &#125;    <span class="comment">//清空队列</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> Queue.empty(); &#125;   <span class="comment">//判断队列是否为空</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isFull</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> Queue.size() == Queue.max_size(); &#125;   <span class="comment">//判断队列是否已满</span></span><br><span class="line">    <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::<span class="function">iterator <span class="title">erase</span><span class="params">(<span class="keyword">const</span> <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::iterator &amp;p)</span> </span>&#123; <span class="keyword">return</span> Queue.erase(p); &#125;  <span class="comment">//删除队列中p所指元素返回被删元素的下一元素</span></span><br><span class="line">    <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::<span class="function">iterator <span class="title">insert</span><span class="params">(<span class="keyword">const</span> <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::iterator &amp;p, <span class="keyword">const</span> T &amp;c)</span> </span>&#123; <span class="keyword">return</span> Queue.insert(p, c); &#125;  <span class="comment">//将c插入至p所指位置,返回指向插入元素的迭代器</span></span><br><span class="line">    <span class="keyword">typename</span> <span class="built_in">list</span>&lt;T&gt;::<span class="function">size_type  <span class="title">GetSize</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> Queue.size(); &#125;   <span class="comment">//获取队列实际大小</span></span><br><span class="line">    <span class="function">iterator <span class="title">begin</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> Queue.begin(); &#125;   <span class="comment">//获取指向队列最高优先级元素的迭代器</span></span><br><span class="line">    <span class="function">iterator <span class="title">end</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> Queue.end(); &#125;   <span class="comment">//获取队列尾后迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    function&lt;<span class="keyword">bool</span>(<span class="keyword">const</span> T&amp;, <span class="keyword">const</span> T&amp;)&gt; comparator;  <span class="comment">//比较T类型的可调用对象，左操作数小于右操作数返回true</span></span><br><span class="line">    <span class="keyword">typename</span> <span class="built_in">list</span>&lt;T&gt;::<span class="function">iterator <span class="title">adjust</span><span class="params">()</span></span>;   <span class="comment">//新元素加入队列后调整元素位置,使队列中各元素保持优先级关系</span></span><br><span class="line">    <span class="built_in">list</span>&lt;T&gt; Queue;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">typename</span> <span class="built_in">list</span>&lt;T&gt;::iterator Priority_Queue&lt;T&gt;::adjust()</span><br><span class="line">&#123;</span><br><span class="line">    T temp = Queue.back();</span><br><span class="line">    <span class="keyword">auto</span> p = Queue.end();</span><br><span class="line">    --p;</span><br><span class="line">    p = Queue.erase(p);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Queue.begin() != p)</span><br><span class="line">        --p;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Queue.insert(p, temp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (comparator(temp, (*p)))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p != Queue.begin())</span><br><span class="line">            &#123;</span><br><span class="line">                --p;</span><br><span class="line">                <span class="keyword">if</span> (p == Queue.begin())</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ++p;</span><br><span class="line">            <span class="keyword">return</span> Queue.insert(p, temp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (p == Queue.begin())</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Queue.insert(p, temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">pair&lt;<span class="keyword">bool</span>, <span class="keyword">typename</span> Priority_Queue&lt;T&gt;::iterator&gt; Priority_Queue&lt;T&gt;::Insert(<span class="keyword">const</span> T &amp;x)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isFull())</span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="literal">false</span>, end() &#125;;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Queue.push_back(x);</span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="literal">true</span>, adjust() &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> Priority_Queue&lt;T&gt;::RemoveTop(T &amp;x)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty())</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        x = Queue.front();</span><br><span class="line">        Queue.pop_front();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> Priority_Queue&lt;T&gt;::GetTop(T &amp;x) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty())</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        x = Queue.front();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div>
+<p><strong><span style="font-size: 18px;">头文件assistfunction.h中定义了一些算法需要使用的辅助例程(只有第一个函数和算法有关，其他例程用于正则表达式引擎，后续会解读)，由于代码简洁易懂，不是很重要，这里就不详细解说了。</span></strong></p>
+<div><div class="fold_hider"><div class="close hider_title">点击显/隐内容</div></div><div class="fold">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setToMap</span><span class="params">(<span class="keyword">const</span> <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; &amp;source, <span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; &amp;goal, <span class="keyword">int</span> &amp;count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator p = source.cbegin(); p != source.cend(); ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        goal.insert(make_pair(*p, count++));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">strToChar</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (m.size() == <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> m[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (m.size() == <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">switch</span> (m[<span class="number">1</span>])</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span><span class="string">'f'</span>:    <span class="keyword">return</span> <span class="string">'\f'</span>;</span><br><span class="line">        <span class="keyword">case</span>'n':    <span class="keyword">return</span> <span class="string">'\n'</span>;</span><br><span class="line">        <span class="keyword">case</span>'r':    <span class="keyword">return</span> <span class="string">'\r'</span>;</span><br><span class="line">        <span class="keyword">case</span>'t':    <span class="keyword">return</span>'\t';</span><br><span class="line">        <span class="keyword">case</span>'v':    <span class="keyword">return</span>'\v';</span><br><span class="line">        case'^':    return'^';</span><br><span class="line">        case'-':    return'-';</span><br><span class="line">        case'\\':    return'\\';</span><br><span class="line">        case'*':    return'*';</span><br><span class="line">        case'+':    return'+';</span><br><span class="line">        case'?':    return'?';</span><br><span class="line">        case'$':    return'$';</span><br><span class="line">        case'.':    return'.';</span><br><span class="line">        case'(':    return'(';</span><br><span class="line">        case')':    return')';</span><br><span class="line">        case':':    return':';</span><br><span class="line">        case'=':    return'=';</span><br><span class="line">        case'!':    return'!';</span><br><span class="line">        case'&lt;':    return'&lt;';</span><br><span class="line">        case'|':    return'|';</span><br><span class="line">        case'[':    return'[';</span><br><span class="line">        case']':    return']';</span><br><span class="line">        case'&#123;':    return'&#123;';</span><br><span class="line">        case'&#125;':    return'&#125;';</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertIntoSet</span><span class="params">(<span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt; &amp;beinserted, <span class="keyword">const</span> <span class="keyword">size_t</span> &amp;source, <span class="keyword">const</span> <span class="keyword">size_t</span> &amp;goal)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt;::iterator it = beinserted.find(goal);</span><br><span class="line">    <span class="keyword">if</span> (it == beinserted.end())</span><br><span class="line">    &#123;</span><br><span class="line">        beinserted.insert(make_pair(goal, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;())).first-&gt;second.insert(source);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        it-&gt;second.insert(source);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertIntoMap</span><span class="params">(<span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt; &amp;beinserted, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt;&gt; &amp;from)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt;&gt;::iterator p = from.begin(); p != from.end(); ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt;::iterator q = p-&gt;second.begin(); q != p-&gt;second.end(); ++q)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;&gt;::iterator m = beinserted.find(q-&gt;first);</span><br><span class="line">            <span class="keyword">if</span> (m == beinserted.end())</span><br><span class="line">            &#123;</span><br><span class="line">                beinserted.insert(make_pair(q-&gt;first, <span class="built_in">set</span>&lt;<span class="keyword">size_t</span>&gt;(q-&gt;second)));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                m-&gt;second.insert(q-&gt;second.begin(), q-&gt;second.end());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertIntoMap</span><span class="params">(<span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;&gt;&gt; &amp;end, <span class="keyword">size_t</span> substart, <span class="keyword">size_t</span> subend, <span class="keyword">size_t</span> sub_start_stackindex, <span class="keyword">size_t</span> sub_end_stackindex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;&gt;&gt;::iterator p = end.find(subend);</span><br><span class="line">    <span class="keyword">if</span> (p == end.end())</span><br><span class="line">    &#123;</span><br><span class="line">        end.insert(make_pair(subend, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;&gt;())).first-&gt;second.insert(make_pair(substart, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;())).first-&gt;second.insert(make_pair(sub_start_stackindex, sub_end_stackindex));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;&gt;::iterator q = p-&gt;second.find(substart);</span><br><span class="line">        <span class="keyword">if</span> (q == p-&gt;second.end())</span><br><span class="line">        &#123;</span><br><span class="line">            p-&gt;second.insert(make_pair(substart, <span class="built_in">map</span>&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt;())).first-&gt;second.insert(make_pair(sub_start_stackindex, sub_end_stackindex));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            q-&gt;second[sub_start_stackindex] = sub_end_stackindex;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div>
+<p><span style="font-size: 18px;"><strong>&nbsp;程序的使用方法请参看main函数中的注释，分析结果会输出至指定文件，文件中加入了必要的逗号分隔符，将其扩展名改为csv用excel打开即可看到经整理的分析结果，如果文法不是LALR(1)的，程序运行时在命令行窗口上会打印语法分析动作冲突的相关信息。注意如果自定义文法进行测试文法需设计合理，避免存在逻辑错误，否则程序可能会陷入死循环或抛出异常。博主给出的示例文法可以得到分析结果且无语法分析冲突，可以把示例文法拷贝至输入文件中测试。</strong></span></p>
+<p><span style="font-size: 18px;"><strong>PS：本人微信号memoryundersun，欢迎各位同仁主动联系我，大家一起学习一起进步</strong></span></p>
+<p><span style="color: #ff0000; font-size: 14pt;"><strong>2018.11.14重要更新</strong></span></p>
+<hr>
+<p><span style="color: #000000;"><strong><span style="font-size: 18px;">先前提到过改动文法会导致在计算follow集时陷入死循环,原因是循环依赖链造成的间接循环依赖，非终结符E的follow集依赖于另一个非终结符，另一个又依赖其他非终结符的follow集——这种依赖关系最终会延伸到E自身，造成E的follow集依赖于E的follow集的间接循环依赖。原先计算follow的算法不适用于间接循环依赖的情况，会陷入死循环，因而是错误的，所以简单调整一下follow集的计算算法，该算法中能够计算出follow集的非终结符最终会分离出去，剩下的是位于循环依赖链上的非终结符，此时对依赖链上的非终结符按照依赖关系反复迭代直到这些follow集的非终结符不再增大即可，最后把依赖链上非终结符follow集的计算结果加入已计算出follow集的非终结符表。分离出已计算出follow集的非终结符以避免对计算完成的非终结符的无效迭代，将非终结符依赖的其他非终结符从依赖关系中删去，并把被删去的非终结符的follow集的计算结果添加到被依赖非终结符的计算结果中以避免依赖非终结符对被依赖终结符的无效迭代。如果某一轮循环已完成follow集计算的非终结符构成的表不再增大，那么表中非终结符和尚未完成计算的非终结符依赖的非终结符集合交集始终为空集，故求交运算可以跳过，这些为必要的优化处理</span></strong></span></p>
+<p><span style="color: #000000;"><strong><span style="font-size: 18px;">修改过的follow集计算算法如下：(应该没有错误了，如果有请提出)</span></strong></span></p>
+<div><div class="fold_hider"><div class="close hider_title">点击显/隐内容</div></div><div class="fold">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;&gt;&gt; LALRAutomata::calculateFollow()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">GeneratingCycles</span> &#123;</span>CURRENT_CYCLE, PREVIOUS_CYCLE&#125;;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt; temp;  <span class="comment">//非终结符,当前follow，新增follow,依赖符号,是否计算完成</span></span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, pair&lt;GeneratingCycles, <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator&gt;&gt; pre_and_cur_cycle_finish_follow_compute_info;  <span class="comment">//非终结符 产生轮次 temp中对应项迭代器</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> h = temp.insert(make_pair(AugGraSS, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;())).first;</span><br><span class="line">        get&lt;<span class="number">0</span>&gt;(h-&gt;second).insert(<span class="string">"$"</span>);</span><br><span class="line">        get&lt;<span class="number">1</span>&gt;(h-&gt;second).insert(<span class="string">"$"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="keyword">long</span>, tuple&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;ProductionBodySymbol&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;&gt;&gt;::iterator p = productionSet.begin(); p != productionSet.end(); ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;ProductionBodySymbol&gt;::size_type i = <span class="number">0</span>; i &lt; get&lt;<span class="number">1</span>&gt;(p-&gt;second).size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (get&lt;<span class="number">1</span>&gt;(p-&gt;second)[i].TerminalOrNot == <span class="literal">false</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == get&lt;<span class="number">1</span>&gt;(p-&gt;second).size() - <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator it = temp.insert(make_pair(get&lt;<span class="number">1</span>&gt;(p-&gt;second)[i].symbol, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;())).first;</span><br><span class="line">                    get&lt;<span class="number">2</span>&gt;(it-&gt;second).insert(get&lt;<span class="number">0</span>&gt;(p-&gt;second));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;&gt; q = calculateFirst(get&lt;<span class="number">1</span>&gt;(p-&gt;second), i + <span class="number">1</span>, get&lt;<span class="number">1</span>&gt;(p-&gt;second).size() - <span class="number">1</span>);</span><br><span class="line">                    <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator it = temp.insert(make_pair(get&lt;<span class="number">1</span>&gt;(p-&gt;second)[i].symbol, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;())).first;</span><br><span class="line">                    <span class="keyword">if</span> (*(q-&gt;begin()) == <span class="string">""</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator w = q-&gt;begin();</span><br><span class="line">                        get&lt;<span class="number">0</span>&gt;(it-&gt;second).insert(++w, q-&gt;end());</span><br><span class="line">                        get&lt;<span class="number">1</span>&gt;(it-&gt;second).insert(w, q-&gt;end());</span><br><span class="line">                        get&lt;<span class="number">2</span>&gt;(it-&gt;second).insert(get&lt;<span class="number">0</span>&gt;(p-&gt;second));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        get&lt;<span class="number">0</span>&gt;(it-&gt;second).insert(q-&gt;begin(), q-&gt;end());</span><br><span class="line">                        get&lt;<span class="number">1</span>&gt;(it-&gt;second).insert(q-&gt;begin(), q-&gt;end());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator p = temp.begin(); p != temp.end(); ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (get&lt;<span class="number">2</span>&gt;(p-&gt;second).empty() == <span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            get&lt;<span class="number">3</span>&gt;(p-&gt;second) = <span class="literal">true</span>;</span><br><span class="line">            pre_and_cur_cycle_finish_follow_compute_info.insert(make_pair(p-&gt;first, make_pair(GeneratingCycles::PREVIOUS_CYCLE, p)));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator tempit;</span><br><span class="line">            <span class="keyword">if</span> ((tempit = get&lt;<span class="number">2</span>&gt;(p-&gt;second).find(p-&gt;first)) != get&lt;<span class="number">2</span>&gt;(p-&gt;second).end())</span><br><span class="line">            &#123;</span><br><span class="line">                get&lt;<span class="number">2</span>&gt;(p-&gt;second).erase(tempit);</span><br><span class="line">                <span class="keyword">if</span> (get&lt;<span class="number">2</span>&gt;(p-&gt;second).empty() == <span class="literal">true</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    get&lt;<span class="number">3</span>&gt;(p-&gt;second) = <span class="literal">true</span>;</span><br><span class="line">                    pre_and_cur_cycle_finish_follow_compute_info.insert(make_pair(p-&gt;first, make_pair(GeneratingCycles::PREVIOUS_CYCLE, p)));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    get&lt;<span class="number">3</span>&gt;(p-&gt;second) = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                get&lt;<span class="number">3</span>&gt;(p-&gt;second) = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> first_set_has_changed = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">bool</span> result_has_changed = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">bool</span> result_has_changed_previous_run = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">bool</span> is_first_cycle = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="built_in">string</span>, pair&lt;GeneratingCycles, <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator&gt;&gt;::iterator n = pre_and_cur_cycle_finish_follow_compute_info.begin();</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator p = temp.begin(); p != temp.end(); ++p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (get&lt;<span class="number">3</span>&gt;(p-&gt;second) == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (pre_and_cur_cycle_finish_follow_compute_info.find(p-&gt;first) == pre_and_cur_cycle_finish_follow_compute_info.end())</span><br><span class="line">                    get&lt;<span class="number">1</span>&gt;(p-&gt;second).clear();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (is_first_cycle == <span class="literal">false</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                get&lt;<span class="number">1</span>&gt;(p-&gt;second).clear();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::size_type size = get&lt;<span class="number">0</span>&gt;(p-&gt;second).size();</span><br><span class="line">            <span class="keyword">if</span> (result_has_changed_previous_run)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">map</span>&lt;<span class="built_in">string</span>, pair&lt;GeneratingCycles, <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator&gt;&gt;::iterator itleft = pre_and_cur_cycle_finish_follow_compute_info.begin();</span><br><span class="line">                <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator itright = get&lt;<span class="number">2</span>&gt;(p-&gt;second).begin();</span><br><span class="line">                <span class="keyword">while</span> (itleft != pre_and_cur_cycle_finish_follow_compute_info.end() &amp;&amp; itright != get&lt;<span class="number">2</span>&gt;(p-&gt;second).end())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (itleft-&gt;first == *itright)</span><br><span class="line">                    &#123;</span><br><span class="line">                        computeDifferenceSet(get&lt;<span class="number">1</span>&gt;(itleft-&gt;second.second-&gt;second), get&lt;<span class="number">0</span>&gt;(p-&gt;second), get&lt;<span class="number">1</span>&gt;(p-&gt;second), <span class="literal">false</span>);</span><br><span class="line">                        itright = get&lt;<span class="number">2</span>&gt;(p-&gt;second).erase(itright);</span><br><span class="line">                        ++itleft;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (itleft-&gt;first &lt; *itright)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ++itleft;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        ++itright;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (get&lt;<span class="number">2</span>&gt;(p-&gt;second).empty())</span><br><span class="line">                &#123;</span><br><span class="line">                    pre_and_cur_cycle_finish_follow_compute_info.insert(make_pair(p-&gt;first, make_pair(GeneratingCycles::CURRENT_CYCLE, p)));</span><br><span class="line">                    get&lt;<span class="number">3</span>&gt;(p-&gt;second) = <span class="literal">true</span>;</span><br><span class="line">                    result_has_changed = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator m = get&lt;<span class="number">2</span>&gt;(p-&gt;second).begin(); m != get&lt;<span class="number">2</span>&gt;(p-&gt;second).end(); ++m)</span><br><span class="line">            &#123;</span><br><span class="line">                computeDifferenceSet(get&lt;<span class="number">1</span>&gt;(temp[*m]), get&lt;<span class="number">0</span>&gt;(p-&gt;second), get&lt;<span class="number">1</span>&gt;(p-&gt;second), <span class="literal">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (get&lt;<span class="number">0</span>&gt;(p-&gt;second).size() != size)</span><br><span class="line">            &#123;</span><br><span class="line">                first_set_has_changed = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (n != pre_and_cur_cycle_finish_follow_compute_info.end())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (p-&gt;first == n-&gt;first)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (n-&gt;second.first == GeneratingCycles::CURRENT_CYCLE)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ++n;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        n = pre_and_cur_cycle_finish_follow_compute_info.erase(n);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!first_set_has_changed &amp;&amp; !result_has_changed)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            result_has_changed_previous_run = result_has_changed;</span><br><span class="line">            first_set_has_changed = <span class="literal">false</span>;</span><br><span class="line">            result_has_changed = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (is_first_cycle)</span><br><span class="line">            is_first_cycle = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="built_in">string</span>, pair&lt;GeneratingCycles, <span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator&gt;&gt;::iterator temp = pre_and_cur_cycle_finish_follow_compute_info.begin(); temp != pre_and_cur_cycle_finish_follow_compute_info.end(); ++temp)</span><br><span class="line">        &#123;</span><br><span class="line">            temp-&gt;second.first = GeneratingCycles::CURRENT_CYCLE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;&gt;&gt; result = make_shared&lt;<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;&gt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="built_in">string</span>, tuple&lt;<span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;, <span class="keyword">bool</span>&gt;&gt;::iterator p = temp.begin(); p != temp.end(); ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        result-&gt;insert(make_pair(p-&gt;first, <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;())).first-&gt;second.insert(get&lt;<span class="number">0</span>&gt;(p-&gt;second).begin(), get&lt;<span class="number">0</span>&gt;(p-&gt;second).end());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div>
+<p><strong><span style="font-size: 18px;">&nbsp;78-170行为迭代求解的核心步骤</span></strong></p>
+<p><strong><span style="font-size: 18px;">主程序代码也进行了更新</span></strong></p>
+<p><span style="color: #ff0000; font-size: 14pt;"><strong>2019.1.15更新</strong></span></p>
+<hr>
+<p><strong><span style="font-size: 18px;">对LALR(1)自动机构造算法进行了优化，避免明显不等LALR项之间的冗余比较，提升生成性能</span></strong></p>
+<p><span style="font-size: 18px;"><strong>优化了LALR闭包生成算法，避免对相同非内核项点号右边符号串first集不必要的计算</strong></span></p>
+<p><span style="font-size: 18px; color: #ff0000;"><strong>2019.4.25更新</strong></span></p>
+<p><span style="font-size: 18px;"><strong>新增了firstK和followK集的生成算法，详见github readme文件</strong></span></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+
+  <p><span>本文标题:</span>编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现</p>
+  <p><span>文章作者:</span>WSK</p>
+  <p><span>发布时间:</span>2019年04月24日 - 04:56:53</p>
+  <p><span>最后更新:</span>2019年05月02日 - 01:28:44</p>
+  <p><span>原始链接:</span><a href="/post/61224.html" title="编译器构造中自底向上的LALR(1)语法分析的语法分析表生成的实现">http://yoursite.com/post/61224.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/61224.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+    
+    </div>
+	 
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自底向上的语法分析/" rel="tag"># 自底向上的语法分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/43861.html" rel="next" title="生成所有错位排列的算法">
+                <i class="fa fa-chevron-left"></i> 生成所有错位排列的算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/35112.html" rel="prev" title="对求有向图强连通分量的tarjan算法原理的一点理解">
+                对求有向图强连通分量的tarjan算法原理的一点理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+            
+              <p class="site-author-name" itemprop="name">WSK</p>
+              <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/naturerun?tab=repositories" title="GitHub &rarr; https://github.com/naturerun?tab=repositories" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/wang-shao-kang-90-62/activities" title="知乎 &rarr; https://www.zhihu.com/people/wang-shao-kang-90-62/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WSK</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+    appKey: 'vdGqsS99fuxFDFYjoWntnvG7',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+                'X-LC-Key': 'vdGqsS99fuxFDFYjoWntnvG7',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+</body>
+</html>

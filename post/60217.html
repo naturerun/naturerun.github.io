@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;nbsp;由于红黑树的每一处结构都能唯一的转换为2-3-4树(即4阶B树)中对应的结构因此每一棵红黑树都唯一对应一棵2-3-4树，但反之，对应于只有两个关键码的2-3-4树节点的2-3-4树结构能够转换为两种不同的红黑树结构(两个关键码左边为红黑树中黑色节点，右边为红色节点或相反)，所以一般情况下对于一棵2-3-4树，往往有多棵红黑树与之对应。本文要介绍的就是将红黑树转换为2-3-4树或将2-3">
+<meta name="keywords" content="红黑树,B树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构备忘录:红黑树和2-3-4树的相互转换">
+<meta property="og:url" content="http://yoursite.com/post/60217.html">
+<meta property="og:site_name" content="naturerun的IT技术博客">
+<meta property="og:description" content="&amp;nbsp;由于红黑树的每一处结构都能唯一的转换为2-3-4树(即4阶B树)中对应的结构因此每一棵红黑树都唯一对应一棵2-3-4树，但反之，对应于只有两个关键码的2-3-4树节点的2-3-4树结构能够转换为两种不同的红黑树结构(两个关键码左边为红黑树中黑色节点，右边为红色节点或相反)，所以一般情况下对于一棵2-3-4树，往往有多棵红黑树与之对应。本文要介绍的就是将红黑树转换为2-3-4树或将2-3">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/post/60217/数据结构备忘录-红黑树和2-3-4树的相互转换.png">
+<meta property="og:updated_time" content="2019-05-01T17:25:54.686Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构备忘录:红黑树和2-3-4树的相互转换">
+<meta name="twitter:description" content="&amp;nbsp;由于红黑树的每一处结构都能唯一的转换为2-3-4树(即4阶B树)中对应的结构因此每一棵红黑树都唯一对应一棵2-3-4树，但反之，对应于只有两个关键码的2-3-4树节点的2-3-4树结构能够转换为两种不同的红黑树结构(两个关键码左边为红黑树中黑色节点，右边为红色节点或相反)，所以一般情况下对于一棵2-3-4树，往往有多棵红黑树与之对应。本文要介绍的就是将红黑树转换为2-3-4树或将2-3">
+<meta name="twitter:image" content="http://yoursite.com/post/60217/数据结构备忘录-红黑树和2-3-4树的相互转换.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/post/60217">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据结构备忘录:红黑树和2-3-4树的相互转换 | naturerun的IT技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">naturerun的IT技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">作者的github主页https://github.com/naturerun?tab=repositories</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/60217.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WSK">
+      <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
+      <meta itemprop="image" content="/images/naturerun.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naturerun的IT技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构备忘录:红黑树和2-3-4树的相互转换
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-01 11:01:41" itemprop="dateCreated datePublished" datetime="2019-05-01T11:01:41+08:00">2019-05-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-02 01:25:54" itemprop="dateModified" datetime="2019-05-02T01:25:54+08:00">2019-05-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DataStructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/post/60217.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/60217.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/post/60217.html" class="leancloud_visitors" data-flag-title="数据结构备忘录:红黑树和2-3-4树的相互转换">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+		  
+		  
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><span style="font-size: 18px;">&nbsp;由于红黑树的每一处结构都能唯一的转换为2-3-4树(即4阶B树)中对应的结构因此每一棵红黑树都唯一对应一棵2-3-4树，但反之，对应于只有两个关键码的2-3-4树节点的2-3-4树结构能够转换为两种不同的红黑树结构(两个关键码左边为红黑树中黑色节点，右边为红色节点或相反)，所以一般情况下对于一棵2-3-4树，往往有多棵红黑树与之对应。本文要介绍的就是将红黑树转换为2-3-4树或将2-3-4树转换为与之对应的多棵红黑树的算法。算法的基本思想是后序遍历红黑树或2-3-4树，自底向下将每一种红黑树(2-3-4树)构造转换为与之对应的2-3-4树(红黑树)构造，转换构造的过程中需要使用自底向下的过程中已经完成转换的构造，并把这些构造进行组合以生成新的高层构造，该过程会一直持续到红黑树或2-3-4树的根节点。</span></p>
+<p><span style="font-size: 18px;">由于红黑树对应的2-3-4树中总是把黑色节点的红色子节点提升到和黑色节点同一层的同一个2-3-4树节点中，而由红黑树的特性，红色节点没有红色子节点，这就使得在2-3-4树中，红黑树从根节点到叶节点任意一条路径上的单个红色节点都被压缩到了上一层的黑色父节点上，这意味着与红黑树对应的2-3-4树高度(不包括失败节点)恰为红黑树的黑高度(红黑树任意一条从根节点到外节点的路径上黑色节点总数)。此外，以下算法还可以保证红黑树转换所得的2-3-4树满足4阶B树的所有特性,由2-3-4树转换所得红黑树也满足红黑树的所有特性，要证明一点只要从下至上使用归纳法，证明在低层转换构造满足2-3-4树或红黑树的某些特性的情况下由低层构造生成的高层构造同样满足这些特性，证明会一直持续到红黑树或2-3-4树根节点，从而确定转换所得树确实满足红黑树和2-3-4树的所有要求。证明是简单的，机械的，这里就不详细说明了。</span></p>
+<p><span style="font-size: 18px;">用归纳法可以自底向上证明如果2-3-4树对应多棵红黑树，则算法转换得到的红黑树必两两不同，因此无需剔除重复的红黑树</span></p>
+<p><span style="font-size: 18px;">将<a href="https://naturerun.github.io/i.html" target="_blank" rel="noopener">红黑树的插入与删除</a></span></p>
+<p><span style="font-size: 18px;">以及<a href="https://naturerun.github.io/p.html" target="_blank" rel="noopener">B树的插入与删除</a></span></p>
+<p><span style="font-size: 18px;">这两篇文章中的代码中的main函数部分删除，并去掉不相关的函数，就可得到以下代码中头文件RBTree.h和BTree.h中的内容</span></p>
+<p><span style="font-size: 18px;">C++代码如下:</span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"RBTree.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"BTree.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Type</span> &#123;</span> RED, BLACK &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RedSubTreeInfo</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	RBTreeNode&lt;T&gt; *RedNode_ptr = <span class="literal">nullptr</span>;   <span class="comment">//红黑树红色节点指针</span></span><br><span class="line">	BTreeNode&lt;T&gt; *partBTreeForBlackSubTree_left = <span class="literal">nullptr</span>;  <span class="comment">//红色节点左子树转换生成的2-3-4树构造</span></span><br><span class="line">	BTreeNode&lt;T&gt; *partBTreeForBlackSubTree_right = <span class="literal">nullptr</span>;  <span class="comment">//红色节点右子树转换生成的2-3-4树构造</span></span><br><span class="line">	RedSubTreeInfo(RBTreeNode&lt;T&gt; *R, BTreeNode&lt;T&gt; *pl, BTreeNode&lt;T&gt; *pr) :RedNode_ptr(R), partBTreeForBlackSubTree_left(pl), partBTreeForBlackSubTree_right(pr) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SubTreeInfo</span>  //红黑树某节点的低层2-3-4树构造信息</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	Type id;   <span class="comment">//该构造对应红黑树红色节点还是黑色节点</span></span><br><span class="line">	<span class="keyword">union</span></span><br><span class="line">	&#123;</span><br><span class="line">		RedSubTreeInfo&lt;T&gt; red_sub_tree_info;  <span class="comment">//红色节点对应的2-3-4树构造</span></span><br><span class="line">		BTreeNode&lt;T&gt;* partBTreeForBlackSubTree;  <span class="comment">//黑色节点对应的2-3-4树构造</span></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	SubTreeInfo(Type t, BTreeNode&lt;T&gt;* p) : id(t), partBTreeForBlackSubTree(p) &#123;&#125;</span><br><span class="line"></span><br><span class="line">	SubTreeInfo(Type t, RBTreeNode&lt;T&gt;* R, BTreeNode&lt;T&gt;* pl, BTreeNode&lt;T&gt;* pr):id(t)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">new</span> (&amp;red_sub_tree_info) RedSubTreeInfo&lt;T&gt;(R, pl, pr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~SubTreeInfo()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (id == Type::RED)</span><br><span class="line">		&#123;</span><br><span class="line">			red_sub_tree_info.~RedSubTreeInfo();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt;* BTreeToRBTree(BTreeNode&lt;T&gt; *root)  <span class="comment">//将2-3-4树转换为与之对应的所有红黑树</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">memory</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		BTreeNode&lt;T&gt;* p;  <span class="comment">//遍历2-3-4树时对应层节点指针</span></span><br><span class="line">		pair&lt;<span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt; direction;  <span class="comment">//遍历时在该层的前进方向(此时正在向下遍历那一棵2-3-4子树)</span></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt; *&gt;&gt; RBTreeForEverySubTree;  <span class="comment">//存放2-3-4树节点的每一个子节点对应的所有红黑树构造</span></span><br><span class="line">		<span class="keyword">size_t</span> index = <span class="number">0</span>;  <span class="comment">//当前需要生成红黑树构造的子节点对应的RBTreeForEverySubTree下标</span></span><br><span class="line">		memory(BTreeNode&lt;T&gt;* p, <span class="keyword">const</span> pair&lt;<span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;&amp; d) :p(p), direction(d), RBTreeForEverySubTree(p-&gt;keyptrmap.size()+<span class="number">1</span>, <span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt;())&#123;&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt; *AllRBTreeForBTree = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt;;  <span class="comment">//存放当前2-3-4树对应的所有红黑树</span></span><br><span class="line">	BTreeNode&lt;T&gt;* ptr = root;</span><br><span class="line">	pair&lt;<span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt; d(ptr-&gt;keyptrmap.end(), <span class="literal">true</span>);</span><br><span class="line">	BTreeNode&lt;T&gt;* <span class="keyword">const</span> dest = ptr;</span><br><span class="line">	<span class="built_in">stack</span>&lt;memory&gt; arrange;</span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (SerachBTreeNode(ptr, d) == pair&lt;<span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;(ptr-&gt;keyptrmap.end(), <span class="literal">true</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator it = ptr-&gt;keyptrmap.begin();</span><br><span class="line">			<span class="keyword">if</span> (d == pair&lt;<span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;(ptr-&gt;keyptrmap.end(), <span class="literal">true</span>))  <span class="comment">//生成2-3-4树叶节点对应的红黑树构造，若该叶节点不为根节点</span></span><br><span class="line">			&#123;                                                                                  <span class="comment">//则把构造信息传递至上层节点，若为根节点，直接返回2-3-4树对应的所有红黑树</span></span><br><span class="line">				RBTreeNode&lt;T&gt;* temp = <span class="literal">nullptr</span>;                  </span><br><span class="line">				<span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">1</span>)    <span class="comment">//节点只有一个关键码，生成单一黑节点构造</span></span><br><span class="line">				&#123;</span><br><span class="line">					temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">2</span>)   <span class="comment">//两个关键码，生成红-黑或黑-红构造</span></span><br><span class="line">				&#123;</span><br><span class="line">					temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">					++it;</span><br><span class="line">					temp-&gt;right = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">					<span class="keyword">if</span> (ptr == dest)</span><br><span class="line">					&#123;</span><br><span class="line">						(*(AllRBTreeForBTree)).push_back(temp);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						arrange.top().RBTreeForEverySubTree[arrange.top().index].push_back(temp);</span><br><span class="line">					&#125;</span><br><span class="line">					temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">					--it;</span><br><span class="line">					temp-&gt;left = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">3</span>)   <span class="comment">//三个关键码，生成红-黑-红构造</span></span><br><span class="line">				&#123;</span><br><span class="line">					++it;</span><br><span class="line">					temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">					--it;</span><br><span class="line">					temp-&gt;left = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">					++it; ++it;</span><br><span class="line">					temp-&gt;right = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (ptr == dest)</span><br><span class="line">				&#123;</span><br><span class="line">					(*(AllRBTreeForBTree)).push_back(temp);</span><br><span class="line">					<span class="keyword">return</span> AllRBTreeForBTree;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					arrange.top().RBTreeForEverySubTree[arrange.top().index].push_back(temp);  <span class="comment">//本层节点对应构造传递至上层节点,若该分支节点不为根节点</span></span><br><span class="line">				&#125;                                                                              <span class="comment">//则把构造信息传递至上层节点，若为根节点直接返回根节点对应红黑树构造</span></span><br><span class="line">			&#125;           </span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt; *RBTreePtr = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;RBTreeNode&lt;T&gt;*&gt;();  <span class="comment">//生成2-3-4树分支节点对应红黑树构造</span></span><br><span class="line">				<span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">1</span>)   <span class="comment">//同上</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">size_t</span> q = <span class="number">0</span>; q != arrange.top().RBTreeForEverySubTree[<span class="number">0</span>].size(); ++q)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">for</span> (<span class="keyword">size_t</span> p = <span class="number">0</span>; p != arrange.top().RBTreeForEverySubTree[<span class="number">1</span>].size(); ++p)</span><br><span class="line">						&#123;</span><br><span class="line">							RBTreeNode&lt;T&gt;* temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">							temp-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">0</span>][q];</span><br><span class="line">							temp-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">1</span>][p];</span><br><span class="line">							RBTreePtr-&gt;push_back(temp);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">2</span>)  <span class="comment">//同上</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">size_t</span> q = <span class="number">0</span>; q != arrange.top().RBTreeForEverySubTree[<span class="number">0</span>].size(); ++q)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">for</span> (<span class="keyword">size_t</span> p = <span class="number">0</span>; p != arrange.top().RBTreeForEverySubTree[<span class="number">1</span>].size(); ++p)</span><br><span class="line">						&#123;</span><br><span class="line">							<span class="keyword">for</span> (<span class="keyword">size_t</span> m = <span class="number">0</span>; m != arrange.top().RBTreeForEverySubTree[<span class="number">2</span>].size(); ++m)</span><br><span class="line">							&#123;</span><br><span class="line">								RBTreeNode&lt;T&gt;* temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">								++it;</span><br><span class="line">								temp-&gt;right = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">								--it;</span><br><span class="line">								temp-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">0</span>][q];</span><br><span class="line">								temp-&gt;right-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">1</span>][p];</span><br><span class="line">								temp-&gt;right-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">2</span>][m];</span><br><span class="line">								RBTreePtr-&gt;push_back(temp);</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">size_t</span> q = <span class="number">0</span>; q != arrange.top().RBTreeForEverySubTree[<span class="number">0</span>].size(); ++q)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">for</span> (<span class="keyword">size_t</span> p = <span class="number">0</span>; p != arrange.top().RBTreeForEverySubTree[<span class="number">1</span>].size(); ++p)</span><br><span class="line">						&#123;</span><br><span class="line">							<span class="keyword">for</span> (<span class="keyword">size_t</span> m = <span class="number">0</span>; m != arrange.top().RBTreeForEverySubTree[<span class="number">2</span>].size(); ++m)</span><br><span class="line">							&#123;</span><br><span class="line">								++it;</span><br><span class="line">								RBTreeNode&lt;T&gt;* temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">								--it;</span><br><span class="line">								temp-&gt;left = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">								temp-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">2</span>][m];</span><br><span class="line">								temp-&gt;left-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">1</span>][p];</span><br><span class="line">								temp-&gt;left-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">0</span>][q];</span><br><span class="line">								RBTreePtr-&gt;push_back(temp);</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (ptr-&gt;keyptrmap.size() == <span class="number">3</span>)  <span class="comment">//同上</span></span><br><span class="line">				&#123;</span><br><span class="line">					++it;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">size_t</span> q = <span class="number">0</span>; q != arrange.top().RBTreeForEverySubTree[<span class="number">0</span>].size(); ++q)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">for</span> (<span class="keyword">size_t</span> p = <span class="number">0</span>; p != arrange.top().RBTreeForEverySubTree[<span class="number">1</span>].size(); ++p)</span><br><span class="line">						&#123;</span><br><span class="line">							<span class="keyword">for</span> (<span class="keyword">size_t</span> m = <span class="number">0</span>; m != arrange.top().RBTreeForEverySubTree[<span class="number">2</span>].size(); ++m)</span><br><span class="line">							&#123;</span><br><span class="line">								<span class="keyword">for</span> (<span class="keyword">size_t</span> v = <span class="number">0</span>; v != arrange.top().RBTreeForEverySubTree[<span class="number">3</span>].size(); ++v)</span><br><span class="line">								&#123;</span><br><span class="line">									RBTreeNode&lt;T&gt;* temp = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::BLACK);</span><br><span class="line">									--it;</span><br><span class="line">									temp-&gt;left = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">									++it; ++it;</span><br><span class="line">									temp-&gt;right = <span class="keyword">new</span> RBTreeNode&lt;T&gt;(it-&gt;first, ColorFlag::RED);</span><br><span class="line">									--it;</span><br><span class="line">									temp-&gt;left-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">0</span>][q];</span><br><span class="line">									temp-&gt;left-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">1</span>][p];</span><br><span class="line">									temp-&gt;right-&gt;left = arrange.top().RBTreeForEverySubTree[<span class="number">2</span>][m];</span><br><span class="line">									temp-&gt;right-&gt;right = arrange.top().RBTreeForEverySubTree[<span class="number">3</span>][v];</span><br><span class="line">									RBTreePtr-&gt;push_back(temp);</span><br><span class="line">								&#125;</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				arrange.pop();</span><br><span class="line">				<span class="keyword">if</span> (arrange.empty() == <span class="literal">true</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">return</span> RBTreePtr;</span><br><span class="line">				&#125;</span><br><span class="line">				arrange.top().RBTreeForEverySubTree[arrange.top().index] = *RBTreePtr;</span><br><span class="line">				<span class="keyword">delete</span> RBTreePtr;</span><br><span class="line">			&#125;</span><br><span class="line">			ptr = arrange.top().p;</span><br><span class="line">			d = arrange.top().direction;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			BTreeNode&lt;T&gt; *interval = <span class="literal">nullptr</span>;</span><br><span class="line">			<span class="keyword">if</span> (d == pair&lt;<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;(ptr-&gt;keyptrmap.end(), <span class="literal">true</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				arrange.push(memory(ptr, SerachBTreeNode(ptr, d)));</span><br><span class="line">				interval = ptr-&gt;p;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator temp = SerachBTreeNode(ptr, d).first;</span><br><span class="line"></span><br><span class="line">				arrange.top().direction = pair&lt;<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;(temp, <span class="literal">true</span>);</span><br><span class="line">				++(arrange.top().index);</span><br><span class="line">				interval = temp-&gt;second;</span><br><span class="line">			&#125;</span><br><span class="line">			ptr = interval;</span><br><span class="line">			d = pair&lt;<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator, <span class="keyword">bool</span>&gt;(ptr-&gt;keyptrmap.end(), <span class="literal">true</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	RBTreeNode&lt;T&gt;* ptr = <span class="literal">nullptr</span>;    <span class="comment">//每一层红黑树节点指针</span></span><br><span class="line">	<span class="keyword">int</span> direction = <span class="number">0</span>;</span><br><span class="line">	SubTreeInfo&lt;T&gt; *left_sub = <span class="literal">nullptr</span>;    <span class="comment">//左子树2-3-4树构造</span></span><br><span class="line">	SubTreeInfo&lt;T&gt; *right_sub = <span class="literal">nullptr</span>;   <span class="comment">//右子树2-3-4树构造</span></span><br><span class="line">	StackNode(RBTreeNode&lt;T&gt;* p, <span class="keyword">int</span> d) :ptr(p), direction(d) &#123;&#125;</span><br><span class="line">	~StackNode()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">delete</span> left_sub;</span><br><span class="line">		<span class="keyword">delete</span> right_sub;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">BTreeNode&lt;T&gt; *RBTreeToBTree(RBTreeNode&lt;T&gt; *root)   <span class="comment">//将红黑树转换为对应2-3-4树</span></span><br><span class="line">&#123;</span><br><span class="line">	RBTreeNode&lt;T&gt;* ptr = root;</span><br><span class="line">	RBTreeNode&lt;T&gt;* <span class="keyword">const</span> dest = ptr;</span><br><span class="line">	<span class="built_in">stack</span>&lt;StackNode&lt;T&gt;&gt; work_stack;</span><br><span class="line">	<span class="keyword">int</span> d = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (Searchd(ptr, d) == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ptr == dest)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (d == <span class="number">0</span>)   <span class="comment">//根节点为叶节点，直接返回对应2-3-4树构造</span></span><br><span class="line">				&#123;</span><br><span class="line">					BTreeNode&lt;T&gt;* temp_ptr = <span class="keyword">new</span> BTreeNode&lt;T&gt;();</span><br><span class="line">					temp_ptr-&gt;keyptrmap.insert(make_pair(ptr-&gt;data, <span class="literal">nullptr</span>));</span><br><span class="line">					temp_ptr-&gt;p = <span class="literal">nullptr</span>;</span><br><span class="line">					<span class="keyword">return</span> temp_ptr;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (d == <span class="number">0</span>)   <span class="comment">//非根叶节点，将叶节点转换为对应2-3-4树构造并传递至上层栈节点</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (ptr-&gt;color == ColorFlag::RED)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">if</span> (work_stack.top().direction == <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().left_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::RED, ptr, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().direction == <span class="number">2</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().right_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::RED, ptr, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					BTreeNode&lt;T&gt;* temp_ptr = <span class="keyword">new</span> BTreeNode&lt;T&gt;();</span><br><span class="line">					temp_ptr-&gt;keyptrmap.insert(make_pair(ptr-&gt;data, <span class="literal">nullptr</span>));</span><br><span class="line">					<span class="keyword">if</span> (work_stack.top().direction == <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().left_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::BLACK, temp_ptr);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().direction == <span class="number">2</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().right_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::BLACK, temp_ptr);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="comment">//分支节点，可以为根节点，为根节点时生成根节点对应2-3-4树并返回，否则生成分支节点对应2-3-4树构造并传递至上层栈节点</span></span><br><span class="line">			&#123;</span><br><span class="line">				BTreeNode&lt;T&gt;* temp_ptr = <span class="keyword">new</span> BTreeNode&lt;T&gt;();</span><br><span class="line">				<span class="keyword">if</span> (ptr-&gt;color == ColorFlag::BLACK)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">typename</span> <span class="built_in">map</span>&lt;T, BTreeNode&lt;T&gt;*&gt;::iterator itp = temp_ptr-&gt;keyptrmap.insert(make_pair(ptr-&gt;data, <span class="literal">nullptr</span>)).first;</span><br><span class="line">					<span class="keyword">if</span> (work_stack.top().left_sub == <span class="literal">nullptr</span> || work_stack.top().left_sub-&gt;id == Type::BLACK)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">if</span> (work_stack.top().left_sub == <span class="literal">nullptr</span>)</span><br><span class="line">						&#123;</span><br><span class="line">							temp_ptr-&gt;p = <span class="literal">nullptr</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">						&#123;</span><br><span class="line">							temp_ptr-&gt;p = work_stack.top().left_sub-&gt;partBTreeForBlackSubTree;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						temp_ptr-&gt;keyptrmap.insert(make_pair(work_stack.top().left_sub-&gt;red_sub_tree_info.RedNode_ptr-&gt;data,</span><br><span class="line">							work_stack.top().left_sub-&gt;red_sub_tree_info.partBTreeForBlackSubTree_right));</span><br><span class="line">						temp_ptr-&gt;p = work_stack.top().left_sub-&gt;red_sub_tree_info.partBTreeForBlackSubTree_left;</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> (work_stack.top().right_sub == <span class="literal">nullptr</span> || work_stack.top().right_sub-&gt;id == Type::BLACK)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">if</span> (work_stack.top().right_sub == <span class="literal">nullptr</span>)</span><br><span class="line">						&#123;</span><br><span class="line">							itp-&gt;second = <span class="literal">nullptr</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">						&#123;</span><br><span class="line">							itp-&gt;second = work_stack.top().right_sub-&gt;partBTreeForBlackSubTree;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						temp_ptr-&gt;keyptrmap.insert(make_pair(work_stack.top().right_sub-&gt;red_sub_tree_info.RedNode_ptr-&gt;data,</span><br><span class="line">							work_stack.top().right_sub-&gt;red_sub_tree_info.partBTreeForBlackSubTree_right));</span><br><span class="line">						itp-&gt;second = work_stack.top().right_sub-&gt;red_sub_tree_info.partBTreeForBlackSubTree_left;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					BTreeNode&lt;T&gt;* temp1 = work_stack.top().left_sub-&gt;partBTreeForBlackSubTree;</span><br><span class="line">					BTreeNode&lt;T&gt;* temp2 = work_stack.top().right_sub-&gt;partBTreeForBlackSubTree;</span><br><span class="line">					work_stack.pop();</span><br><span class="line">					<span class="keyword">if</span> (work_stack.top().direction == <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().left_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::RED, ptr, temp1, temp2);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().direction == <span class="number">2</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						work_stack.top().right_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::RED, ptr, temp1, temp2);</span><br><span class="line">					&#125;</span><br><span class="line">					ptr = work_stack.top().ptr;</span><br><span class="line">					d = work_stack.top().direction;</span><br><span class="line">					<span class="keyword">continue</span>;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				work_stack.pop();</span><br><span class="line">				<span class="keyword">if</span> (work_stack.empty() == <span class="literal">true</span>)</span><br><span class="line">					<span class="keyword">return</span> temp_ptr;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (work_stack.top().direction == <span class="number">1</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().left_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::BLACK, temp_ptr);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().direction == <span class="number">2</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().right_sub = <span class="keyword">new</span> SubTreeInfo&lt;T&gt;(Type::BLACK, temp_ptr);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			ptr = work_stack.top().ptr;</span><br><span class="line">			d = work_stack.top().direction;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		    RBTreeNode&lt;T&gt;* interval = <span class="literal">nullptr</span>;</span><br><span class="line">			<span class="keyword">if</span> (d == <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">			   work_stack.push(StackNode&lt;T&gt;(ptr, Searchd(ptr, d)));</span><br><span class="line">			   <span class="keyword">if</span> (work_stack.top().direction == <span class="number">1</span>)</span><br><span class="line">				  interval = ptr-&gt;left;</span><br><span class="line">			   <span class="keyword">else</span></span><br><span class="line">				  interval = ptr-&gt;right;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				work_stack.top().direction = <span class="number">2</span>;</span><br><span class="line">				interval = ptr-&gt;right;</span><br><span class="line">			&#125;</span><br><span class="line">			d = <span class="number">0</span>;</span><br><span class="line">			ptr = interval;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  <span class="comment">//测试main函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;TYPE&gt; insertvalue&#123; <span class="number">13</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">16</span>, <span class="number">14</span>, <span class="number">1</span>, <span class="number">20</span>, <span class="number">12</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">15</span>, <span class="number">18</span>, <span class="number">21</span>, <span class="number">30</span>, <span class="number">11</span>, <span class="number">17</span>, <span class="number">25</span>, <span class="number">19</span>, <span class="number">29</span> &#125;;</span><br><span class="line">	RBTreeNode&lt;TYPE&gt;* root = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">vector</span>&lt;TYPE&gt;::const_iterator p = insertvalue.cbegin(); p != insertvalue.cend(); ++p)   <span class="comment">//插入建立红黑树</span></span><br><span class="line">	&#123;</span><br><span class="line">		root = InsertRB(root, *p);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"插入"</span> &lt;&lt; *p &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	BTreeNode&lt;TYPE&gt;* t = RBTreeToBTree(root);   <span class="comment">//红黑树转换为2-3-4树</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"已将红黑树转换为对应2-3-4树"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;RBTreeNode&lt;TYPE&gt;*&gt;* v = BTreeToRBTree(t);   <span class="comment">//2-3-4树转换为对应所有红黑树</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"已将2-3-4树转换为其对应的所有红黑树"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">vector</span>&lt;RBTreeNode&lt;TYPE&gt;*&gt;::iterator m = v-&gt;begin(); m != v-&gt;end(); ++m)   <span class="comment">//判断转换所得树是否满足红黑树所有特性</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (!isRB(*m))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"2-3-4到红黑树转换错误"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"2-3-4树到红黑树转换正确!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"转换后的红黑树共有"</span> &lt;&lt; v-&gt;size() &lt;&lt; <span class="string">"棵"</span>;</span><br><span class="line">	<span class="keyword">delete</span> v;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><span style="font-size: 18px;">运行结果：</span></p>
+<p><img src="/post/60217/数据结构备忘录-红黑树和2-3-4树的相互转换.png" alt></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+
+  <p><span>本文标题:</span>数据结构备忘录:红黑树和2-3-4树的相互转换</p>
+  <p><span>文章作者:</span>WSK</p>
+  <p><span>发布时间:</span>2019年05月01日 - 11:01:41</p>
+  <p><span>最后更新:</span>2019年05月02日 - 01:25:54</p>
+  <p><span>原始链接:</span><a href="/post/60217.html" title="数据结构备忘录:红黑树和2-3-4树的相互转换">http://yoursite.com/post/60217.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/60217.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+    
+    </div>
+	 
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/红黑树-B树/" rel="tag"># 红黑树,B树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/16107.html" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+            
+              <p class="site-author-name" itemprop="name">WSK</p>
+              <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/naturerun?tab=repositories" title="GitHub &rarr; https://github.com/naturerun?tab=repositories" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/wang-shao-kang-90-62/activities" title="知乎 &rarr; https://www.zhihu.com/people/wang-shao-kang-90-62/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WSK</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+    appKey: 'vdGqsS99fuxFDFYjoWntnvG7',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+                'X-LC-Key': 'vdGqsS99fuxFDFYjoWntnvG7',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+</body>
+</html>
