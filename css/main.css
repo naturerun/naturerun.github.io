@@ -1819,7 +1819,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #53ec8b;
+  background: #1b834b;
 }
 .feed-link,
 .chat {
@@ -3054,6 +3054,16 @@ ul.breadcrumb li+li:last-child {
 }
 .header-inner {
   background: rgba(255,255,255,0.9) !important;
+}
+@media screen and (min-width: 1200px) {
+  body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 50%;
+  }
+  #footer a {
+    color: #eee;
+  }
 }
 .hider_title {
   font-family: "Microsoft Yahei";
