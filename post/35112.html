@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义：横叉边：一条有向">
+  <meta name="description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点通过后退边或横叉边可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义">
 <meta name="keywords" content="有向图，强连通分量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对求有向图强连通分量的tarjan算法原理的一点理解">
 <meta property="og:url" content="http://yoursite.com/post/35112.html">
 <meta property="og:site_name" content="naturerun的IT技术博客">
-<meta property="og:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义：横叉边：一条有向">
+<meta property="og:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点通过后退边或横叉边可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-30T06:41:08.642Z">
+<meta property="og:updated_time" content="2019-05-30T15:03:00.778Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对求有向图强连通分量的tarjan算法原理的一点理解">
-<meta name="twitter:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义：横叉边：一条有向">
+<meta name="twitter:description" content="先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)： 用到两类数组： dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序 low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点通过后退边或横叉边可以回溯到的栈中DFS值最小的节点的dfs值 一个数据结构：栈，用于确定强连通分量 定义">
 
 
 
@@ -436,7 +436,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-30 14:41:08" itemprop="dateModified" datetime="2019-05-30T14:41:08+08:00">2019-05-30</time>
+                <time title="修改时间：2019-05-30 23:03:00" itemprop="dateModified" datetime="2019-05-30T23:03:00+08:00">2019-05-30</time>
               
             
           </span>
@@ -524,7 +524,7 @@
         <p><span style="font-size: 14pt;" data-mce-><strong>先简单叙述一下tarjan算法的执行过程(其他诸如伪代码之类的相关细节可以自己网上搜索，这里就不重复贴出了)：</strong></span></p>
 <p><span style="font-size: 14pt;" data-mce-><strong>用到两类数组：</strong></span></p>
 <p><span style="font-size: 14pt;" data-mce-><strong>dfs[]:DFS过程中给定节点的深度优先数，即该节点在DFS中被访问的次序</strong></span></p>
-<p><span style="font-size: 14pt;" data-mce-><strong>low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点可以回溯到的栈中DFS值最小的节点的dfs值</strong></span></p>
+<p><span style="font-size: 14pt;" data-mce-><strong>low[]：从给定节点回溯时，节点的low值为从节点在DFS树中的子树中的节点以及该节点通过后退边或横叉边可以回溯到的栈中DFS值最小的节点的dfs值</strong></span></p>
 <p><span style="font-size: 14pt;" data-mce-><strong>一个数据结构：栈，用于确定强连通分量</strong></span></p>
 <p><span style="font-size: 18.6667px;"><strong>定义：横叉边：一条有向边(u,v)为横叉边，当且仅当(1)u,v之间没有祖先后代关系(2)(1)满足的条件下，设u,v的最近公共祖先为L,u在以L子女节点k1为根的子树T1中,v在以L子女节点k2为根的子树T2中,则T1在T2右侧</strong></span></p>
 <p><span style="font-size: 18.6667px;"><strong>前进边：弧尾为祖先节点，弧头为子孙节点的有向边</strong></span></p>
@@ -637,7 +637,7 @@
   <p><span>本文标题:</span>对求有向图强连通分量的tarjan算法原理的一点理解</p>
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:57:21</p>
-  <p><span>最后更新:</span>2019年05月30日 - 14:41:08</p>
+  <p><span>最后更新:</span>2019年05月30日 - 23:03:00</p>
   <p><span>原始链接:</span><a href="/post/35112.html" title="对求有向图强连通分量的tarjan算法原理的一点理解">http://yoursite.com/post/35112.html</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/35112.html" aria-label="复制成功！"></i></span>
   </p>
