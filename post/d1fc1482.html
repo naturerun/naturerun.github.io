@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="阅读《数据结构与算法分析:java语言描述》一书时看到了对左式堆合并操作时间界的说明，但书中没有给出详细证明，这里自己思考并补全了证明细节，如下文(全文假定讨论的左式堆具有最小堆序，最大堆序的讨论是类似的)证法一：我们用&amp;nbsp;&amp;nbsp;表示右路径(从左式堆的根节点出发抵达根节点或以其右子女为根的子树中子女数不为2的节点的最短路径)长度为i的左式堆L1和右路径长度为j的左式堆R1合并的平均时">
+<meta name="keywords" content="左式堆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="左式堆合并操作时间界的证明">
+<meta property="og:url" content="http://yoursite.com/post/d1fc1482.html">
+<meta property="og:site_name" content="naturerun的IT技术博客">
+<meta property="og:description" content="阅读《数据结构与算法分析:java语言描述》一书时看到了对左式堆合并操作时间界的说明，但书中没有给出详细证明，这里自己思考并补全了证明细节，如下文(全文假定讨论的左式堆具有最小堆序，最大堆序的讨论是类似的)证法一：我们用&amp;nbsp;&amp;nbsp;表示右路径(从左式堆的根节点出发抵达根节点或以其右子女为根的子树中子女数不为2的节点的最短路径)长度为i的左式堆L1和右路径长度为j的左式堆R1合并的平均时">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj-1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=O%281%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B-1%2C0%5D%3DT%5B-1%2C1%5D%3D---%3DT%5B-1%2Cj%5D%3D1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C-1%5D%3DT%5B1%2C-1%5D%3D---%3DT%5Bi%2C-1%5D%3D1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28m%2Ck%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-1%3C%3Dm%3C%3Di++">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-1%3C%3Dk%3C%3Dj">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2C0%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2C1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=---">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%280%2C-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%281%2C-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=---">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2C-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=O%281%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=O%281%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29%3D%28-1%2Cm%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%2B1%2Bj-m%3Di%2Bj-m%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%2Bj-m%2B2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2Cm%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=C%28i%2Bj-m%2B1%2Ci%2B1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7Bi%2Bj-m%2B2%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28a%2Cb%29%3D%28-1%2Cm%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7Bi%2Bj-m%2B2%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7DC%28i%2Bj-m%2B1%2Ci%2B1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3Di%2Bj-m%2B2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2C0%29%28-1%2C1%29---%28-1%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%280%2C-1%29%281%2C-1%29---%28i%2C-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28-1%2Cm%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csum_%7Bm%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7Di%2Bj-m%2B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3Dj%2B1-%5Cfrac%7Bj%28j%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28m%2C-1%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Di">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csum_%7Bm%3D0%7D%5E%7Bi%7D%7B%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7Di%2Bj-m%2B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3Di%2B1-%5Cfrac%7Bi%28i%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28i%2Cj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3Di%2B1-%5Cfrac%7Bi%28i%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%2Bj%2B1-%5Cfrac%7Bj%28j%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3Di%2Bj%2B2-%5Cfrac%7Bi%5E%7B2%7D%2Bj%5E%7B2%7D%7D%7B2%28i%2Bj%2B2%29%7D-%5Cfrac%7Bi%2Bj%7D%7B2%28i%2Bj%2B2%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3Di%2Bj%2B2-%5Cfrac%7Bij%7D%7Bi%2Bj%2B2%7D-%5Cfrac%7B1%7D%7B2%281%2B%5Cfrac%7B2%7D%7Bi%2Bj%7D%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3Di%2Bj%2B2-%5Cfrac%7B1%7D%7B2%281%2B%5Cfrac%7B2%7D%7Bi%2Bj%7D%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3Di%2Bj%2B%5Cfrac%7B3%7D%7B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28i%2Bj%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%3C%3D%5Blog_%7B2%7DN%2B1%5D_%7B%E5%90%91%E4%B8%8B%E5%8F%96%E6%95%B4%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=j%3C%3D%5Blog_%7B2%7DH%2B1%5D_%7B%E5%90%91%E4%B8%8B%E5%8F%96%E6%95%B4%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DN%2Blog_%7B2%7DH%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3DO%28max%28log_%7B2%7DN%2Clog_%7B2%7DH%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D%5Cfrac%7B1%7D%7B2%7D%28T%5Bi-1%2Cj%5D%2BT%5Bi%2Cj-1%5D%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5E%7B%281%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-1%5D%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%7D%28%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-2%5D%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%7D%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7D%28%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-3%5D%2B1%29%2B%5Cfrac%7B1%7D%7B2%7D%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi%2Cj-3%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7D%2B%5Cfrac%7B1%7D%7B2%7D%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D-----">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B---%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi-1%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D%2B---%2B%5Cfrac%7B1%7D%7B2%7D%2B1%5E%7B%282%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi-1%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj-2%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj-1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D2i%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B---%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi-1%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D%2B---%2B%5Cfrac%7B1%7D%7B2%7D%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%5Csum_%7Bk%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7B2%5E%7Bk%2B1%7D%7DT%5Bi-1%2Cj-k%5D%7D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=2-%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28%5Csum_%7Bk%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7B2%5E%7Bk%2B1%7D%7D2i%2B1%7D%29%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D%2B2-%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D%282i%2B1%29%281-%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D%29%2B2-%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D2i%2B3-%5Cfrac%7B2i%2B2%7D%7B2%5E%7Bj%2B1%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3D2i%2B3-%5Cfrac%7Bi%2B1%7D%7B2%5E%7Bj%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D2i%2B3%3D2%28i%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B-1%2C0%5DT%5B-1%2C1%5D---T%5B-1%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D1%3D2%5Cast%28-1%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C0%5DT%5B0%2C1%5D---T%5B0%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D2%280%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B1%2C0%5DT%5B1%2C1%5D---T%5B1%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D2%281%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2C0%5DT%5Bi%2C1%5D---T%5Bi%2Cj%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%3C%3D2%28i%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28i%2B1%29%2B1%5E%7B%283%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%3E%3D0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=j%3E%3D0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C-1%5D%3DT%5B1%2C-1%5D%3D---T%5Bn%2C-1%5D%3DT%5B-1%2C0%5D%3DT%5B-1%2C1%5D%3D---%3DT%5B-1%2Cn%5D%3D1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C0%5D%3DT%5B0%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B1%2C1%5D%3DT%5B1%2C1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=----T%5Bn%2Cn%5D%3DT%5Bn%2Cn%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C1%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B-1%2C1%5D%2B1%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B1%2C-1%5D%2B1%3DT%5B1%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C2%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C1%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B-1%2C2%5D%2B1%3D%5Cfrac%7B1%7D%7B2%7DT%5B1%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B2%2C-1%5D%2B1%3DT%5B2%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C1%5D%3DT%5B1%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B0%2C2%5D%3DT%5B2%2C0%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=---T%5B0%2Cn%5D%3DT%5Bn%2C0%5D%5E%7B%284%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B1%2C2%5D%3DT%5B2%2C1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B1%2C3%5D%3DT%5B3%2C1%5D----">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5B1%2Cn%5D%3DT%5Bn%2C1%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bh%2Ch%2B1%5D%3DT%5Bh%2B1%2Ch%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bh%2Ch%2B2%5D%3DT%5Bh%2B2%2Ch%5D----">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bh%2Cn%5D%3DT%5Bn%2Ch%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dh%3Cn">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dg%3C%3Dn">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=0%3C%3Dp%3C%3Dn">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bg%2Cp%5D%3DT%5Bp%2Cg%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%3E%3D0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=j%3E%3D0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i%3C%3Dmax%28i%2Cj%29%3Dn">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=j%3C%3Dmax%28i%2Cj%29%3Dn">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DT%5Bj%2Ci%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bj%2Ci%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bj%2Ci%5D%3C%3D2%28j%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DT%5Bj%2Ci%5D%3C%3D2%28j%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28i%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28j%2B1%29%2B1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28i%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28j%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28max%28i%2Cj%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DN%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DH%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28max%28log_%7B2%7DH%2Clog_%7B2%7DN%29%29">
+<meta property="og:updated_time" content="2019-06-18T14:03:40.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="左式堆合并操作时间界的证明">
+<meta name="twitter:description" content="阅读《数据结构与算法分析:java语言描述》一书时看到了对左式堆合并操作时间界的说明，但书中没有给出详细证明，这里自己思考并补全了证明细节，如下文(全文假定讨论的左式堆具有最小堆序，最大堆序的讨论是类似的)证法一：我们用&amp;nbsp;&amp;nbsp;表示右路径(从左式堆的根节点出发抵达根节点或以其右子女为根的子树中子女数不为2的节点的最短路径)长度为i的左式堆L1和右路径长度为j的左式堆R1合并的平均时">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/post/d1fc1482">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>左式堆合并操作时间界的证明 | naturerun的IT技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">naturerun的IT技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">作者的github主页https://github.com/naturerun?tab=repositories</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/d1fc1482.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WSK">
+      <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
+      <meta itemprop="image" content="/images/naturerun.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naturerun的IT技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">左式堆合并操作时间界的证明
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-18 20:49:42 / 修改时间：22:03:40" itemprop="dateCreated datePublished" datetime="2019-06-18T20:49:42+08:00">2019-06-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DataStructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/post/d1fc1482.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/d1fc1482.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/post/d1fc1482.html" class="leancloud_visitors" data-flag-title="左式堆合并操作时间界的证明">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+		  
+		  
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">阅读《数据结构与算法分析:java语言描述》一书时看到了对左式堆合并操作时间界的说明，但书中没有给出详细证明，这里自己思考并补全了证明细节，如下文(全文假定讨论的左式堆具有最小堆序，最大堆序的讨论是类似的)</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">证法一：</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">我们用&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D" alt="T[i,j]">&nbsp;表示右路径(从左式堆的根节点出发抵达根节点或以其右子女为根的子树中子女数不为2的节点的最短路径)长度为i的左式堆L1和右路径长度为j的左式堆R1合并的平均时间代价。现设i&gt;=0 且 j&gt;=0 , L1和R1合并时存在两种可能，如果R1的根节点关键码值大于等于L1根节点关键码值，则应将L1右子树代表的左式堆LR1和左式堆R1合并，此时由于L1的右路径长度为i,故LR1根节点的零路径长度为i-1,而LR1根节点的零路径长度是LR1左路径(定义类似右路径)长度和右路径长度中的较小值，且由左式堆的性质，LR1左路径长度应当大于等于右路径长度，于是LR1的右路径长度即为i-1,这样将左式堆LR1和左式堆R1合并的平均时间代价可以表示为&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj%5D" alt="T[i-1,j]">&nbsp;。如果R1的根节点关键码值小于L1根节点关键码值，则应将左式堆L1和R1右子树代表的左式堆RR1合并，通过和上文类似的分析可知合并的平均时间代价可以表示为&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj-1%5D" alt="T[i,j-1]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">另外一个空左式堆和任意一个左式堆合并的时间代价显然为&nbsp;<img src="https://www.zhihu.com/equation?tex=O%281%29" alt="O(1)">&nbsp;,因此&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B-1%2C0%5D%3DT%5B-1%2C1%5D%3D---%3DT%5B-1%2Cj%5D%3D1" alt="T[-1,0]=T[-1,1]=---=T[-1,j]=1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=T%5B0%2C-1%5D%3DT%5B1%2C-1%5D%3D---%3DT%5Bi%2C-1%5D%3D1" alt="T[0,-1]=T[1,-1]=---=T[i,-1]=1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">现在考虑由平面上整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28m%2Ck%29" alt="(m,k)">&nbsp;<img src="https://www.zhihu.com/equation?tex=-1%3C%3Dm%3C%3Di++" alt="-1&lt;=m&lt;=i  ">&nbsp;<img src="https://www.zhihu.com/equation?tex=-1%3C%3Dk%3C%3Dj" alt="-1&lt;=k&lt;=j">&nbsp;以及这些整点中相邻点之间的垂直水平连线构成的矩形网格 ，由上文分析知，从整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;出发，首先右路径长度为i的左式堆和右路径长度为j的左式堆的合并操作对应于整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;,且在整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作中要么右路径长度为i的左式堆根节点的右子树和右路径长度为j的左式堆合并，此时该合并操作对应于整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29" alt="(i-1,j)">&nbsp;，要么右路径长度为i的左式堆和右路径长度为j的左式堆根节点的右子树合并，此时该合并操作对应于整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29" alt="(i,j-1)">&nbsp;,完成整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作相当于首先完成整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29" alt="(i-1,j)">&nbsp;或&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29" alt="(i,j-1)">&nbsp;的合并操作，然后再将这一合并操作的合并结果(一颗左式堆)链接至i或j的右子树并在必要时调换i,或j的左右子树，因此整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作也可视为连接&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29" alt="(i-1,j)">&nbsp;或&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29" alt="(i,j-1)">&nbsp;和&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;的一条垂直(水平边)，更确切地说整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作完全可以看做先完成&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29" alt="(i-1,j)">&nbsp;或&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29" alt="(i,j-1)">&nbsp;对应的合并操作再沿这一垂直(水平边)回溯至整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;. 类似地，对代表完成整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作之前需要完成的合并操作的整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i-1%2Cj%29" alt="(i-1,j)">&nbsp;或整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj-1%29" alt="(i,j-1)">&nbsp;,可以用和上文所述完全相同的方法继续分析，不断地抵达新的整点并选择连接这些整点中相邻整点的垂直水平边，这一过程中抵达一个新的整点后会向左或向下移动至下一个相邻整点，最终就可以得到向矩形网格左下方延伸的递降路径M，从&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;出发沿M向左下方前进抵达的每个整点(除&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;外)的纵坐标均小于等于其M上前驱整点的纵坐标,横坐标均小于等于其M上前驱整点的横坐标。如果令&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;为M的出发点，则M的终点最终必然会在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2C0%29" alt="(-1,0)">&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2C1%29" alt="(-1,1)">&nbsp;<img src="https://www.zhihu.com/equation?tex=---" alt="---">&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2Cj%29" alt="(-1,j)">&nbsp;<img src="https://www.zhihu.com/equation?tex=%280%2C-1%29" alt="(0,-1)">&nbsp;<img src="https://www.zhihu.com/equation?tex=%281%2C-1%29" alt="(1,-1)">&nbsp;<img src="https://www.zhihu.com/equation?tex=---" alt="---">&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2C-1%29" alt="(i,-1)">&nbsp;之一,设其为&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29" alt="(a,b)">&nbsp;,这样对右路径长度为i的左式堆和右路径长度为j的左式堆的合并操作可以用M描述为首先完成&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29" alt="(a,b)">&nbsp;对应的合并操作，操作必然有一个被合并左式堆为空堆，时间代价为1，然后对&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29" alt="(a,b)">在M上的前驱节点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;将合并得到的左式堆链接至右路径长为a2或b2(这取决于构造M时从&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;抵达&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29" alt="(a,b)">&nbsp;的方向(垂直或水平),即完成&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;对应的合并操作前最后需要完成的合并操作是什么)的左式堆的根节点右指针域并在必要时调换根节点左右子树的位置，这一操作时间复杂度显然为&nbsp;<img src="https://www.zhihu.com/equation?tex=O%281%29" alt="O(1)">,该操作完成后&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;对应的合并操作即完成，此时的累计时间复杂度为2，随后从&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">出发,对&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;在路径M上的前驱节点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29" alt="(a3,b3)">&nbsp;而言将&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a2%2Cb2%29" alt="(a2,b2)">&nbsp;对应的合并操作的合并结果链接至右路径长为a3或b3的左式堆的根节点右指针域并在必要是调换根节点左右子树位置这一操作时间复杂度显然为&nbsp;<img src="https://www.zhihu.com/equation?tex=O%281%29" alt="O(1)">,该操作完成后&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29" alt="(a3,b3)">&nbsp;对应的合并操作即完成，此时的累计时间复杂度为3.随后从&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a3%2Cb3%29" alt="(a3,b3)">&nbsp;按照这一过程继续沿M向&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;回溯，当最终回溯至&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;后,&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的合并操作即完成，此时的累计时间复杂度恰为M上整点个数，即为M的路径长度加一</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">若&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29%3D%28-1%2Cm%29" alt="(a,b)=(-1,m)">&nbsp;<img src="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj" alt="0&lt;=m&lt;=j">&nbsp;则M路径长为&nbsp;<img src="https://www.zhihu.com/equation?tex=i%2B1%2Bj-m%3Di%2Bj-m%2B1" alt="i+1+j-m=i+j-m+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">M上整点个数即M的累计时间复杂度为&nbsp;<img src="https://www.zhihu.com/equation?tex=i%2Bj-m%2B2" alt="i+j-m+2">&nbsp;由于M为向左下角延伸递降路径，出发点为&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;,终点为&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2Cm%29" alt="(-1,m)">&nbsp;故所有可能的M的数量为组合数&nbsp;<img src="https://www.zhihu.com/equation?tex=C%28i%2Bj-m%2B1%2Ci%2B1%29" alt="C(i+j-m+1,i+1)">,理想情况下可以认为每一种路径可能出现的概率是相等的，均为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7D" alt="\frac{1}{C(i+j-m+1,i+1)}">&nbsp;,于是每条路径M的期望时间复杂度为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7Bi%2Bj-m%2B2%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7D" alt="\frac{i+j-m+2}{C(i+j-m+1,i+1)}">&nbsp;， 对所有可能的M的期望时间复杂度求和得到出发点在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;终点在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28a%2Cb%29%3D%28-1%2Cm%29" alt="(a,b)=(-1,m)"><img src="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj" alt="0&lt;=m&lt;=j">&nbsp;的所有路径的期望时间复杂度&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7Bi%2Bj-m%2B2%7D%7BC%28i%2Bj-m%2B1%2Ci%2B1%29%7DC%28i%2Bj-m%2B1%2Ci%2B1%29" alt="\frac{i+j-m+2}{C(i+j-m+1,i+1)}C(i+j-m+1,i+1)"><img src="https://www.zhihu.com/equation?tex=%3Di%2Bj-m%2B2" alt="=i+j-m+2"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">可以认为当M的出发点为&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;时，终点落在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2C0%29%28-1%2C1%29---%28-1%2Cj%29" alt="(-1,0)(-1,1)---(-1,j)"><img src="https://www.zhihu.com/equation?tex=%280%2C-1%29%281%2C-1%29---%28i%2C-1%29" alt="(0,-1)(1,-1)---(i,-1)">&nbsp;上每一点的可能性是相等的，概率均为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7D" alt="\frac{1}{i+j+2}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">于是出发点在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;终点在每一个整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28-1%2Cm%29" alt="(-1,m)"><img src="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Dj" alt="0&lt;=m&lt;=j">&nbsp;的所有路径的期望时间复杂度为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Csum_%7Bm%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7Di%2Bj-m%2B2%7D" alt="\sum_{m=0}^{j}{\frac{1}{i+j+2}i+j-m+2}"><img src="https://www.zhihu.com/equation?tex=%3Dj%2B1-%5Cfrac%7Bj%28j%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D" alt="=j+1-\frac{j(j+1)}{2(i+j+2)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">同理出发点在&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;终点在每一个整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28m%2C-1%29" alt="(m,-1)">&nbsp;<img src="https://www.zhihu.com/equation?tex=0%3C%3Dm%3C%3Di" alt="0&lt;=m&lt;=i">&nbsp;的所有路径的期望时间复杂度为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Csum_%7Bm%3D0%7D%5E%7Bi%7D%7B%5Cfrac%7B1%7D%7Bi%2Bj%2B2%7Di%2Bj-m%2B2%7D" alt="\sum_{m=0}^{i}{\frac{1}{i+j+2}i+j-m+2}"><img src="https://www.zhihu.com/equation?tex=%3Di%2B1-%5Cfrac%7Bi%28i%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D" alt="=i+1-\frac{i(i+1)}{2(i+j+2)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">累加以上两式得到整点&nbsp;<img src="https://www.zhihu.com/equation?tex=%28i%2Cj%29" alt="(i,j)">&nbsp;对应的左式堆合并操作对应的期望时间复杂度&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D" alt="T[i,j]="><img src="https://www.zhihu.com/equation?tex=%3Di%2B1-%5Cfrac%7Bi%28i%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D" alt="=i+1-\frac{i(i+1)}{2(i+j+2)}"><img src="https://www.zhihu.com/equation?tex=%2Bj%2B1-%5Cfrac%7Bj%28j%2B1%29%7D%7B2%28i%2Bj%2B2%29%7D" alt="+j+1-\frac{j(j+1)}{2(i+j+2)}"><img src="https://www.zhihu.com/equation?tex=%3Di%2Bj%2B2-%5Cfrac%7Bi%5E%7B2%7D%2Bj%5E%7B2%7D%7D%7B2%28i%2Bj%2B2%29%7D-%5Cfrac%7Bi%2Bj%7D%7B2%28i%2Bj%2B2%29%7D" alt="=i+j+2-\frac{i^{2}+j^{2}}{2(i+j+2)}-\frac{i+j}{2(i+j+2)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3C%3Di%2Bj%2B2-%5Cfrac%7Bij%7D%7Bi%2Bj%2B2%7D-%5Cfrac%7B1%7D%7B2%281%2B%5Cfrac%7B2%7D%7Bi%2Bj%7D%29%7D" alt="&lt;=i+j+2-\frac{ij}{i+j+2}-\frac{1}{2(1+\frac{2}{i+j})}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3C%3Di%2Bj%2B2-%5Cfrac%7B1%7D%7B2%281%2B%5Cfrac%7B2%7D%7Bi%2Bj%7D%29%7D" alt="&lt;=i+j+2-\frac{1}{2(1+\frac{2}{i+j})}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">当i,j充分大时，由最后一个不等式可见&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3Di%2Bj%2B%5Cfrac%7B3%7D%7B2%7D" alt="T[i,j]&lt;=i+j+\frac{3}{2}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">故&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28i%2Bj%29" alt="T[i,j]=O(i+j)">&nbsp;设右路径长度为i的左式堆节点数为N,右路径长度为j的左式堆节点数为H，有&nbsp;<img src="https://www.zhihu.com/equation?tex=i%3C%3D%5Blog_%7B2%7DN%2B1%5D_%7B%E5%90%91%E4%B8%8B%E5%8F%96%E6%95%B4%7D" alt="i&lt;=[log_{2}N+1]_{向下取整}">&nbsp;<img src="https://www.zhihu.com/equation?tex=j%3C%3D%5Blog_%7B2%7DH%2B1%5D_%7B%E5%90%91%E4%B8%8B%E5%8F%96%E6%95%B4%7D" alt="j&lt;=[log_{2}H+1]_{向下取整}">&nbsp;故&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DN%2Blog_%7B2%7DH%29" alt="T[i,j]=O(log_{2}N+log_{2}H)">&nbsp;<img src="https://www.zhihu.com/equation?tex=%3DO%28max%28log_%7B2%7DN%2Clog_%7B2%7DH%29%29" alt="=O(max(log_{2}N,log_{2}H))"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">证毕</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">证法二：</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D" alt="T[i,j]">的含义如证法一开头所述，这里i&gt;=0,j&gt;=0,T的边界条件和证法一所述相同，根据证法一开头的分析，我们可以认为L1右子树代表的左式堆LR1和左式堆R1合并以及左式堆L1和R1右子树代表的左式堆RR1合并的可能性相同，概率均为&nbsp;<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B1%7D%7B2%7D" alt="\frac{1}{2}">.从而可以认为&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D%5Cfrac%7B1%7D%7B2%7D%28T%5Bi-1%2Cj%5D%2BT%5Bi%2Cj-1%5D%29%2B1" alt="T[i,j]=\frac{1}{2}(T[i-1,j]+T[i,j-1])+1">&nbsp;<img src="https://www.zhihu.com/equation?tex=%5E%7B%281%29%7D" alt="^{(1)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">这里1表示完成对[i-1,j]或[i,j-1]对应的合并操作后在[i,j]对应的合并操作中链接和调换子树位置所需的常量时间</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">于是&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-1%5D%2B1" alt="T[i,j]=\frac{1}{2}T[i-1,j]+\frac{1}{2}T[i,j-1]+1"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%7D%28%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-2%5D%2B1%29%2B1" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2}(\frac{1}{2}T[i-1,j-1]+\frac{1}{2}T[i,j-2]+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%7D%2B1" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2^{2}}T[i-1,j-1]+\frac{1}{2^{2}}T[i,j-2]+\frac{1}{2}+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7D%28%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5Bi%2Cj-3%5D%2B1%29%2B%5Cfrac%7B1%7D%7B2%7D%2B1" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2^{2}}T[i-1,j-1]+\frac{1}{2^{2}}(\frac{1}{2}T[i-1,j-2]+\frac{1}{2}T[i,j-3]+1)+\frac{1}{2}+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi%2Cj-3%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7D%2B%5Cfrac%7B1%7D%7B2%7D%2B1" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2^{2}}T[i-1,j-1]+\frac{1}{2^{3}}T[i-1,j-2]+\frac{1}{2^{3}}T[i,j-3]+\frac{1}{2^{2}}+\frac{1}{2}+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D-----" alt="=-----"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B---%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi-1%2C0%5D" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2^{2}}T[i-1,j-1]+\frac{1}{2^{3}}T[i-1,j-2]+---+\frac{1}{2^{j+1}}T[i-1,0]"><img src="https://www.zhihu.com/equation?tex=%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D%2B---%2B%5Cfrac%7B1%7D%7B2%7D%2B1%5E%7B%282%29%7D" alt="+\frac{1}{2^{j+1}}T[i,-1]+\frac{1}{2^{j}}+---+\frac{1}{2}+1^{(2)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">由上式知，倘若有&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi-1%2C0%5D" alt="T[i-1,0]">&nbsp;—&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj-2%5D" alt="T[i-1,j-2]"><img src="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj-1%5D" alt="T[i-1,j-1]"><img src="https://www.zhihu.com/equation?tex=T%5Bi-1%2Cj%5D" alt="T[i-1,j]">&nbsp;均&nbsp;<img src="https://www.zhihu.com/equation?tex=%3C%3D2i%2B1" alt="&lt;=2i+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">则&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D" alt="T[i,j]"><img src="https://www.zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B2%7DT%5Bi-1%2Cj%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B2%7D%7DT%5Bi-1%2Cj-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7B3%7D%7DT%5Bi-1%2Cj-2%5D%2B---%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi-1%2C0%5D" alt="=\frac{1}{2}T[i-1,j]+\frac{1}{2^{2}}T[i-1,j-1]+\frac{1}{2^{3}}T[i-1,j-2]+---+\frac{1}{2^{j+1}}T[i-1,0]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D%2B---%2B%5Cfrac%7B1%7D%7B2%7D%2B1" alt="+\frac{1}{2^{j+1}}T[i,-1]+\frac{1}{2^{j}}+---+\frac{1}{2}+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%5Csum_%7Bk%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7B2%5E%7Bk%2B1%7D%7DT%5Bi-1%2Cj-k%5D%7D%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7DT%5Bi%2C-1%5D" alt="=\sum_{k=0}^{j}{\frac{1}{2^{k+1}}T[i-1,j-k]}+\frac{1}{2^{j+1}}T[i,-1]">+&nbsp;<img src="https://www.zhihu.com/equation?tex=2-%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D" alt="2-\frac{1}{2^{j}}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">&lt;=&nbsp;<img src="https://www.zhihu.com/equation?tex=%28%5Csum_%7Bk%3D0%7D%5E%7Bj%7D%7B%5Cfrac%7B1%7D%7B2%5E%7Bk%2B1%7D%7D2i%2B1%7D%29%2B%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D%2B2-%5Cfrac%7B1%7D%7B2%5E%7Bj%7D%7D" alt="(\sum_{k=0}^{j}{\frac{1}{2^{k+1}}2i+1})+\frac{1}{2^{j+1}}+2-\frac{1}{2^{j}}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D%282i%2B1%29%281-%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D%29%2B2-%5Cfrac%7B1%7D%7B2%5E%7Bj%2B1%7D%7D" alt="=(2i+1)(1-\frac{1}{2^{j+1}})+2-\frac{1}{2^{j+1}}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D2i%2B3-%5Cfrac%7B2i%2B2%7D%7B2%5E%7Bj%2B1%7D%7D" alt="=2i+3-\frac{2i+2}{2^{j+1}}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=%3D2i%2B3-%5Cfrac%7Bi%2B1%7D%7B2%5E%7Bj%7D%7D" alt="=2i+3-\frac{i+1}{2^{j}}"><img src="https://www.zhihu.com/equation?tex=%3C%3D2i%2B3%3D2%28i%2B1%29%2B1" alt="&lt;=2i+3=2(i+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">而由边界条件知&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B-1%2C0%5DT%5B-1%2C1%5D---T%5B-1%2Cj%5D" alt="T[-1,0]T[-1,1]---T[-1,j]">&nbsp;均&nbsp;<img src="https://www.zhihu.com/equation?tex=%3C%3D1%3D2%5Cast%28-1%2B1%29%2B1" alt="&lt;=1=2\ast(-1+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">故由以上结论知&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B0%2C0%5DT%5B0%2C1%5D---T%5B0%2Cj%5D" alt="T[0,0]T[0,1]---T[0,j]">&nbsp;均&nbsp;<img src="https://www.zhihu.com/equation?tex=%3C%3D2%280%2B1%29%2B1" alt="&lt;=2(0+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">于是进一步可推得&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B1%2C0%5DT%5B1%2C1%5D---T%5B1%2Cj%5D" alt="T[1,0]T[1,1]---T[1,j]">&nbsp;均&nbsp;<img src="https://www.zhihu.com/equation?tex=%3C%3D2%281%2B1%29%2B1" alt="&lt;=2(1+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">这样层层向上递推，最终得到&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2C0%5DT%5Bi%2C1%5D---T%5Bi%2Cj%5D" alt="T[i,0]T[i,1]---T[i,j]">&nbsp;均&nbsp;<img src="https://www.zhihu.com/equation?tex=%3C%3D2%28i%2B1%29%2B1" alt="&lt;=2(i+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">即&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28i%2B1%29%2B1%5E%7B%283%29%7D" alt="T[i,j]&lt;=2(i+1)+1^{(3)}">&nbsp;<img src="https://www.zhihu.com/equation?tex=i%3E%3D0" alt="i&gt;=0">&nbsp;<img src="https://www.zhihu.com/equation?tex=j%3E%3D0" alt="j&gt;=0"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">现在取max(i,j)=n,首先我们有&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B0%2C-1%5D%3DT%5B1%2C-1%5D%3D---T%5Bn%2C-1%5D%3DT%5B-1%2C0%5D%3DT%5B-1%2C1%5D%3D---%3DT%5B-1%2Cn%5D%3D1" alt="T[0,-1]=T[1,-1]=---T[n,-1]=T[-1,0]=T[-1,1]=---=T[-1,n]=1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=T%5B0%2C0%5D%3DT%5B0%2C0%5D" alt="T[0,0]=T[0,0]">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B1%2C1%5D%3DT%5B1%2C1%5D" alt="T[1,1]=T[1,1]">&nbsp;<img src="https://www.zhihu.com/equation?tex=----T%5Bn%2Cn%5D%3DT%5Bn%2Cn%5D" alt="----T[n,n]=T[n,n]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">然后我们有&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B0%2C1%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B-1%2C1%5D%2B1%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B1%2C-1%5D%2B1%3DT%5B1%2C0%5D" alt="T[0,1]=\frac{1}{2}T[0,0]+\frac{1}{2}T[-1,1]+1=\frac{1}{2}T[0,0]+\frac{1}{2}T[1,-1]+1=T[1,0]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">接着&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B0%2C2%5D%3D%5Cfrac%7B1%7D%7B2%7DT%5B0%2C1%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B-1%2C2%5D%2B1%3D%5Cfrac%7B1%7D%7B2%7DT%5B1%2C0%5D%2B%5Cfrac%7B1%7D%7B2%7DT%5B2%2C-1%5D%2B1%3DT%5B2%2C0%5D" alt="T[0,2]=\frac{1}{2}T[0,1]+\frac{1}{2}T[-1,2]+1=\frac{1}{2}T[1,0]+\frac{1}{2}T[2,-1]+1=T[2,0]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">按照这一步骤向前递推最终得到</span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=T%5B0%2C1%5D%3DT%5B1%2C0%5D" alt="T[0,1]=T[1,0]">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B0%2C2%5D%3DT%5B2%2C0%5D" alt="T[0,2]=T[2,0]">&nbsp;<img src="https://www.zhihu.com/equation?tex=---T%5B0%2Cn%5D%3DT%5Bn%2C0%5D%5E%7B%284%29%7D" alt="---T[0,n]=T[n,0]^{(4)}"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">利用(4)并采用和以上和相同的步骤又可得到&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B1%2C2%5D%3DT%5B2%2C1%5D" alt="T[1,2]=T[2,1]"><img src="https://www.zhihu.com/equation?tex=T%5B1%2C3%5D%3DT%5B3%2C1%5D----" alt="T[1,3]=T[3,1]----">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5B1%2Cn%5D%3DT%5Bn%2C1%5D" alt="T[1,n]=T[n,1]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">继续递推，最终得到&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bh%2Ch%2B1%5D%3DT%5Bh%2B1%2Ch%5D" alt="T[h,h+1]=T[h+1,h]">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bh%2Ch%2B2%5D%3DT%5Bh%2B2%2Ch%5D----" alt="T[h,h+2]=T[h+2,h]----"><img src="https://www.zhihu.com/equation?tex=T%5Bh%2Cn%5D%3DT%5Bn%2Ch%5D" alt="T[h,n]=T[n,h]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';"><img src="https://www.zhihu.com/equation?tex=0%3C%3Dh%3Cn" alt="0&lt;=h&lt;n"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">综上,对任意&nbsp;<img src="https://www.zhihu.com/equation?tex=0%3C%3Dg%3C%3Dn" alt="0&lt;=g&lt;=n">&nbsp;<img src="https://www.zhihu.com/equation?tex=0%3C%3Dp%3C%3Dn" alt="0&lt;=p&lt;=n">&nbsp;必有&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bg%2Cp%5D%3DT%5Bp%2Cg%5D" alt="T[g,p]=T[p,g]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">而&nbsp;<img src="https://www.zhihu.com/equation?tex=i%3E%3D0" alt="i&gt;=0">&nbsp;<img src="https://www.zhihu.com/equation?tex=j%3E%3D0" alt="j&gt;=0">&nbsp;<img src="https://www.zhihu.com/equation?tex=i%3C%3Dmax%28i%2Cj%29%3Dn" alt="i&lt;=max(i,j)=n">&nbsp;<img src="https://www.zhihu.com/equation?tex=j%3C%3Dmax%28i%2Cj%29%3Dn" alt="j&lt;=max(i,j)=n">&nbsp;故&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DT%5Bj%2Ci%5D" alt="T[i,j]=T[j,i]"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">这样对&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bj%2Ci%5D" alt="T[j,i]">&nbsp;用(3)我们有&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bj%2Ci%5D%3C%3D2%28j%2B1%29%2B1" alt="T[j,i]&lt;=2(j+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">从而&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DT%5Bj%2Ci%5D%3C%3D2%28j%2B1%29%2B1" alt="T[i,j]=T[j,i]&lt;=2(j+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">于是我们最终得到&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28i%2B1%29%2B1" alt="T[i,j]&lt;=2(i+1)+1">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3C%3D2%28j%2B1%29%2B1" alt="T[i,j]&lt;=2(j+1)+1"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">从而得到时间界&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28i%29" alt="T[i,j]=O(i)">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28j%29" alt="T[i,j]=O(j)">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28max%28i%2Cj%29%29" alt="T[i,j]=O(max(i,j))"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">即(由证法一结尾的说明)&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DN%29" alt="T[i,j]=O(log_{2}N)">&nbsp;<img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28log_%7B2%7DH%29" alt="T[i,j]=O(log_{2}H)"><img src="https://www.zhihu.com/equation?tex=T%5Bi%2Cj%5D%3DO%28max%28log_%7B2%7DH%2Clog_%7B2%7DN%29%29" alt="T[i,j]=O(max(log_{2}H,log_{2}N))"></span></p><br><p><span style="font-size: 16px; font-family: 'Microsoft YaHei';">证完</span></p>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+
+  <p><span>本文标题:</span>左式堆合并操作时间界的证明</p>
+  <p><span>文章作者:</span>WSK</p>
+  <p><span>发布时间:</span>2019年06月18日 - 20:49:42</p>
+  <p><span>最后更新:</span>2019年06月18日 - 22:03:40</p>
+  <p><span>原始链接:</span><a href="/post/d1fc1482.html" title="左式堆合并操作时间界的证明">http://yoursite.com/post/d1fc1482.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/d1fc1482.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+    
+    </div>
+	 
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/左式堆/" rel="tag"># 左式堆</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/a33a7370.html" rel="next" title="左式堆实现">
+                <i class="fa fa-chevron-left"></i> 左式堆实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+            
+              <p class="site-author-name" itemprop="name">WSK</p>
+              <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/naturerun?tab=repositories" title="GitHub &rarr; https://github.com/naturerun?tab=repositories" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/wang-shao-kang-90-62/activities" title="知乎 &rarr; https://www.zhihu.com/people/wang-shao-kang-90-62/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WSK</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+    appKey: 'vdGqsS99fuxFDFYjoWntnvG7',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'q9itR0rkKH2ssvLaloEYGDbM-gzGzoHsz',
+                'X-LC-Key': 'vdGqsS99fuxFDFYjoWntnvG7',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+  
+  <!-- 图片轮播js文件cdn -->
+  <script type="text/javascript" src="/js/jquery.backstretch.min.js"></script>
+  <script type="text/javascript" src="/js/custom.js"></script>
+
+</body>
+
+</html>
