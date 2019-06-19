@@ -96,22 +96,20 @@
 
 
 
-  <meta name="description" content="Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明 网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中">
-<meta name="keywords" content="后缀表达式，中缀表达式">
+  <meta name="description" content="LeetCode 669 修剪二叉搜索树问题&amp;nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除 网上的解法基本为递归，本文给出了非递归解法，相关说明见https://www.zhihu.com/question/329696898/answer/719919857 C++代码:1234567891011121314151617181920212223242">
+<meta name="keywords" content="二叉搜索树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dijkstra调度场算法介绍">
-<meta property="og:url" content="http://yoursite.com/post/51421.html">
+<meta property="og:title" content="修剪二叉搜索树的非递归解法">
+<meta property="og:url" content="http://yoursite.com/post/623e708f.html">
 <meta property="og:site_name" content="naturerun的IT技术博客">
-<meta property="og:description" content="Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明 网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中">
+<meta property="og:description" content="LeetCode 669 修剪二叉搜索树问题&amp;nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除 网上的解法基本为递归，本文给出了非递归解法，相关说明见https://www.zhihu.com/question/329696898/answer/719919857 C++代码:1234567891011121314151617181920212223242">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/post/51421/调度场后缀.png">
-<meta property="og:image" content="http://yoursite.com/post/51421/调度场前缀.png">
-<meta property="og:image" content="http://yoursite.com/post/51421/计算工作表格.png">
-<meta property="og:updated_time" content="2019-05-01T17:29:31.123Z">
+<meta property="og:image" content="http://yoursite.com/post/623e708f/修剪二叉搜索树.png">
+<meta property="og:updated_time" content="2019-06-19T09:53:10.659Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dijkstra调度场算法介绍">
-<meta name="twitter:description" content="Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明 网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中">
-<meta name="twitter:image" content="http://yoursite.com/post/51421/调度场后缀.png">
+<meta name="twitter:title" content="修剪二叉搜索树的非递归解法">
+<meta name="twitter:description" content="LeetCode 669 修剪二叉搜索树问题&amp;nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除 网上的解法基本为递归，本文给出了非递归解法，相关说明见https://www.zhihu.com/question/329696898/answer/719919857 C++代码:1234567891011121314151617181920212223242">
+<meta name="twitter:image" content="http://yoursite.com/post/623e708f/修剪二叉搜索树.png">
 
 
 
@@ -119,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/post/51421">
+  <link rel="canonical" href="http://yoursite.com/post/623e708f">
 
 
 
@@ -129,7 +127,7 @@
   };
 </script>
 
-  <title>Dijkstra调度场算法介绍 | naturerun的IT技术博客</title>
+  <title>修剪二叉搜索树的非递归解法 | naturerun的IT技术博客</title>
   
 
 
@@ -380,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/51421.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/623e708f.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
@@ -397,7 +395,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Dijkstra调度场算法介绍
+          <h1 class="post-title" itemprop="name headline">修剪二叉搜索树的非递归解法
 
               
             
@@ -423,24 +421,12 @@
                 
               
 
-              <time title="创建时间：2019-04-24 04:47:28" itemprop="dateCreated datePublished" datetime="2019-04-24T04:47:28+08:00">2019-04-24</time>
+              <time title="创建时间：2019-06-19 17:36:10 / 修改时间：17:53:10" itemprop="dateCreated datePublished" datetime="2019-06-19T17:36:10+08:00">2019-06-19</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-02 01:29:31" itemprop="dateModified" datetime="2019-05-02T01:29:31+08:00">2019-05-02</time>
               
             
           </span>
@@ -457,7 +443,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DataStructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
 
                 
                 
@@ -476,8 +462,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/post/51421.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/post/51421.html" itemprop="commentCount"></span>
+                <a href="/post/623e708f.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/623e708f.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -485,7 +471,7 @@
 
           
           
-            <span id="/post/51421.html" class="leancloud_visitors" data-flag-title="Dijkstra调度场算法介绍">
+            <span id="/post/623e708f.html" class="leancloud_visitors" data-flag-title="修剪二叉搜索树的非递归解法">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -525,32 +511,11 @@
       
 
       
-        <p><span style="font-size: 18px;">Dijkstra发明的调度场算法用于将中缀表达式转为前缀或后缀表达式，本文目的是简要介绍调度场算法并给出分析和说明</span></p>
-<p><span style="font-size: 18px;">网上众多作者采用自然语言描述转换算法，因此对转换算法的描述不够清晰直观。这里花费了一点时间绘制了中缀转后缀前缀的算法流程图，用流程图描述转换算法更直观易懂，便于读者学习，绘制的流程图如下。为简化问题，假设要处理的中缀表达式只由算术运算符+-*/和圆括号()组合而成。中缀转前缀算法和中缀转后缀完全类似，只不过转后缀需要从左至右扫描表达式，转前缀正好相反，此外后缀算法中左右括号为前缀算法的右左括号，优先级判断条件前缀算法为大于等于，后缀算法为大于，前缀后缀算法再最后输出中间结果栈中的转换结果时输出顺序正好相反，后缀为从栈底到栈顶，前缀为从栈顶到栈底。（流程图中把操作符和操作数统称为词）本文中圆括号不是运算符，仅用于改变运算顺序</span></p>
-<p><img src="/post/51421/调度场后缀.png" alt></p>
-<p><span style="font-size: 18px;">&nbsp;</span></p>
-<p><img src="/post/51421/调度场前缀.png" alt></p>
-<p><span style="font-size: 18px;">&nbsp;</span></p>
-<p><span style="font-size: 18px;">为了方便读者学习，制作了一张中缀转后缀算法执行过程的示意表格。中缀转前缀执行过程完全类似，读者可拿来练手</span></p>
-<p>&nbsp;</p>
-<p><img src="/post/51421/计算工作表格.png" alt></p>
-<p>&nbsp;</p>
-<p><span style="font-size: 18px;">以上算法仅考虑二元运算符，若优先级相同则具有左结合性，如果同时考虑相同优先级具有右结合性的二元运算符，则求后缀表达式的流程图中右下角的方框内应该改为:如果当前操作符优先级小于栈顶操作符优先级，则将栈顶操作符弹出操作符栈压入中间结果栈，否则</span></p>
-<p><span style="font-size: 18px;">如果当前操作符优先级等于栈顶操作符优先级，若当前操作符和栈顶操作符具有左结合性，则将栈顶操作符弹出操作符栈压入中间结果栈，若具有右结合性，则将当前操作符压入操作符栈，然后操作结束。如果操作始终未结束，则不断重复以上操作，直到操作符栈空，遇到左括号或</span></p>
-<p><span style="font-size: 18px;">栈顶操作符优先级小于当前操作符优先级为止，然后将当前操作符压入操作符栈，然后操作结束。<span style="color: #ff0000;">以上论述用到的不变量：没有对操作符栈操作的任何时刻，从操作符栈底到栈顶的操作符执行优先级依次升高，即更靠近栈顶的操作符的执行次序一定先于栈中其下的操作符</span></span></p>
-<p><span style="color: #000000;"><span style="font-size: 18px;">对于求前缀表达式的算法,注意算法输出前缀表达式应该从栈顶到栈底输出，这意味着前缀表达式中执行优先级较高的运算符应当更靠近中间结果栈栈底，较低的更靠近栈顶，由于算法执行过程中需要从操作符栈中弹出操作符压入中间结果栈，因此执行优先级高的运算符应当靠近操作符栈栈顶，较低的靠近栈底，这意味着求前缀表达式算法所用不变量和求后缀表达式算法所用不变量(见以上红字部分)是一致的(PS:后缀表达式的分析是类似的)。</span></span></p>
-<p><span style="font-size: 18px;">如果求前缀表达式也要考虑相同优先级具有右结合性的运算符，则应把前缀表达式算法流程图最右下菱形红框中的大于等于改为大于，最右下角蓝色矩形方框中的内容应该改为：</span></p>
-<p><span style="font-size: 18px;">如果当前操作符优先级小于栈顶操作符优先级，则将栈顶操作符弹出操作符栈压入中间结果栈，否则</span></p>
-<p><span style="font-size: 18px;">如果当前操作符优先级等于栈顶操作符优先级，若当前操作符和栈顶操作符具有右结合性，则将栈顶操作符弹出操作符栈压入中间结果栈，若具有左结合性，则将当前操作符压入操作符栈，然后操作结束。如果操作始终未结束，则不断重复以上操作，直到操作符栈空，遇到右括号或</span></p>
-<p><span style="font-size: 18px;">栈顶操作符优先级小于当前操作符优先级为止，然后将当前操作符压入操作符栈，然后操作结束。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size: 18px;">下面对以上论述做一点说明：</span></p>
-<p><span style="font-size: 18px; color: #ff0000;">1:为什么只考虑左结合二元运算符情况下后缀表达式算法中流程图最右下红色菱形方框判断操作是大于，而在前缀表达式算法中最右下角红色菱形方框中的判断操作是大于等于?</span></p>
-<p><span style="font-size: 18px;">因为为了使输出的前缀和后缀表达式能够严格反映优先级和结合性决定的运算符执行次序，我们在操作中需要维持上文红字部分的不变量(详见红字下方分析)。后缀表达式算法中，如果当前操作符优先级等于栈顶操作符优先级而当前操作符和栈顶操作符具有左结合性，注意我们从左至右扫描表达式，当前操作符在表达式右边，栈顶操作符在左边，这意味着栈顶操作符执行优先级高，此时若将当前操作符压入操作符栈会破坏不变量，所以应当转入NO对应情形处理。而在前缀表达式算法中，如果当前操作符优先级等于栈顶操作符优先级而当前操作符和栈顶操作符具有左结合性，注意我们从右向左扫描表达式，当前操作符在表达式左边，栈顶操作符在右边，这意味着当前操作符执行优先级高，故可压栈而不会破坏不变量</span></p>
-<p><span style="font-size: 18px; color: #ff0000;">2:在考虑相同优先级具有右结合性的二元运算符的情形下，对算法流程图所做修改的含义是什么?</span></p>
-<p><span style="font-size: 18px;">考虑后缀表达式算法流程图右下角方框，如果当前操作符优先级小于栈顶操作符优先级，此时直接压入当前操作符会破坏不变量，所以我们把栈顶操作符弹出压入中间结果栈(这样能使执行优先级高的靠近中间结果栈栈底)。如果当前操作符优先级等于栈顶操作符优先级，若当前操作符和栈顶操作符具有左结合性，由上文分析知栈顶操作符优先级高，所以要做的和上一情形相同。若当前操作符和栈顶操作符具有右结合性，根据扫描顺序(从左往右)当前操作符执行优先级高，但是当前操作符的操作数(子表达式)尚未全部进入中间结果栈，所以我们直接将当前操作符压入操作符栈，这样也不会破坏不变量</span></p>
-<p><span style="font-size: 18px;">考虑前缀表达式流程图，之所以要把最右下菱形红框中的大于等于改为大于，是因为如果当前操作符和栈顶操作符优先级相同且具有右结合性，根据扫描顺序(从右至左)，栈顶操作符执行优先级高，此时将当前操作符压入操作符栈会破坏不变量，所以应当改为大于，并把等于情形转入NO对应情形(小于等于)处理，右下角蓝色矩形方框修改理由和后缀表达式流程图是类似的，可自行分析</span></p>
-<p>&nbsp;</p>
+        <p><span style="font-size: 16px;">LeetCode 669 修剪二叉搜索树问题&nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除</span></p>
+<p><span style="font-size: 16px;">网上的解法基本为递归，本文给出了非递归解法，相关说明见<a href="https://www.zhihu.com/question/329696898/answer/719919857" target="_blank" rel="noopener">https://www.zhihu.com/question/329696898/answer/719919857</a></span></p>
+<p><strong><span style="font-size: 16px;">C++代码:</span></strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BSTNode</span>   //二叉搜索树节点定义</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data;   <span class="comment">//数据域</span></span><br><span class="line">	BSTNode* left_child = <span class="literal">nullptr</span>;</span><br><span class="line">	BSTNode* right_child = <span class="literal">nullptr</span>;</span><br><span class="line">	BSTNode(<span class="keyword">int</span> d) :data(d) &#123;&#125;</span><br><span class="line">	BSTNode(<span class="keyword">const</span> BSTNode&amp; be_copy) :data(be_copy.data), left_child(<span class="literal">nullptr</span>), right_child(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">BSTNode *<span class="title">trimBST</span><span class="params">(BSTNode* root, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span>   <span class="comment">//修剪二叉搜索树，只保留区间[left, right]内的节点</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">enum</span> ProcessRate &#123;START, LEFT_SUB_TREE, RIGHT_SUB_TREE&#125;;  <span class="comment">//处理状态，尚未修剪任何子树，已修剪过左子树，两棵子树均已修剪</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">StackNode</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		BSTNode* ptr_to_node_every_layer;  <span class="comment">//需修剪的BST根节点指针</span></span><br><span class="line">		ProcessRate rate = ProcessRate::START;  <span class="comment">//修剪状态</span></span><br><span class="line">		BSTNode* ptr_to_root_beconstructed;  <span class="comment">//修剪后形成的新的BST根节点指针</span></span><br><span class="line">		StackNode(BSTNode* p) :ptr_to_node_every_layer(p)</span><br><span class="line">		&#123;</span><br><span class="line">			ptr_to_root_beconstructed = <span class="keyword">new</span> BSTNode(*ptr_to_node_every_layer);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">stack</span>&lt;StackNode&gt; work_stack;</span><br><span class="line">	BSTNode* cur = root;</span><br><span class="line">	<span class="keyword">while</span> (cur != <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (right &lt; cur-&gt;data)</span><br><span class="line">		&#123;</span><br><span class="line">			cur = cur-&gt;left_child;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (cur-&gt;data &lt; left)</span><br><span class="line">		&#123;</span><br><span class="line">			cur = cur-&gt;right_child;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			work_stack.push(StackNode(cur));</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (cur == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (work_stack.top().rate != ProcessRate::RIGHT_SUB_TREE)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)  <span class="comment">//左子树尚未修剪，修剪左子树</span></span><br><span class="line">			&#123;</span><br><span class="line">				cur = work_stack.top().ptr_to_node_every_layer-&gt;left_child;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().rate == ProcessRate::LEFT_SUB_TREE)  <span class="comment">//右子树尚未修剪，修剪右子树</span></span><br><span class="line">			&#123;</span><br><span class="line">				cur = work_stack.top().ptr_to_node_every_layer-&gt;right_child;   </span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (cur != <span class="literal">nullptr</span>)    <span class="comment">//向下搜索，抛弃修剪掉的部分</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (right &lt; cur-&gt;data)</span><br><span class="line">				&#123;</span><br><span class="line">					cur = cur-&gt;left_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (cur-&gt;data &lt; left)</span><br><span class="line">				&#123;</span><br><span class="line">					cur = cur-&gt;right_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.push(StackNode(cur));  <span class="comment">//找到根节点无需修剪，但子树需修剪的BST子树</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (cur == <span class="literal">nullptr</span>)  <span class="comment">//被修剪的子树为空或子树中所有节点值都在[L,R]外</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().rate = ProcessRate::LEFT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().rate = ProcessRate::RIGHT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>  <span class="comment">//当前BST左右子树均修剪完毕</span></span><br><span class="line">		&#123;</span><br><span class="line">			StackNode temp = work_stack.top();</span><br><span class="line">			work_stack.pop();</span><br><span class="line">			<span class="keyword">if</span> (work_stack.empty() == <span class="literal">false</span>)   <span class="comment">//栈不为空,将已经修剪完毕的当前BST链接至上一层需修剪的BST的子女指针域，并更新上一层修剪状态</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().ptr_to_root_beconstructed-&gt;left_child = temp.ptr_to_root_beconstructed;</span><br><span class="line">					work_stack.top().rate = ProcessRate::LEFT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().rate == ProcessRate::LEFT_SUB_TREE)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().ptr_to_root_beconstructed-&gt;right_child = temp.ptr_to_root_beconstructed;</span><br><span class="line">					work_stack.top().rate = ProcessRate::RIGHT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> temp.ptr_to_root_beconstructed;  <span class="comment">//如果栈为空，说明当前已经修剪完毕的BST子树就是最终修剪结果，直接返回</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorderTraverse</span><span class="params">(BSTNode* root)</span>  <span class="comment">//输出中序序列</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (root != <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		inorderTraverse(root-&gt;left_child);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; root-&gt;data &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">		inorderTraverse(root-&gt;right_child);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	BSTNode* root = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; input&#123;<span class="number">4</span>, <span class="number">89</span>, <span class="number">23</span>, <span class="number">46</span>, <span class="number">12</span>, <span class="number">3</span>, <span class="number">56</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">45</span>, <span class="number">11</span>&#125;;   <span class="comment">//插入BST中的数据</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span>&amp; i : input)</span><br><span class="line">	&#123;</span><br><span class="line">		BSTNode* temp = root;</span><br><span class="line">		<span class="keyword">if</span> (temp == <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			root = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			BSTNode* parent = <span class="literal">nullptr</span>;</span><br><span class="line">			<span class="keyword">while</span> (temp != <span class="literal">nullptr</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (temp-&gt;data == i)</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				parent = temp;</span><br><span class="line">				<span class="keyword">if</span> (temp-&gt;data &lt; i)</span><br><span class="line">				&#123;</span><br><span class="line">					temp = temp-&gt;right_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (temp-&gt;data &gt; i)</span><br><span class="line">				&#123;</span><br><span class="line">					temp = temp-&gt;left_child;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (temp == <span class="literal">nullptr</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (i &lt; parent-&gt;data)</span><br><span class="line">				&#123;</span><br><span class="line">					parent-&gt;left_child = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					parent-&gt;right_child = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	BSTNode* _new = trimBST(root, <span class="number">5</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"修剪后的二叉树的中序序列为:"</span>;</span><br><span class="line">	<span class="keyword">if</span> (_new == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"NULL"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		inorderTraverse(_new);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong><span style="font-size: 16px;">运行结果:</span></strong></p>
+<p><img src="/post/623e708f/修剪二叉搜索树.png" alt></p>
 
       
     </div>
@@ -572,12 +537,12 @@
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
 
-  <p><span>本文标题:</span>Dijkstra调度场算法介绍</p>
+  <p><span>本文标题:</span>修剪二叉搜索树的非递归解法</p>
   <p><span>文章作者:</span>WSK</p>
-  <p><span>发布时间:</span>2019年04月24日 - 04:47:28</p>
-  <p><span>最后更新:</span>2019年05月02日 - 01:29:31</p>
-  <p><span>原始链接:</span><a href="/post/51421.html" title="Dijkstra调度场算法介绍">http://yoursite.com/post/51421.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/51421.html" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年06月19日 - 17:36:10</p>
+  <p><span>最后更新:</span>2019年06月19日 - 17:53:10</p>
+  <p><span>原始链接:</span><a href="/post/623e708f.html" title="修剪二叉搜索树的非递归解法">http://yoursite.com/post/623e708f.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/623e708f.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -612,7 +577,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/后缀表达式，中缀表达式/" rel="tag"># 后缀表达式，中缀表达式</a>
+            <a href="/tags/二叉搜索树/" rel="tag"># 二叉搜索树</a>
           
         </div>
       
@@ -625,8 +590,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/21022.html" rel="next" title="南理工2016考研复试上机题男女程序员排队">
-                <i class="fa fa-chevron-left"></i> 南理工2016考研复试上机题男女程序员排队
+              <a href="/post/d1fc1482.html" rel="next" title="左式堆合并操作时间界的证明">
+                <i class="fa fa-chevron-left"></i> 左式堆合并操作时间界的证明
               </a>
             
           </div>
@@ -634,10 +599,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/25312.html" rel="prev" title="K叉树的运算">
-                K叉树的运算 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
