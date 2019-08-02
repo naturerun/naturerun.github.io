@@ -99,7 +99,7 @@
   <meta name="description" content="红黑树的删除 红黑树删除极其复杂,实现难度比AVL树删除更大，要考虑的各种分支情况繁多，编程实现时在琐碎的细节上容易出错，但只要用心，正确实现删除算法不难 对红黑树按对二叉搜索树执行删除的方式执行删除,如果实际删除的节点是红节点,按正常方式删除，删除后原树仍为红黑树，结束 若实际删除的是黑节点，该节点有父节点并且有唯一子女节点且该子女节点为红，将该子女节点染黑,并按对二叉搜索树执行删除的方式删掉实">
 <meta name="keywords" content="红黑树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构备忘录:红黑树的插入与删除">
+<meta property="og:title" content="数据结构备忘录:红黑树自底向上的插入与删除">
 <meta property="og:url" content="http://yoursite.com/post/18241.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="红黑树的删除 红黑树删除极其复杂,实现难度比AVL树删除更大，要考虑的各种分支情况繁多，编程实现时在琐碎的细节上容易出错，但只要用心，正确实现删除算法不难 对红黑树按对二叉搜索树执行删除的方式执行删除,如果实际删除的节点是红节点,按正常方式删除，删除后原树仍为红黑树，结束 若实际删除的是黑节点，该节点有父节点并且有唯一子女节点且该子女节点为红，将该子女节点染黑,并按对二叉搜索树执行删除的方式删掉实">
@@ -133,9 +133,9 @@
 <meta property="og:image" content="http://yoursite.com/post/18241/数据结构备忘录%20红黑树的插入与删除%2027.png">
 <meta property="og:image" content="http://yoursite.com/post/18241/数据结构备忘录%20红黑树的插入与删除%2028.png">
 <meta property="og:image" content="http://yoursite.com/post/18241/数据结构备忘录%20红黑树的插入与删除%2029.png">
-<meta property="og:updated_time" content="2019-08-01T16:58:18.107Z">
+<meta property="og:updated_time" content="2019-08-02T15:20:19.357Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据结构备忘录:红黑树的插入与删除">
+<meta name="twitter:title" content="数据结构备忘录:红黑树自底向上的插入与删除">
 <meta name="twitter:description" content="红黑树的删除 红黑树删除极其复杂,实现难度比AVL树删除更大，要考虑的各种分支情况繁多，编程实现时在琐碎的细节上容易出错，但只要用心，正确实现删除算法不难 对红黑树按对二叉搜索树执行删除的方式执行删除,如果实际删除的节点是红节点,按正常方式删除，删除后原树仍为红黑树，结束 若实际删除的是黑节点，该节点有父节点并且有唯一子女节点且该子女节点为红，将该子女节点染黑,并按对二叉搜索树执行删除的方式删掉实">
 <meta name="twitter:image" content="http://yoursite.com/post/18241/数据结构备忘录%20红黑树的插入与删除.png">
 
@@ -155,7 +155,7 @@
   };
 </script>
 
-  <title>数据结构备忘录:红黑树的插入与删除 | naturerun的计算机科学博客</title>
+  <title>数据结构备忘录:红黑树自底向上的插入与删除 | naturerun的计算机科学博客</title>
   
 
 
@@ -423,7 +423,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据结构备忘录:红黑树的插入与删除
+          <h1 class="post-title" itemprop="name headline">数据结构备忘录:红黑树自底向上的插入与删除
 
               
             
@@ -466,7 +466,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-02 00:58:18" itemprop="dateModified" datetime="2019-08-02T00:58:18+08:00">2019-08-02</time>
+                <time title="修改时间：2019-08-02 23:20:19" itemprop="dateModified" datetime="2019-08-02T23:20:19+08:00">2019-08-02</time>
               
             
           </span>
@@ -511,7 +511,7 @@
 
           
           
-            <span id="/post/18241.html" class="leancloud_visitors" data-flag-title="数据结构备忘录:红黑树的插入与删除">
+            <span id="/post/18241.html" class="leancloud_visitors" data-flag-title="数据结构备忘录:红黑树自底向上的插入与删除">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -674,11 +674,11 @@
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
 
-  <p><span>本文标题:</span>数据结构备忘录:红黑树的插入与删除</p>
+  <p><span>本文标题:</span>数据结构备忘录:红黑树自底向上的插入与删除</p>
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:54:44</p>
-  <p><span>最后更新:</span>2019年08月02日 - 00:58:18</p>
-  <p><span>原始链接:</span><a href="/post/18241.html" title="数据结构备忘录:红黑树的插入与删除">http://yoursite.com/post/18241.html</a>
+  <p><span>最后更新:</span>2019年08月02日 - 23:20:19</p>
+  <p><span>原始链接:</span><a href="/post/18241.html" title="数据结构备忘录:红黑树自底向上的插入与删除">http://yoursite.com/post/18241.html</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/18241.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
