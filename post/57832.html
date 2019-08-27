@@ -44,21 +44,21 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="/naturerunblog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+<link rel="stylesheet" href="/naturerunblog/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/naturerunblog/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/naturerunblog/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/naturerunblog/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/naturerunblog/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '/naturerunblog/',
     scheme: 'Gemini',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
@@ -100,7 +100,7 @@
 <meta name="keywords" content="无向图，割点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于求无向连通图割点的Tarjan算法的一点说明">
-<meta property="og:url" content="http://yoursite.com/post/57832.html">
+<meta property="og:url" content="http://naturerun.gitee.io/naturerunblog/post/57832.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="Tarjan算法中的数组dfn[],即为图中各顶点的深度优先数，即各顶点在DFS过程中被访问的次序 low[]数组，图中顶点v的low[v]应理解为dfn[v],v通过回边(DFS树中由后代节点指向祖先节点的非树边)所能到达的DFS树中v的祖先的深度优先数以及DFS树中v的后代节点通过回边所能到达的DFS树中它们的祖先的深度优先数中的最小值 另外DFS中如果现在访问顶点V,接着我们访问DFS树中V">
 <meta property="og:locale" content="zh-Hans">
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/post/57832">
+  <link rel="canonical" href="http://naturerun.gitee.io/naturerunblog/post/57832">
 
 
 
@@ -182,7 +182,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/naturerunblog/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">naturerun的计算机科学博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -225,7 +225,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/naturerunblog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -242,7 +242,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/naturerunblog/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/naturerunblog/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/naturerunblog/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/naturerunblog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -376,12 +376,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/57832.html">
+    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/57832.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
       <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
-      <meta itemprop="image" content="/images/naturerun.jpg">
+      <meta itemprop="image" content="/naturerunblog/images/naturerun.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -453,7 +453,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/naturerunblog/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
 
                 
                 
@@ -472,8 +472,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/post/57832.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/post/57832.html" itemprop="commentCount"></span>
+                <a href="/naturerunblog/post/57832.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/naturerunblog/post/57832.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -481,7 +481,7 @@
 
           
           
-            <span id="/post/57832.html" class="leancloud_visitors" data-flag-title="关于求无向连通图割点的Tarjan算法的一点说明">
+            <span id="/naturerunblog/post/57832.html" class="leancloud_visitors" data-flag-title="关于求无向连通图割点的Tarjan算法的一点说明">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -558,8 +558,8 @@
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 05:00:45</p>
   <p><span>最后更新:</span>2019年05月02日 - 01:27:48</p>
-  <p><span>原始链接:</span><a href="/post/57832.html" title="关于求无向连通图割点的Tarjan算法的一点说明">http://yoursite.com/post/57832.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/57832.html" aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/naturerunblog/post/57832.html" title="关于求无向连通图割点的Tarjan算法的一点说明">http://naturerun.gitee.io/naturerunblog/post/57832.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/naturerunblog/post/57832.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -594,7 +594,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/无向图，割点/" rel="tag"># 无向图，割点</a>
+            <a href="/naturerunblog/tags/无向图，割点/" rel="tag"># 无向图，割点</a>
           
         </div>
       
@@ -607,7 +607,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/5146.html" rel="next" title="破环法(破圈法)求最小生成树算法正确性证明">
+              <a href="/naturerunblog/post/5146.html" rel="next" title="破环法(破圈法)求最小生成树算法正确性证明">
                 <i class="fa fa-chevron-left"></i> 破环法(破圈法)求最小生成树算法正确性证明
               </a>
             
@@ -617,7 +617,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/53168.html" rel="prev" title="对Tarjan LCA算法的理解">
+              <a href="/naturerunblog/post/53168.html" rel="prev" title="对Tarjan LCA算法的理解">
                 对Tarjan LCA算法的理解 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -672,7 +672,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+              <img class="site-author-image" itemprop="image" src="/naturerunblog/images/naturerun.jpg" alt="WSK">
             
               <p class="site-author-name" itemprop="name">WSK</p>
               <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
@@ -683,7 +683,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/naturerunblog/archives/">
                 
                     <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
@@ -697,7 +697,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/categories/">
+                      <a href="/naturerunblog/categories/">
                     
                   
                     
@@ -722,7 +722,7 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/tags/">
+                      <a href="/naturerunblog/tags/">
                     
                   
                     
@@ -867,7 +867,7 @@
                   
                     
                   
-                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="/naturerunblog/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -1024,45 +1024,45 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="/naturerunblog/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/naturerunblog/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.0"></script>
-
-  <script src="/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/affix.js?v=7.1.0"></script>
-
-  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
-
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.0"></script>
-<script src="/js/post-details.js?v=7.1.0"></script>
-
+  <script src="/naturerunblog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/js/next-boot.js?v=7.1.0"></script>
+  <script src="/naturerunblog/js/utils.js?v=7.1.0"></script>
+
+  <script src="/naturerunblog/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/naturerunblog/js/affix.js?v=7.1.0"></script>
+
+  <script src="/naturerunblog/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/naturerunblog/js/scrollspy.js?v=7.1.0"></script>
+<script src="/naturerunblog/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/naturerunblog/js/next-boot.js?v=7.1.0"></script>
 
 
   
@@ -1119,7 +1119,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/" + search_path;
+    var path = "/naturerunblog/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {

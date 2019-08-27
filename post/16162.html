@@ -44,21 +44,21 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="/naturerunblog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+<link rel="stylesheet" href="/naturerunblog/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/naturerunblog/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/naturerunblog/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/naturerunblog/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/naturerunblog/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '/naturerunblog/',
     scheme: 'Gemini',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
@@ -100,17 +100,17 @@
 <meta name="keywords" content="全排列">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多重全排列的生成与构造算法">
-<meta property="og:url" content="http://yoursite.com/post/16162.html">
+<meta property="og:url" content="http://naturerun.gitee.io/naturerunblog/post/16162.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="设有a1+a2+—+aK=N，a1,a2,—,aK为正整数(K&amp;gt;=2),将a[1],a[2],—,a[K]K个数排列至1,2,—N这N个排列位置上，使得a[1],a[2],—,a[K]所占据的排列位置数恰好分别为a1,a2,—,aK，这样占据1,2,—NN个排列位置的a[1],a[2],—,a[K]构成的排列为一个排列位置数为N，排列数数目为K的多重全排列。 现在介绍算法，该算法能够生成符合">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/post/16162/多重全排列的生成与构造算法.png">
-<meta property="og:image" content="http://yoursite.com/post/16162/多重全排列的生成与构造算法2.png">
+<meta property="og:image" content="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/16162/多重全排列的生成与构造算法.png">
+<meta property="og:image" content="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/16162/多重全排列的生成与构造算法2.png">
 <meta property="og:updated_time" content="2019-05-01T17:28:04.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多重全排列的生成与构造算法">
 <meta name="twitter:description" content="设有a1+a2+—+aK=N，a1,a2,—,aK为正整数(K&amp;gt;=2),将a[1],a[2],—,a[K]K个数排列至1,2,—N这N个排列位置上，使得a[1],a[2],—,a[K]所占据的排列位置数恰好分别为a1,a2,—,aK，这样占据1,2,—NN个排列位置的a[1],a[2],—,a[K]构成的排列为一个排列位置数为N，排列数数目为K的多重全排列。 现在介绍算法，该算法能够生成符合">
-<meta name="twitter:image" content="http://yoursite.com/post/16162/多重全排列的生成与构造算法.png">
+<meta name="twitter:image" content="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/16162/多重全排列的生成与构造算法.png">
 
 
 
@@ -118,7 +118,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/post/16162">
+  <link rel="canonical" href="http://naturerun.gitee.io/naturerunblog/post/16162">
 
 
 
@@ -185,7 +185,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/naturerunblog/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">naturerun的计算机科学博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -228,7 +228,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/naturerunblog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -245,7 +245,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/naturerunblog/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -262,7 +262,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/naturerunblog/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -279,7 +279,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/naturerunblog/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -296,7 +296,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/naturerunblog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -379,12 +379,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/post/16162.html">
+    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/16162.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
       <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
-      <meta itemprop="image" content="/images/naturerun.jpg">
+      <meta itemprop="image" content="/naturerunblog/images/naturerun.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -456,7 +456,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/naturerunblog/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
 
                 
                 
@@ -475,8 +475,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/post/16162.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/post/16162.html" itemprop="commentCount"></span>
+                <a href="/naturerunblog/post/16162.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/naturerunblog/post/16162.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -484,7 +484,7 @@
 
           
           
-            <span id="/post/16162.html" class="leancloud_visitors" data-flag-title="多重全排列的生成与构造算法">
+            <span id="/naturerunblog/post/16162.html" class="leancloud_visitors" data-flag-title="多重全排列的生成与构造算法">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -531,12 +531,12 @@
 <p><span style="font-size: 18px;">C++代码：</span></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> K = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;num, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;count)</span>  <span class="comment">//从start开始顺序查找满足容量限制的第一个数字，查找失败返回0，否则返回找到的数字</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (; start &lt;= K; ++start)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (num[start - <span class="number">1</span>] + <span class="number">1</span> &lt;= count[start - <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">return</span> start;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; count&#123; <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span> &#125;;  <span class="comment">//a1,---,ak值</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; num(count.size(), <span class="number">0</span>); <span class="comment">//统计循环过程中1,---,k的数目</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arrange(N, <span class="number">0</span>);  <span class="comment">//存放找到的多重全排列的栈结构</span></span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;   <span class="comment">//栈顶指针</span></span><br><span class="line">    <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">bool</span> TF = <span class="literal">true</span>;  <span class="comment">//回溯标志</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                arrange[i - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">                ++num[<span class="number">0</span>];</span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;   </span><br><span class="line">                --num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">                ++arrange[i - <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">if</span> (arrange[i<span class="number">-1</span>] &gt; K)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    ++num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">                    ++i;</span><br><span class="line">                    TF = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                arrange[i - <span class="number">1</span>] = search(<span class="number">1</span>, num, count);</span><br><span class="line">                ++num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> temp;</span><br><span class="line">                <span class="keyword">if</span> ((temp = search(arrange[i - <span class="number">1</span>] + <span class="number">1</span>, num, count)) == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    --num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">                    --i;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    --num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">                    arrange[i - <span class="number">1</span>] = temp;</span><br><span class="line">                    ++num[arrange[i - <span class="number">1</span>] - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (i == N)   <span class="comment">//找到一个多重全排列输出</span></span><br><span class="line">            &#123;</span><br><span class="line">                ++number;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"第"</span> &lt;&lt; number &lt;&lt; <span class="string">"个多重全排列:"</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span> &amp;m : arrange)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">cout</span> &lt;&lt; m;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                TF = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                ++i;</span><br><span class="line">                TF = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><span style="font-size: 18px;">运行结果：</span></p>
-<p><img src="/post/16162/多重全排列的生成与构造算法.png" alt></p>
+<p><img src="/naturerunblog/naturerunblog/post/16162/多重全排列的生成与构造算法.png" alt></p>
 <p><span style="font-size: 18px;">算法二(K=3,N=5,a1=2,a2=1,a3=2,a[i]=i)：代码相对而言更复杂，方法较笨，就是单纯地模拟手工寻找多重全排列的过程，该过程中按a[1],—,a[k]的顺序逐一选择子排列，成功找到子排列则向前试探扩大候选解的规模寻找下一个，当a[1],—,a[k]的所有子排列全部找到后即获得一个多重全排列，当已无新的子排列可供选择时即回溯</span></p>
 <p><span style="font-size: 18px;">C++代码：</span></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">find</span><span class="params">(<span class="keyword">bool</span> TF, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;temp)</span>  <span class="comment">//TF==true，函数从头寻找满足1&lt;=a1&lt;--&lt;ak&lt;=n的第一个排列a1,a2,--,ak存放在temp中</span></span></span><br><span class="line"><span class="function"></span>&#123;                                                    <span class="comment">//TF==false,函数寻找上一次找到的存放在temp中满足1&lt;=a1&lt;--&lt;ak&lt;=n的排列a1,a2,--,ak的下一个排列，找到存放在temp中返回true,找不到返回false</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        i = k - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                temp[i] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                temp[i]++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (temp[i] &gt; n - k + <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (k == <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            i++;</span><br><span class="line">            TF = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">                temp[i] = temp[i - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                temp[i]++;</span><br><span class="line">                <span class="keyword">if</span> ((temp[i] - temp[i - <span class="number">1</span>])&gt;(n - temp[i - <span class="number">1</span>]) - (k - i) + <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    i--;</span><br><span class="line">                    TF = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (i == k - <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">            TF = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> K = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">back</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sub; <span class="comment">//存放find函数找到的多重全排列中的一个子排列的排列位置</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; father;   <span class="comment">//存放多重全排列所有N个排列位置被与其对应的sub子排列之前的所有排列占据后剩下的排列位置</span></span><br><span class="line">    back(<span class="keyword">int</span> k) :sub(k, <span class="number">0</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">diffset</span><span class="params">(<span class="built_in">vector</span>&lt;back&gt; &amp;<span class="built_in">stack</span>, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;count)</span>  <span class="comment">//计算father和sub的差集，得到sub的下一排列可取得排列位置</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="function">back <span class="title">temp</span><span class="params">(count[<span class="built_in">stack</span>.size()])</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="built_in">stack</span>.back().father.size() &amp;&amp; j &lt; <span class="built_in">stack</span>.back().sub.size())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i + <span class="number">1</span> &lt; <span class="built_in">stack</span>.back().sub[j])</span><br><span class="line">        &#123;</span><br><span class="line">            temp.father.push_back(<span class="built_in">stack</span>.back().father[i]);</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (i + <span class="number">1</span> &gt; <span class="built_in">stack</span>.back().sub[j])</span><br><span class="line">        &#123;</span><br><span class="line">            ++j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            ++j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="built_in">stack</span>.back().father.size())</span><br><span class="line">    &#123;</span><br><span class="line">        temp.father.push_back(<span class="built_in">stack</span>.back().father[i]);</span><br><span class="line">        ++i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">stack</span>.push_back(temp);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; count&#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>&#125;;  <span class="comment">//a1,---,ak值</span></span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;  <span class="comment">//循环当前正在处理的子排列序号</span></span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">0</span>;  <span class="comment">//多重全排列计数</span></span><br><span class="line">    <span class="keyword">bool</span> TF = <span class="literal">true</span>;   <span class="comment">//回溯标志,true前进至本层,false回溯至本层</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;back&gt; <span class="built_in">stack</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">stack</span>.push_back(back(count[<span class="number">0</span>]));</span><br><span class="line">                find(<span class="literal">true</span>, N, count[i - <span class="number">1</span>], <span class="built_in">stack</span>.back().sub);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; j++)</span><br><span class="line">                    <span class="built_in">stack</span>.back().father.push_back(j);</span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (find(<span class="literal">false</span>, N, count[i<span class="number">-1</span>], <span class="built_in">stack</span>.back().sub) == <span class="literal">true</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    ++i;</span><br><span class="line">                    TF = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (TF == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                diffset(<span class="built_in">stack</span>, count);</span><br><span class="line">                find(<span class="literal">true</span>, <span class="built_in">stack</span>.back().father.size(), count[i - <span class="number">1</span>], <span class="built_in">stack</span>.back().sub);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (find(<span class="literal">false</span>, <span class="built_in">stack</span>.back().father.size(), count[i - <span class="number">1</span>], <span class="built_in">stack</span>.back().sub) == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">stack</span>.pop_back();</span><br><span class="line">                    --i;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (i == K)   <span class="comment">//找到一个多重全排列，输出</span></span><br><span class="line">            &#123;</span><br><span class="line">                ++num;</span><br><span class="line">                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; temp(N, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;back&gt;::size_type i = <span class="number">0</span>; i &lt; <span class="built_in">stack</span>.size(); ++i)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::size_type j = <span class="number">0</span>; j &lt; <span class="built_in">stack</span>[i].sub.size(); ++j)</span><br><span class="line">                    &#123;</span><br><span class="line">                        temp[<span class="built_in">stack</span>[i].father[<span class="built_in">stack</span>[i].sub[j] - <span class="number">1</span>] - <span class="number">1</span>] = i + <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"第"</span> &lt;&lt; num &lt;&lt; <span class="string">"个多重排列:"</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span> &amp;m : temp)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">cout</span> &lt;&lt; m;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                TF = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                ++i;</span><br><span class="line">                TF = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><span style="font-size: 18px;">运行结果：</span></p>
-<p><img src="/post/16162/多重全排列的生成与构造算法2.png" alt></p>
+<p><img src="/naturerunblog/naturerunblog/post/16162/多重全排列的生成与构造算法2.png" alt></p>
 
       
     </div>
@@ -562,8 +562,8 @@
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:56:10</p>
   <p><span>最后更新:</span>2019年05月02日 - 01:28:04</p>
-  <p><span>原始链接:</span><a href="/post/16162.html" title="多重全排列的生成与构造算法">http://yoursite.com/post/16162.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/post/16162.html" aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/naturerunblog/post/16162.html" title="多重全排列的生成与构造算法">http://naturerun.gitee.io/naturerunblog/post/16162.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/naturerunblog/post/16162.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -598,7 +598,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/全排列/" rel="tag"># 全排列</a>
+            <a href="/naturerunblog/tags/全排列/" rel="tag"># 全排列</a>
           
         </div>
       
@@ -611,7 +611,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/52200.html" rel="next" title="三路划分的快速排序算法">
+              <a href="/naturerunblog/post/52200.html" rel="next" title="三路划分的快速排序算法">
                 <i class="fa fa-chevron-left"></i> 三路划分的快速排序算法
               </a>
             
@@ -621,7 +621,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/43861.html" rel="prev" title="生成所有错位排列的算法">
+              <a href="/naturerunblog/post/43861.html" rel="prev" title="生成所有错位排列的算法">
                 生成所有错位排列的算法 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -676,7 +676,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
+              <img class="site-author-image" itemprop="image" src="/naturerunblog/images/naturerun.jpg" alt="WSK">
             
               <p class="site-author-name" itemprop="name">WSK</p>
               <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
@@ -687,7 +687,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/naturerunblog/archives/">
                 
                     <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
@@ -701,7 +701,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/categories/">
+                      <a href="/naturerunblog/categories/">
                     
                   
                     
@@ -726,7 +726,7 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/tags/">
+                      <a href="/naturerunblog/tags/">
                     
                   
                     
@@ -871,7 +871,7 @@
                   
                     
                   
-                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="/naturerunblog/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -1028,45 +1028,45 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="/naturerunblog/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/naturerunblog/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.0"></script>
-
-  <script src="/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/affix.js?v=7.1.0"></script>
-
-  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
-
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.0"></script>
-<script src="/js/post-details.js?v=7.1.0"></script>
-
+  <script src="/naturerunblog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/js/next-boot.js?v=7.1.0"></script>
+  <script src="/naturerunblog/js/utils.js?v=7.1.0"></script>
+
+  <script src="/naturerunblog/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/naturerunblog/js/affix.js?v=7.1.0"></script>
+
+  <script src="/naturerunblog/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/naturerunblog/js/scrollspy.js?v=7.1.0"></script>
+<script src="/naturerunblog/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/naturerunblog/js/next-boot.js?v=7.1.0"></script>
 
 
   
@@ -1123,7 +1123,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/" + search_path;
+    var path = "/naturerunblog/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {
