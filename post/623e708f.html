@@ -44,21 +44,21 @@
 
 
 
-<link rel="stylesheet" href="/naturerunblog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/naturerunblog/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/naturerunblog/images/apple-touch-icon-next.png?v=7.1.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/naturerunblog/images/favicon-32x32-next.png?v=7.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/naturerunblog/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/naturerunblog/images/logo.svg?v=7.1.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/naturerunblog/',
+    root: '/',
     scheme: 'Gemini',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
@@ -100,16 +100,16 @@
 <meta name="keywords" content="二叉搜索树">
 <meta property="og:type" content="article">
 <meta property="og:title" content="修剪二叉搜索树的非递归解法">
-<meta property="og:url" content="http://naturerun.gitee.io/naturerunblog/post/623e708f.html">
+<meta property="og:url" content="http://naturerun.gitee.io/post/623e708f.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="LeetCode 669 修剪二叉搜索树问题&amp;nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除 网上的解法基本为递归，本文给出了非递归解法，相关说明见https://www.zhihu.com/question/329696898/answer/719919857 C++代码:1234567891011121314151617181920212223242">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/623e708f/修剪二叉搜索树.png">
+<meta property="og:image" content="http://naturerun.gitee.io/post/623e708f/修剪二叉搜索树.png">
 <meta property="og:updated_time" content="2019-06-19T09:53:10.659Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="修剪二叉搜索树的非递归解法">
 <meta name="twitter:description" content="LeetCode 669 修剪二叉搜索树问题&amp;nbsp;该题要求保留BST中节点值在给定区间范围内的所有节点，其他超出范围的节点全部剔除 网上的解法基本为递归，本文给出了非递归解法，相关说明见https://www.zhihu.com/question/329696898/answer/719919857 C++代码:1234567891011121314151617181920212223242">
-<meta name="twitter:image" content="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/623e708f/修剪二叉搜索树.png">
+<meta name="twitter:image" content="http://naturerun.gitee.io/post/623e708f/修剪二叉搜索树.png">
 
 
 
@@ -117,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://naturerun.gitee.io/naturerunblog/post/623e708f">
+  <link rel="canonical" href="http://naturerun.gitee.io/post/623e708f">
 
 
 
@@ -184,7 +184,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/naturerunblog/" class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">naturerun的计算机科学博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -227,7 +227,7 @@
 
     
 
-    <a href="/naturerunblog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -244,7 +244,7 @@
 
     
 
-    <a href="/naturerunblog/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -261,7 +261,7 @@
 
     
 
-    <a href="/naturerunblog/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -278,7 +278,7 @@
 
     
 
-    <a href="/naturerunblog/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -295,7 +295,7 @@
 
     
 
-    <a href="/naturerunblog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -378,12 +378,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/623e708f.html">
+    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/post/623e708f.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
       <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
-      <meta itemprop="image" content="/naturerunblog/images/naturerun.jpg">
+      <meta itemprop="image" content="/images/naturerun.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -443,7 +443,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/naturerunblog/categories/DataStructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DataStructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
 
                 
                 
@@ -462,8 +462,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/naturerunblog/post/623e708f.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/naturerunblog/post/623e708f.html" itemprop="commentCount"></span>
+                <a href="/post/623e708f.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/623e708f.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -471,7 +471,7 @@
 
           
           
-            <span id="/naturerunblog/post/623e708f.html" class="leancloud_visitors" data-flag-title="修剪二叉搜索树的非递归解法">
+            <span id="/post/623e708f.html" class="leancloud_visitors" data-flag-title="修剪二叉搜索树的非递归解法">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -515,7 +515,7 @@
 <p><span style="font-size: 16px;">网上的解法基本为递归，本文给出了非递归解法，相关说明见<a href="https://www.zhihu.com/question/329696898/answer/719919857" target="_blank" rel="noopener">https://www.zhihu.com/question/329696898/answer/719919857</a></span></p>
 <p><strong><span style="font-size: 16px;">C++代码:</span></strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BSTNode</span>   //二叉搜索树节点定义</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data;   <span class="comment">//数据域</span></span><br><span class="line">	BSTNode* left_child = <span class="literal">nullptr</span>;</span><br><span class="line">	BSTNode* right_child = <span class="literal">nullptr</span>;</span><br><span class="line">	BSTNode(<span class="keyword">int</span> d) :data(d) &#123;&#125;</span><br><span class="line">	BSTNode(<span class="keyword">const</span> BSTNode&amp; be_copy) :data(be_copy.data), left_child(<span class="literal">nullptr</span>), right_child(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">BSTNode *<span class="title">trimBST</span><span class="params">(BSTNode* root, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span>   <span class="comment">//修剪二叉搜索树，只保留区间[left, right]内的节点</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">enum</span> ProcessRate &#123;START, LEFT_SUB_TREE, RIGHT_SUB_TREE&#125;;  <span class="comment">//处理状态，尚未修剪任何子树，已修剪过左子树，两棵子树均已修剪</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">StackNode</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		BSTNode* ptr_to_node_every_layer;  <span class="comment">//需修剪的BST根节点指针</span></span><br><span class="line">		ProcessRate rate = ProcessRate::START;  <span class="comment">//修剪状态</span></span><br><span class="line">		BSTNode* ptr_to_root_beconstructed;  <span class="comment">//修剪后形成的新的BST根节点指针</span></span><br><span class="line">		StackNode(BSTNode* p) :ptr_to_node_every_layer(p)</span><br><span class="line">		&#123;</span><br><span class="line">			ptr_to_root_beconstructed = <span class="keyword">new</span> BSTNode(*ptr_to_node_every_layer);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">stack</span>&lt;StackNode&gt; work_stack;</span><br><span class="line">	BSTNode* cur = root;</span><br><span class="line">	<span class="keyword">while</span> (cur != <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (right &lt; cur-&gt;data)</span><br><span class="line">		&#123;</span><br><span class="line">			cur = cur-&gt;left_child;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (cur-&gt;data &lt; left)</span><br><span class="line">		&#123;</span><br><span class="line">			cur = cur-&gt;right_child;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			work_stack.push(StackNode(cur));</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (cur == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (work_stack.top().rate != ProcessRate::RIGHT_SUB_TREE)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)  <span class="comment">//左子树尚未修剪，修剪左子树</span></span><br><span class="line">			&#123;</span><br><span class="line">				cur = work_stack.top().ptr_to_node_every_layer-&gt;left_child;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().rate == ProcessRate::LEFT_SUB_TREE)  <span class="comment">//右子树尚未修剪，修剪右子树</span></span><br><span class="line">			&#123;</span><br><span class="line">				cur = work_stack.top().ptr_to_node_every_layer-&gt;right_child;   </span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (cur != <span class="literal">nullptr</span>)    <span class="comment">//向下搜索，抛弃修剪掉的部分</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (right &lt; cur-&gt;data)</span><br><span class="line">				&#123;</span><br><span class="line">					cur = cur-&gt;left_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (cur-&gt;data &lt; left)</span><br><span class="line">				&#123;</span><br><span class="line">					cur = cur-&gt;right_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.push(StackNode(cur));  <span class="comment">//找到根节点无需修剪，但子树需修剪的BST子树</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (cur == <span class="literal">nullptr</span>)  <span class="comment">//被修剪的子树为空或子树中所有节点值都在[L,R]外</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().rate = ProcessRate::LEFT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().rate = ProcessRate::RIGHT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>  <span class="comment">//当前BST左右子树均修剪完毕</span></span><br><span class="line">		&#123;</span><br><span class="line">			StackNode temp = work_stack.top();</span><br><span class="line">			work_stack.pop();</span><br><span class="line">			<span class="keyword">if</span> (work_stack.empty() == <span class="literal">false</span>)   <span class="comment">//栈不为空,将已经修剪完毕的当前BST链接至上一层需修剪的BST的子女指针域，并更新上一层修剪状态</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (work_stack.top().rate == ProcessRate::START)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().ptr_to_root_beconstructed-&gt;left_child = temp.ptr_to_root_beconstructed;</span><br><span class="line">					work_stack.top().rate = ProcessRate::LEFT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (work_stack.top().rate == ProcessRate::LEFT_SUB_TREE)</span><br><span class="line">				&#123;</span><br><span class="line">					work_stack.top().ptr_to_root_beconstructed-&gt;right_child = temp.ptr_to_root_beconstructed;</span><br><span class="line">					work_stack.top().rate = ProcessRate::RIGHT_SUB_TREE;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> temp.ptr_to_root_beconstructed;  <span class="comment">//如果栈为空，说明当前已经修剪完毕的BST子树就是最终修剪结果，直接返回</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inorderTraverse</span><span class="params">(BSTNode* root)</span>  <span class="comment">//输出中序序列</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (root != <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		inorderTraverse(root-&gt;left_child);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; root-&gt;data &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">		inorderTraverse(root-&gt;right_child);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	BSTNode* root = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; input&#123;<span class="number">4</span>, <span class="number">89</span>, <span class="number">23</span>, <span class="number">46</span>, <span class="number">12</span>, <span class="number">3</span>, <span class="number">56</span>, <span class="number">78</span>, <span class="number">34</span>, <span class="number">45</span>, <span class="number">11</span>&#125;;   <span class="comment">//插入BST中的数据</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span>&amp; i : input)</span><br><span class="line">	&#123;</span><br><span class="line">		BSTNode* temp = root;</span><br><span class="line">		<span class="keyword">if</span> (temp == <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			root = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			BSTNode* parent = <span class="literal">nullptr</span>;</span><br><span class="line">			<span class="keyword">while</span> (temp != <span class="literal">nullptr</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (temp-&gt;data == i)</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				parent = temp;</span><br><span class="line">				<span class="keyword">if</span> (temp-&gt;data &lt; i)</span><br><span class="line">				&#123;</span><br><span class="line">					temp = temp-&gt;right_child;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (temp-&gt;data &gt; i)</span><br><span class="line">				&#123;</span><br><span class="line">					temp = temp-&gt;left_child;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (temp == <span class="literal">nullptr</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (i &lt; parent-&gt;data)</span><br><span class="line">				&#123;</span><br><span class="line">					parent-&gt;left_child = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					parent-&gt;right_child = <span class="keyword">new</span> BSTNode(i);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	BSTNode* _new = trimBST(root, <span class="number">5</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"修剪后的二叉树的中序序列为:"</span>;</span><br><span class="line">	<span class="keyword">if</span> (_new == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"NULL"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		inorderTraverse(_new);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong><span style="font-size: 16px;">运行结果:</span></strong></p>
-<p><img src="/naturerunblog/naturerunblog/post/623e708f/修剪二叉搜索树.png" alt></p>
+<p><img src="/post/623e708f/修剪二叉搜索树.png" alt></p>
 
       
     </div>
@@ -541,8 +541,8 @@
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年06月19日 - 17:36:10</p>
   <p><span>最后更新:</span>2019年06月19日 - 17:53:10</p>
-  <p><span>原始链接:</span><a href="/naturerunblog/post/623e708f.html" title="修剪二叉搜索树的非递归解法">http://naturerun.gitee.io/naturerunblog/post/623e708f.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/naturerunblog/post/623e708f.html" aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/post/623e708f.html" title="修剪二叉搜索树的非递归解法">http://naturerun.gitee.io/post/623e708f.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/post/623e708f.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -577,7 +577,7 @@
       
         <div class="post-tags">
           
-            <a href="/naturerunblog/tags/二叉搜索树/" rel="tag"># 二叉搜索树</a>
+            <a href="/tags/二叉搜索树/" rel="tag"># 二叉搜索树</a>
           
         </div>
       
@@ -590,7 +590,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/naturerunblog/post/d1fc1482.html" rel="next" title="左式堆合并操作时间界的证明">
+              <a href="/post/d1fc1482.html" rel="next" title="左式堆合并操作时间界的证明">
                 <i class="fa fa-chevron-left"></i> 左式堆合并操作时间界的证明
               </a>
             
@@ -600,7 +600,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/naturerunblog/post/d424b1b8.html" rel="prev" title="斐波那契堆实现">
+              <a href="/post/d424b1b8.html" rel="prev" title="斐波那契堆实现">
                 斐波那契堆实现 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -655,7 +655,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/naturerunblog/images/naturerun.jpg" alt="WSK">
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
             
               <p class="site-author-name" itemprop="name">WSK</p>
               <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
@@ -666,7 +666,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/naturerunblog/archives/">
+                  <a href="/archives/">
                 
                     <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
@@ -680,7 +680,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/naturerunblog/categories/">
+                      <a href="/categories/">
                     
                   
                     
@@ -705,7 +705,7 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/naturerunblog/tags/">
+                      <a href="/tags/">
                     
                   
                     
@@ -850,7 +850,7 @@
                   
                     
                   
-                  <a href="/naturerunblog/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -1007,45 +1007,45 @@
 
 
   
-  <script src="/naturerunblog/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/naturerunblog/js/utils.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/naturerunblog/js/affix.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/schemes/pisces.js?v=7.1.0"></script>
-
-
-
-
-  
-  <script src="/naturerunblog/js/scrollspy.js?v=7.1.0"></script>
-<script src="/naturerunblog/js/post-details.js?v=7.1.0"></script>
-
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/naturerunblog/js/next-boot.js?v=7.1.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
 
 
   
@@ -1102,7 +1102,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/naturerunblog/" + search_path;
+    var path = "/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {

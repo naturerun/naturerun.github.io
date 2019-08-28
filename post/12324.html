@@ -44,21 +44,21 @@
 
 
 
-<link rel="stylesheet" href="/naturerunblog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/naturerunblog/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/naturerunblog/images/apple-touch-icon-next.png?v=7.1.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/naturerunblog/images/favicon-32x32-next.png?v=7.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/naturerunblog/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/naturerunblog/images/logo.svg?v=7.1.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/naturerunblog/',
+    root: '/',
     scheme: 'Gemini',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
@@ -100,7 +100,7 @@
 <meta name="keywords" content="静态链表，排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="链表排序结果的重排算法正确性证明">
-<meta property="og:url" content="http://naturerun.gitee.io/naturerunblog/post/12324.html">
+<meta property="og:url" content="http://naturerun.gitee.io/post/12324.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="殷人昆数据结构(第二版)C++语言描述p428介绍了静态链表排序结果的重排算法，书中用具体的重排实例完整地演绎了重排算法，但是书中没有给出算法的正确性证明，本文完整地描述了重排算法并给出正确性证明。 所谓静态链表排序结果的重排，就是重新安排已完成排序的静态链表中各元素的物理存放顺序，使静态链表中各元素的物理位置关系和逻辑顺序(从小到大)保持一致，整个重排过程不能借助辅助存储空间，即直接在排好序的静">
 <meta property="og:locale" content="zh-Hans">
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://naturerun.gitee.io/naturerunblog/post/12324">
+  <link rel="canonical" href="http://naturerun.gitee.io/post/12324">
 
 
 
@@ -182,7 +182,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/naturerunblog/" class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">naturerun的计算机科学博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -225,7 +225,7 @@
 
     
 
-    <a href="/naturerunblog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -242,7 +242,7 @@
 
     
 
-    <a href="/naturerunblog/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/naturerunblog/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/naturerunblog/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/naturerunblog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -376,12 +376,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/12324.html">
+    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/post/12324.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
       <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
-      <meta itemprop="image" content="/naturerunblog/images/naturerun.jpg">
+      <meta itemprop="image" content="/images/naturerun.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -453,7 +453,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/naturerunblog/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
 
                 
                 
@@ -472,8 +472,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/naturerunblog/post/12324.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/naturerunblog/post/12324.html" itemprop="commentCount"></span>
+                <a href="/post/12324.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/12324.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -481,7 +481,7 @@
 
           
           
-            <span id="/naturerunblog/post/12324.html" class="leancloud_visitors" data-flag-title="链表排序结果的重排算法正确性证明">
+            <span id="/post/12324.html" class="leancloud_visitors" data-flag-title="链表排序结果的重排算法正确性证明">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -580,8 +580,8 @@
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:55:28</p>
   <p><span>最后更新:</span>2019年05月02日 - 01:27:27</p>
-  <p><span>原始链接:</span><a href="/naturerunblog/post/12324.html" title="链表排序结果的重排算法正确性证明">http://naturerun.gitee.io/naturerunblog/post/12324.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/naturerunblog/post/12324.html" aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/post/12324.html" title="链表排序结果的重排算法正确性证明">http://naturerun.gitee.io/post/12324.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/post/12324.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -616,7 +616,7 @@
       
         <div class="post-tags">
           
-            <a href="/naturerunblog/tags/静态链表，排序/" rel="tag"># 静态链表，排序</a>
+            <a href="/tags/静态链表，排序/" rel="tag"># 静态链表，排序</a>
           
         </div>
       
@@ -629,7 +629,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/naturerunblog/post/15410.html" rel="next" title="数据结构备忘录：B树的插入和删除">
+              <a href="/post/15410.html" rel="next" title="数据结构备忘录：B树的插入和删除">
                 <i class="fa fa-chevron-left"></i> 数据结构备忘录：B树的插入和删除
               </a>
             
@@ -639,7 +639,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/naturerunblog/post/52200.html" rel="prev" title="三路划分的快速排序算法">
+              <a href="/post/52200.html" rel="prev" title="三路划分的快速排序算法">
                 三路划分的快速排序算法 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -694,7 +694,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/naturerunblog/images/naturerun.jpg" alt="WSK">
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
             
               <p class="site-author-name" itemprop="name">WSK</p>
               <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
@@ -705,7 +705,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/naturerunblog/archives/">
+                  <a href="/archives/">
                 
                     <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
@@ -719,7 +719,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/naturerunblog/categories/">
+                      <a href="/categories/">
                     
                   
                     
@@ -744,7 +744,7 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/naturerunblog/tags/">
+                      <a href="/tags/">
                     
                   
                     
@@ -889,7 +889,7 @@
                   
                     
                   
-                  <a href="/naturerunblog/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -1046,45 +1046,45 @@
 
 
   
-  <script src="/naturerunblog/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/naturerunblog/js/utils.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/naturerunblog/js/affix.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/schemes/pisces.js?v=7.1.0"></script>
-
-
-
-
-  
-  <script src="/naturerunblog/js/scrollspy.js?v=7.1.0"></script>
-<script src="/naturerunblog/js/post-details.js?v=7.1.0"></script>
-
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/naturerunblog/js/next-boot.js?v=7.1.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
 
 
   
@@ -1141,7 +1141,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/naturerunblog/" + search_path;
+    var path = "/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {

@@ -44,21 +44,21 @@
 
 
 
-<link rel="stylesheet" href="/naturerunblog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/naturerunblog/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/naturerunblog/images/apple-touch-icon-next.png?v=7.1.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/naturerunblog/images/favicon-32x32-next.png?v=7.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/naturerunblog/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/naturerunblog/images/logo.svg?v=7.1.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/naturerunblog/',
+    root: '/',
     scheme: 'Gemini',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":15,"onmobile":false,"dimmer":false},
@@ -100,7 +100,7 @@
 <meta name="keywords" content="回溯法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言重解经典回溯算法案例-迷宫问题">
-<meta property="og:url" content="http://naturerun.gitee.io/naturerunblog/post/49617.html">
+<meta property="og:url" content="http://naturerun.gitee.io/post/49617.html">
 <meta property="og:site_name" content="naturerun的计算机科学博客">
 <meta property="og:description" content="迷宫问题是一道经典的回溯算法问题，给定一个迷宫矩阵，矩阵中的1表示障碍，0表示可走通路，给定迷宫入口出口，要求寻找从入口穿过迷宫到达出口的所有路径，有则输出，无则给出提示。一本合格的数据结构教科书一般都会介绍迷宫问题，网上的分析也是铺天盖地，这里就不再赘述重复的内容了。废话不多说，简单介绍一下程序，然后上代码。 &amp;nbsp; &amp;nbsp;&amp;nbsp;该程序用二维数组表示迷宫，用另一个二维数组记录迷">
 <meta property="og:locale" content="zh-Hans">
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://naturerun.gitee.io/naturerunblog/post/49617">
+  <link rel="canonical" href="http://naturerun.gitee.io/post/49617">
 
 
 
@@ -182,7 +182,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/naturerunblog/" class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">naturerun的计算机科学博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -225,7 +225,7 @@
 
     
 
-    <a href="/naturerunblog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -242,7 +242,7 @@
 
     
 
-    <a href="/naturerunblog/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/naturerunblog/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/naturerunblog/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/naturerunblog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -376,12 +376,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/naturerunblog/naturerunblog/post/49617.html">
+    <link itemprop="mainEntityOfPage" href="http://naturerun.gitee.io/post/49617.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WSK">
       <meta itemprop="description" content="计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香">
-      <meta itemprop="image" content="/naturerunblog/images/naturerun.jpg">
+      <meta itemprop="image" content="/images/naturerun.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -453,7 +453,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/naturerunblog/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
 
                 
                 
@@ -472,8 +472,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/naturerunblog/post/49617.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/naturerunblog/post/49617.html" itemprop="commentCount"></span>
+                <a href="/post/49617.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/post/49617.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -481,7 +481,7 @@
 
           
           
-            <span id="/naturerunblog/post/49617.html" class="leancloud_visitors" data-flag-title="C语言重解经典回溯算法案例-迷宫问题">
+            <span id="/post/49617.html" class="leancloud_visitors" data-flag-title="C语言重解经典回溯算法案例-迷宫问题">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -550,8 +550,8 @@
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:42:51</p>
   <p><span>最后更新:</span>2019年05月02日 - 01:29:35</p>
-  <p><span>原始链接:</span><a href="/naturerunblog/post/49617.html" title="C语言重解经典回溯算法案例-迷宫问题">http://naturerun.gitee.io/naturerunblog/post/49617.html</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/naturerunblog/post/49617.html" aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/post/49617.html" title="C语言重解经典回溯算法案例-迷宫问题">http://naturerun.gitee.io/post/49617.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/post/49617.html" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -586,7 +586,7 @@
       
         <div class="post-tags">
           
-            <a href="/naturerunblog/tags/回溯法/" rel="tag"># 回溯法</a>
+            <a href="/tags/回溯法/" rel="tag"># 回溯法</a>
           
         </div>
       
@@ -599,7 +599,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/naturerunblog/post/20917.html" rel="next" title="c语言编程构造拉丁方阵和正交拉丁方阵组">
+              <a href="/post/20917.html" rel="next" title="c语言编程构造拉丁方阵和正交拉丁方阵组">
                 <i class="fa fa-chevron-left"></i> c语言编程构造拉丁方阵和正交拉丁方阵组
               </a>
             
@@ -609,7 +609,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/naturerunblog/post/8809.html" rel="prev" title="蚂蚁问题的编程解决">
+              <a href="/post/8809.html" rel="prev" title="蚂蚁问题的编程解决">
                 蚂蚁问题的编程解决 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -664,7 +664,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/naturerunblog/images/naturerun.jpg" alt="WSK">
+              <img class="site-author-image" itemprop="image" src="/images/naturerun.jpg" alt="WSK">
             
               <p class="site-author-name" itemprop="name">WSK</p>
               <div class="site-description motion-element" itemprop="description">计算机科学的信息分享平台，以一己之力普及计算机科学知识，赠人玫瑰手留余香</div>
@@ -675,7 +675,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/naturerunblog/archives/">
+                  <a href="/archives/">
                 
                     <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
@@ -689,7 +689,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/naturerunblog/categories/">
+                      <a href="/categories/">
                     
                   
                     
@@ -714,7 +714,7 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/naturerunblog/tags/">
+                      <a href="/tags/">
                     
                   
                     
@@ -859,7 +859,7 @@
                   
                     
                   
-                  <a href="/naturerunblog/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="/2465930816@qq.com" title="E-Mail &rarr; 2465930816@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -1016,45 +1016,45 @@
 
 
   
-  <script src="/naturerunblog/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/naturerunblog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/naturerunblog/js/utils.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/naturerunblog/js/affix.js?v=7.1.0"></script>
-
-  <script src="/naturerunblog/js/schemes/pisces.js?v=7.1.0"></script>
-
-
-
-
-  
-  <script src="/naturerunblog/js/scrollspy.js?v=7.1.0"></script>
-<script src="/naturerunblog/js/post-details.js?v=7.1.0"></script>
-
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/naturerunblog/js/next-boot.js?v=7.1.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
 
 
   
@@ -1111,7 +1111,7 @@
     } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
-    var path = "/naturerunblog/" + search_path;
+    var path = "/" + search_path;
     // monitor main search box;
 
     var onPopupClose = function (e) {
