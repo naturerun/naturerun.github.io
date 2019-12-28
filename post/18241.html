@@ -133,7 +133,7 @@
 <meta property="og:image" content="http://naturerun.gitee.io/post/18241/数据结构备忘录%20红黑树的插入与删除%2027.png">
 <meta property="og:image" content="http://naturerun.gitee.io/post/18241/数据结构备忘录%20红黑树的插入与删除%2028.png">
 <meta property="og:image" content="http://naturerun.gitee.io/post/18241/数据结构备忘录%20红黑树的插入与删除%2029.png">
-<meta property="og:updated_time" content="2019-09-16T20:04:37.736Z">
+<meta property="og:updated_time" content="2019-12-28T14:59:48.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构备忘录:红黑树自底向上的插入与删除">
 <meta name="twitter:description" content="红黑树的删除 红黑树删除极其复杂,实现难度比AVL树删除更大，要考虑的各种分支情况繁多，编程实现时在琐碎的细节上容易出错，但只要用心，正确实现删除算法不难 对红黑树按对二叉搜索树执行删除的方式执行删除,如果实际删除的节点是红节点,按正常方式删除，删除后原树仍为红黑树，结束 若实际删除的是黑节点，该节点有父节点并且有唯一子女节点且该子女节点为红，将该子女节点染黑,并按对二叉搜索树执行删除的方式删掉实">
@@ -466,7 +466,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-17 04:04:37" itemprop="dateModified" datetime="2019-09-17T04:04:37+08:00">2019-09-17</time>
+                <time title="修改时间：2019-12-28 22:59:48" itemprop="dateModified" datetime="2019-12-28T22:59:48+08:00">2019-12-28</time>
               
             
           </span>
@@ -629,7 +629,7 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的左子女，g为黑色,若g的右子女r为红色，则交换g和p,r的颜色，若g已为执行插入操作的红黑树的根节点，则将g染黑，此时由子树u满足条件B不难验证子树g为红黑树，于是结束平衡化过程 。若g不为执行插入操作的红黑树的根节点，由子树u满足条件B不难验证此时子树g满足条件B，但g的颜色由黑变红意味着g和其父节点有可能组成一对连续红节点，所以此时应令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理，以消除可能出现的一对连续红色节点，这样做是合理的，因为交换颜色后的子树g满足条件B。<br></span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 21.png" alt></p>
-<p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的右子女，g为黑色,若g的左子女r为红色，则对g先右后左双旋转并把p染成黑色，和上一情形类似，若g已为执行插入操作的红黑树的根节点，则将g染黑，结束。若g不为执行插入操作的红黑树的根节点,则令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理</span></p>
+<p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的右子女，g为黑色,若g的左子女r为红色，则同样交换g和p,r的颜色，和上一情形类似，若g已为执行插入操作的红黑树的根节点，则将g染黑，结束。若g不为执行插入操作的红黑树的根节点,则令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理</span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 22.png" alt></p>
 <p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的左子女，g为黑色,g的右子女r为黑色，此时g做右单旋转并交换p,g颜色，然后由子树u满足条件B不难验证此时执行插入操作的红黑树已恢复红黑树特性，结束平衡化过程。</span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 23.png" alt></p>
@@ -642,7 +642,7 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的右子女，g为黑色,若g的左子女r为红色则交换g和p,r颜色,若g已为执行插入操作的红黑树的根节点，则将g染黑，结束平衡化过程 。若g不为执行插入操作的红黑树的根节点，令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理</span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 26.png" alt></p>
-<p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的左子女，g为黑色,若g的右子女r为红色，则对g先左后右双旋转并把p染成黑色，然后若g已为执行插入操作的红黑树的根节点，则将g染黑，结束。若g不为执行插入操作的红黑树的根节点,则令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理</span></p>
+<p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的左子女，g为黑色,若g的右子女r为红色，则同样交换g和p,r颜色，然后若g已为执行插入操作的红黑树的根节点，则将g染黑，结束。若g不为执行插入操作的红黑树的根节点,则令u=g&nbsp; &nbsp; p=g的父节点，回溯至上一层按所列各情形进行相同的平衡化处理</span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 27.png" alt></p>
 <p><span style="font-size: 18px;">p为红色,由原红黑树的特性知p有父节点g,p为g的右子女，g为黑色,g的左子女r为黑色，此时g做左单旋转并交换p,g颜色，然后已平衡，结束平衡化过程。</span></p>
 <p><img src="/post/18241/数据结构备忘录 红黑树的插入与删除 28.png" alt></p>
@@ -677,7 +677,7 @@
   <p><span>本文标题:</span>数据结构备忘录:红黑树自底向上的插入与删除</p>
   <p><span>文章作者:</span>WSK</p>
   <p><span>发布时间:</span>2019年04月24日 - 04:54:44</p>
-  <p><span>最后更新:</span>2019年09月17日 - 04:04:37</p>
+  <p><span>最后更新:</span>2019年12月28日 - 22:59:48</p>
   <p><span>原始链接:</span><a href="/post/18241.html" title="数据结构备忘录:红黑树自底向上的插入与删除">http://naturerun.gitee.io/post/18241.html</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://naturerun.gitee.io/post/18241.html" aria-label="复制成功！"></i></span>
   </p>
